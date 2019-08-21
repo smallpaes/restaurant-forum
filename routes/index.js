@@ -4,17 +4,17 @@ const userController = require('../controllers/userController')
 const { isAuthUser, isAuthAdmin } = require('../config/auth')
 // Include multer and config
 const multer = require('multer')
-// const upload = multer({ dest: 'temp/' })
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'upload')
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname)
-  }
-})
+const upload = multer({ dest: 'temp/' })
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, 'upload')
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, file.originalname)
+//   }
+// })
 
-const upload = multer({ storage })
+// const upload = multer({ storage })
 
 module.exports = (app, passport) => {
   app.get('/', isAuthUser, (req, res) => res.redirect('restaurants'))
