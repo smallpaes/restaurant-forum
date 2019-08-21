@@ -1,6 +1,8 @@
 const fs = require('fs')
 const db = require('../models')
 const Restaurant = db.Restaurant
+const imgur = require('imgur-node-api')
+const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 module.exports = {
   getRestaurants: (req, res) => {
@@ -16,25 +18,39 @@ module.exports = {
       req.flash('error_messages', 'Name is required')
       res.redirect('back')
     }
-
-    // retrieve image file
-    // const { file } = req
-
     // create restaurant
     try {
-      await Restaurant.create({
-        name: req.body.name,
-        tel: req.body.tel,
-        address: req.body.address,
-        opening_hours: req.body.opening_hours,
-        description: req.body.description,
-        image: req.file ? `/${req.file.path}` : null
-      })
-      req.flash('success_messages', 'restaurant is created successfully')
-      res.redirect('/admin/restaurants')
+      if (req.file) {
+        imgur.setClientID(IMGUR_CLIENT_ID)
+        imgur.upload(req.file.path, async (err, img) => {
+          await Restaurant.create({
+            name: req.body.name,
+            tel: req.body.tel,
+            address: req.body.address,
+            opening_hours: req.body.opening_hours,
+            description: req.body.description,
+            image: req.file ? img.data.link : null
+          })
+          req.flash('success_messages', 'restaurant is created successfully')
+          return res.redirect('/admin/restaurants')
+        })
+      } else {
+        await Restaurant.create({
+          name: req.body.name,
+          tel: req.body.tel,
+          address: req.body.address,
+          opening_hours: req.body.opening_hours,
+          description: req.body.description,
+          image: null
+        })
+        req.flash('success_messages', 'restaurant is created successfully')
+        res.redirect('/admin/restaurants')
+      }
+
     } catch (err) {
       console.log(err)
     }
+
   },
   getRestaurant: async (req, res) => {
     try {
@@ -59,19 +75,38 @@ module.exports = {
       res.redirect('back')
     }
     try {
-      // update restaurant info
-      const restaurant = await Restaurant.findByPk(req.params.id)
-      await restaurant.update({
-        name: req.body.name,
-        tel: req.body.tel,
-        address: req.body.address,
-        opening_hours: req.body.opening_hours,
-        description: req.body.description,
-        image: req.file ? `/${req.file.path}` : restaurant.image
-      })
-      // send flash message
-      req.flash('success_messages', 'restaurant is updated successfully')
-      res.redirect('/admin/restaurants')
+      if (req.file) {
+        imgur.setClientID(IMGUR_CLIENT_ID)
+        imgur.upload(req.file.path, async (err, img) => {
+          // update restaurant info
+          const restaurant = await Restaurant.findByPk(req.params.id)
+          await restaurant.update({
+            name: req.body.name,
+            tel: req.body.tel,
+            address: req.body.address,
+            opening_hours: req.body.opening_hours,
+            description: req.body.description,
+            image: req.file ? img.data.link : restaurant.image
+          })
+          // send flash message
+          req.flash('success_messages', 'restaurant is updated successfully')
+          res.redirect('/admin/restaurants')
+        })
+      } else {
+        // update restaurant info
+        const restaurant = await Restaurant.findByPk(req.params.id)
+        await restaurant.update({
+          name: req.body.name,
+          tel: req.body.tel,
+          address: req.body.address,
+          opening_hours: req.body.opening_hours,
+          description: req.body.description,
+          image: restaurant.image
+        })
+        // send flash message
+        req.flash('success_messages', 'restaurant is updated successfully')
+        return res.redirect('/admin/restaurants')
+      }
     } catch (err) {
       console.log(err)
     }
