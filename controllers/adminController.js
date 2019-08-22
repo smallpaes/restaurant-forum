@@ -156,9 +156,13 @@ module.exports = {
   },
   editUsers: async (req, res) => {
     try {
+      // save user search input
+      const searchInput = req.query.email || ''
       // get all users
-      const users = await User.findAll()
-      return res.render('admin/users', { users })
+      const users = await User.findAll({
+        where: { email: { [Op.like]: `%${searchInput}%` } }
+      })
+      return res.render('admin/users', { users, searchInput })
     } catch (err) {
       console.log(err)
     }

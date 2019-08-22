@@ -15,29 +15,43 @@
   </div>
 </div>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Email</th>
-      <th scope="col">Role</th>
-      <th scope="col">#</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each users}}
-    <tr>
-      <th scope="row">{{this.id}}</th>
-      <td>{{this.email}}</td>
-      <td>{{#if this.isAdmin}}admin{{else}}user{{/if}}</td>
-      <td>
-        <form action="/admin/users/{{this.id}}?_method=PUT" method="POST" style="display: inline;">
-          <button type="submit" class="btn btn-link">
-            {{#if this.isAdmin}}set as user{{else}}set as admin{{/if}}
-          </button>
-        </form>
-      </td>
-    </tr>
-    {{/each}}
-  </tbody>
-</table>
+<section id="admin-panel" class="mt-3">
+  <!--Search Input-->
+  <form action="/admin/users" method="get">
+    <div class="input-group my-2">
+      <input type="text" name="email" id="email" class="form-control" placeholder="Find a restaurant"
+        value="{{searchInput}}">
+      <div class="input-group-append">
+        <button class="btn btn-secondary" type="submit">Search</button>
+      </div>
+    </div>
+  </form>
+
+  <!--Admin Panel Table-->
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Email</th>
+        <th scope="col">Role</th>
+        <th scope="col">#</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each users}}
+      <tr>
+        <th scope="row">{{this.id}}</th>
+        <td>{{this.email}}</td>
+        <td>{{#if this.isAdmin}}admin{{else}}user{{/if}}</td>
+        <td>
+          <form action="/admin/users/{{this.id}}?_method=PUT" method="POST" style="display: inline;">
+            <button type="submit" class="btn btn-link">
+              {{#if this.isAdmin}}set as user{{else}}set as admin{{/if}}
+            </button>
+          </form>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</section>
