@@ -46,10 +46,14 @@
       <tr>
         <th scope="row">{{this.id}}</th>
         <td>{{this.email}}</td>
-        <td>{{#if this.isAdmin}}admin{{else}}user{{/if}}</td>
+        <td>{{#if this.isAdmin}}
+          <span class="badge badge-danger">admin</span>
+          {{else}}
+          <span class=" badge badge-secondary">user</span>
+          {{/if}}</td>
         <td>
           <form action="/admin/users/{{this.id}}?_method=PUT" method="POST" style="display: inline;">
-            <button type="submit" class="btn btn-link">
+            <button type="submit" class="btn btn-link p-0">
               {{#if this.isAdmin}}set as user{{else}}set as admin{{/if}}
             </button>
           </form>

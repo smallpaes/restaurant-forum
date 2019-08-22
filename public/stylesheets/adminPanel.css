@@ -25,12 +25,24 @@ table thead {
   background: #edeef0;
 }
 
-table thead a {
+table thead a,
+.page-link {
   color: rgb(85, 85, 85);
 }
 
 
-table thead a:hover {
+table thead a:hover,
+.page-link:hover {
   color: rgb(51, 50, 50);
   transition: color .2s linear;
+}
+
+.page-item.active .page-link {
+  background-color: rgb(100, 100, 100);
+  border-color: rgb(100, 100, 100);
+  color: white;
+}
+
+.page-link:focus {
+  box-shadow: none;
 }
