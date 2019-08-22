@@ -31,9 +31,13 @@
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">Email</th>
-        <th scope="col">Role</th>
+        <th scope="col"><a href="/admin/users?sortBy=id:{{changeOrder sortId}}">#<i class="fas fa-sort ml-2"></i></a>
+        </th>
+        <th scope="col"><a href="/admin/users?sortBy=email:{{changeOrder sortEmail}}">Email<i
+              class="fas fa-sort ml-2"></i></a></th>
+        <th scope="col"><a href="/admin/users?sortBy=isAdmin:{{changeOrder sortRole}}">Role<i
+              class="fas fa-sort ml-2"></i></a>
+        </th>
         <th scope="col">#</th>
       </tr>
     </thead>

@@ -156,13 +156,26 @@ module.exports = {
   },
   editUsers: async (req, res) => {
     try {
+      // save sort criteria
+      const order = []
+      const sortBy = req.query.sortBy || null
+      if (sortBy) { order.push([sortBy.split(':')[0], sortBy.split(':')[1]]) }
+
       // save user search input
       const searchInput = req.query.email || ''
       // get all users
       const users = await User.findAll({
-        where: { email: { [Op.like]: `%${searchInput}%` } }
+        where: { email: { [Op.like]: `%${searchInput}%` } },
+        order
       })
-      return res.render('admin/users', { users, searchInput })
+      return res.render('admin/users', {
+        users,
+        searchInput,
+        sortBy: !order.length ? false : { [order[0][0]]: order[0][1] },
+        sortEmail: !order.length ? false : order[0][0] === 'email' ? order[0][1] : false,
+        sortId: !order.length ? false : order[0][0] === 'id' ? order[0][1] : false,
+        sortRole: !order.length ? false : order[0][0] === 'isAdmin' ? order[0][1] : false
+      })
     } catch (err) {
       console.log(err)
     }
