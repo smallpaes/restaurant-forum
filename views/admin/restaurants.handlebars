@@ -1,18 +1,33 @@
 <h1>餐廳後台</h1>
 
-<a href='/admin/restaurants/create'>
-  <button type="button" class="btn btn-primary">New Restaurant</button>
-</a>
+<div class="row admin-panel-nav mx-0">
+  <div class="col-4 pr-1 pl-0 py-2">
+    <a class="panel-nav-item py-2 d-block" href="/admin/restaurants">
+      <i class="fas fa-store-alt mr-2"></i>
+      <span class="d-none d-md-inline">Manage Restaurants</span>
+    </a>
+  </div>
+  <div class="col-4 px-1 py-2">
+    <a class="panel-nav-item py-2 d-block" href="/admin/users">
+      <i class="fas fa-user mr-2"></i>
+      <span class="d-none d-md-inline">Manage Users</span>
+    </a>
+  </div>
+  <div class="col-4 pl-1 py-2 pr-0">
+    <a class="panel-nav-item py-2 d-block" href="/admin/restaurants/create">
+      <i class="fas fa-plus mr-2"></i>
+      <span class="d-none d-md-inline">New Restaurants</span>
+    </a>
+  </div>
+</div>
 
-<br />
-<br />
 
 <table class="table">
-  <thead class="thead-dark">
+  <thead>
     <tr>
       <th scope="col">#</th>
       <th scope="col">Name</th>
-      <th scope="col">#</th>
+      <th scope="col">Manage</th>
     </tr>
   </thead>
   <tbody>

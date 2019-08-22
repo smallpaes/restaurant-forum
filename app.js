@@ -27,6 +27,7 @@ app.use(passport.session())
 app.use(methodOverride('_method'))
 // Server static file
 app.use('/upload', express.static('upload'))
+app.use(express.static('public'))
 
 // set up response local variables 
 app.use((req, res, next) => {
