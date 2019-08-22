@@ -1,3 +1,4 @@
+/*Admin Panel Nav*/
 .admin-panel-nav .panel-nav-item {
   border: 1px solid rgb(100, 100, 100);
   text-align: center;
@@ -10,4 +11,13 @@
   background: rgb(100, 100, 100);
   color: white;
   transition: all .2s linear;
+}
+
+/*Admin Panel Table*/
+table {
+  border: 1px solid #dee2e6;
+}
+
+table thead {
+  background: #edeef0;
 }
