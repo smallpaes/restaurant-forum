@@ -1,6 +1,7 @@
 const fs = require('fs')
 const db = require('../models')
 const Restaurant = db.Restaurant
+const User = db.User
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
@@ -116,5 +117,25 @@ module.exports = {
     // delete restaurant
     await restaurant.destroy()
     return res.redirect('/admin/restaurants')
+  },
+  editUsers: async (req, res) => {
+    try {
+      // get all users
+      const users = await User.findAll()
+      return res.render('admin/users', { users })
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  putUsers: async (req, res) => {
+    try {
+      const user = await User.findByPk(req.params.id)
+      user.isAdmin = !user.isAdmin
+      await user.save()
+      req.flash('success_messages', 'user role has been updated successfully')
+      return res.redirect('/admin/users')
+    } catch (err) {
+      console.log(err)
+    }
   }
 }
