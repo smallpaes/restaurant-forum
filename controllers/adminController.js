@@ -1,4 +1,6 @@
 const fs = require('fs')
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 const db = require('../models')
 const Restaurant = db.Restaurant
 const User = db.User
@@ -7,11 +9,17 @@ const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 module.exports = {
   getRestaurants: async (req, res) => {
+    // save user search input
+    const searchInput = req.query.name || ''
+    // handle pagination
     const ITEMS_PER_PAGE = 10
     const page = parseInt(req.query.page) || 1
     const limiting = page === 1 ? { limit: ITEMS_PER_PAGE } : { offset: ITEMS_PER_PAGE * (page - 1), limit: ITEMS_PER_PAGE }
     // find certain restaurants and count all restaurants
-    const restaurants = await Restaurant.findAndCountAll(limiting)
+    const restaurants = await Restaurant.findAndCountAll({
+      where: { name: { [Op.like]: `%${searchInput}%` } },
+      ...limiting
+    })
     // generate an array based on the number of total pages
     const pagination = Array.from({ length: Math.ceil(restaurants.count / ITEMS_PER_PAGE) }, (v, i) => i + 1)
 
@@ -22,7 +30,8 @@ module.exports = {
       nextPage: page + 1,
       lastpage: page - 1,
       hasLastPage: page !== 1,
-      hasNextPage: Math.ceil(restaurants.count / ITEMS_PER_PAGE) !== page
+      hasNextPage: Math.ceil(restaurants.count / ITEMS_PER_PAGE) !== page,
+      searchInput
     })
   },
   createRestaurant: (req, res) => {

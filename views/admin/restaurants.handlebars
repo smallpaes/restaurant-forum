@@ -22,54 +22,67 @@
   </div>
 </div>
 
-<!--Admin Panel Table-->
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Manage</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each restaurants}}
-    <tr>
-      <th scope="row">{{this.id}}</th>
-      <td>{{this.name}}</td>
-      <td>
-        <button type="button" class="btn btn-link">
-          <a href="/admin/restaurants/{{this.id}}">
-            Show
-          </a>
-        </button>
-        <button type="button" class="btn btn-link">
-          <a href="/admin/restaurants/{{this.id}}/edit">
-            Edit
-          </a>
-        </button>
-        <form action="/admin/restaurants/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
-          <button type="submit" class="btn btn-link">Delete</button>
-        </form>
-      </td>
-    </tr>
-    {{/each}}
-  </tbody>
-</table>
+<section id="admin-panel" class="mt-3">
+  <!--Search Input-->
+  <form action="/admin/restaurants" method="get">
+    <div class="input-group my-2">
+      <input type="text" name="name" id="name" class="form-control" placeholder="Find a restaurant"
+        value="{{searchInput}}">
+      <div class="input-group-append">
+        <button class="btn btn-secondary" type="submit">Search</button>
+      </div>
+    </div>
+  </form>
 
-<!--Pagination-->
-<nav aria-label="Restaurants results pages">
-  <ul class="pagination justify-content-center">
-    {{#if hasLastPage}}
-    <li class="page-item"><a href="/admin/restaurants?page={{lastPage}}" class="page-link" aria-label="Previous"><span
-          aria-hidden="true">&laquo;</span></a></li>
-    {{/if}}
-    {{#each pagination}}
-    <li class="page-item {{isCurrentPage ../currentPage this}}"><a class="page-link"
-        href="/admin/restaurants?page={{this}}">{{this}}</a></li>
-    {{/each}}
-    {{#if hasNextPage}}
-    <li class="page-item"><a href="/admin/restaurants?page={{nextPage}}" class="page-link" aria-label="Next"><span
-          aria-hidden="true">&raquo;</span></a></li>
-    {{/if}}
-  </ul>
-</nav>
+  <!--Admin Panel Table-->
+  <table class="table table-light table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Manage</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each restaurants}}
+      <tr>
+        <th scope="row">{{this.id}}</th>
+        <td>{{this.name}}</td>
+        <td>
+          <button type="button" class="btn btn-link">
+            <a href="/admin/restaurants/{{this.id}}">
+              Show
+            </a>
+          </button>
+          <button type="button" class="btn btn-link">
+            <a href="/admin/restaurants/{{this.id}}/edit">
+              Edit
+            </a>
+          </button>
+          <form action="/admin/restaurants/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
+            <button type="submit" class="btn btn-link">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  <!--Pagination-->
+  <nav aria-label="Restaurants results pages">
+    <ul class="pagination justify-content-center">
+      {{#if hasLastPage}}
+      <li class="page-item"><a href="/admin/restaurants?page={{lastPage}}" class="page-link" aria-label="Previous"><span
+            aria-hidden="true">&laquo;</span></a></li>
+      {{/if}}
+      {{#each pagination}}
+      <li class="page-item {{isCurrentPage ../currentPage this}}"><a class="page-link"
+          href="/admin/restaurants?page={{this}}">{{this}}</a></li>
+      {{/each}}
+      {{#if hasNextPage}}
+      <li class="page-item"><a href="/admin/restaurants?page={{nextPage}}" class="page-link" aria-label="Next"><span
+            aria-hidden="true">&raquo;</span></a></li>
+      {{/if}}
+    </ul>
+  </nav>
+</section>
