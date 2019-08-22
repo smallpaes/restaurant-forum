@@ -1,14 +1,22 @@
 <h1>餐廳後台</h1>
 
-<a href="/admin/restaurants" class="btn btn-link p-0" role="button">Restaurants</a>
-<span>|</span>
-<a href="/admin/users" class="btn btn-link p-0" role="button">users</a>
-
-<br />
-<br />
+<div class="row admin-panel-nav mx-0">
+  <div class="col-4 pr-1 pl-0 py-2">
+    <a class="panel-nav-item py-2 d-block" href="/admin/restaurants">
+      <i class="fas fa-store-alt mr-2"></i>
+      <span class="d-none d-md-inline">Manage Restaurants</span>
+    </a>
+  </div>
+  <div class="col-4 px-1 py-2">
+    <a class="panel-nav-item py-2 d-block" href="/admin/users">
+      <i class="fas fa-user mr-2"></i>
+      <span class="d-none d-md-inline">Manage Users</span>
+    </a>
+  </div>
+</div>
 
 <table class="table">
-  <thead class="thead-dark">
+  <thead>
     <tr>
       <th scope="col">#</th>
       <th scope="col">Email</th>
