@@ -162,7 +162,7 @@ module.exports = {
       if (sortBy) { order.push([sortBy.split(':')[0], sortBy.split(':')[1]]) }
 
       // handle pagination
-      const ITEMS_PER_PAGE = 2
+      const ITEMS_PER_PAGE = 10
       const page = parseInt(req.query.page) || 1
       const limiting = page === 1 ? { limit: ITEMS_PER_PAGE } : { offset: ITEMS_PER_PAGE * (page - 1), limit: ITEMS_PER_PAGE }
 
