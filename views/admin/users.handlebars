@@ -58,4 +58,23 @@
       {{/each}}
     </tbody>
   </table>
+
+  <!--Pagination-->
+  <nav aria-label="Userss results pages">
+    <ul class="pagination justify-content-center">
+      {{#if hasLastPage}}
+      <li class="page-item"><a href="/admin/users?page={{lastPage}}{{getSort sortBy}}" class="page-link"
+          aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+      {{/if}}
+      {{#each pagination}}
+      <li class="page-item {{isCurrentPage ../currentPage this}}"><a class="page-link"
+          href="/admin/users?page={{this}}{{getSort ../sortBy}}">{{this}}</a>
+      </li>
+      {{/each}}
+      {{#if hasNextPage}}
+      <li class="page-item"><a href="/admin/users?page={{nextPage}}{{getSort sortBy}}" class="page-link"
+          aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+      {{/if}}
+    </ul>
+  </nav>
 </section>

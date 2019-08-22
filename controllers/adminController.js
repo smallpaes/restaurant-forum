@@ -161,16 +161,32 @@ module.exports = {
       const sortBy = req.query.sortBy || null
       if (sortBy) { order.push([sortBy.split(':')[0], sortBy.split(':')[1]]) }
 
+      // handle pagination
+      const ITEMS_PER_PAGE = 2
+      const page = parseInt(req.query.page) || 1
+      const limiting = page === 1 ? { limit: ITEMS_PER_PAGE } : { offset: ITEMS_PER_PAGE * (page - 1), limit: ITEMS_PER_PAGE }
+
       // save user search input
       const searchInput = req.query.email || ''
       // get all users
-      const users = await User.findAll({
+      const users = await User.findAndCountAll({
         where: { email: { [Op.like]: `%${searchInput}%` } },
-        order
+        order,
+        ...limiting
       })
+
+      // generate an array based on the number of total pages
+      const pagination = Array.from({ length: Math.ceil(users.count / ITEMS_PER_PAGE) }, (v, i) => i + 1)
+
       return res.render('admin/users', {
-        users,
+        users: users.rows,
         searchInput,
+        pagination,
+        currentPage: page,
+        nextPage: page + 1,
+        lastPage: page - 1,
+        hasLastPage: page !== 1,
+        hasNextPage: Math.ceil(users.count / ITEMS_PER_PAGE) !== page,
         sortBy: !order.length ? false : { [order[0][0]]: order[0][1] },
         sortEmail: !order.length ? false : order[0][0] === 'email' ? order[0][1] : false,
         sortId: !order.length ? false : order[0][0] === 'id' ? order[0][1] : false,
