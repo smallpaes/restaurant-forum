@@ -9,17 +9,26 @@ const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 module.exports = {
   getRestaurants: async (req, res) => {
+    // save sort criteria
+    const order = []
+    const sortBy = req.query.sortBy || null
+    if (sortBy) { order.push([sortBy.split(':')[0], sortBy.split(':')[1]]) }
+
     // save user search input
     const searchInput = req.query.name || ''
+
     // handle pagination
     const ITEMS_PER_PAGE = 10
     const page = parseInt(req.query.page) || 1
     const limiting = page === 1 ? { limit: ITEMS_PER_PAGE } : { offset: ITEMS_PER_PAGE * (page - 1), limit: ITEMS_PER_PAGE }
+
     // find certain restaurants and count all restaurants
     const restaurants = await Restaurant.findAndCountAll({
       where: { name: { [Op.like]: `%${searchInput}%` } },
+      order,
       ...limiting
     })
+
     // generate an array based on the number of total pages
     const pagination = Array.from({ length: Math.ceil(restaurants.count / ITEMS_PER_PAGE) }, (v, i) => i + 1)
 
@@ -28,10 +37,13 @@ module.exports = {
       pagination,
       currentPage: page,
       nextPage: page + 1,
-      lastpage: page - 1,
+      lastPage: page - 1,
       hasLastPage: page !== 1,
       hasNextPage: Math.ceil(restaurants.count / ITEMS_PER_PAGE) !== page,
-      searchInput
+      searchInput,
+      sortBy: !order.length ? false : { [order[0][0]]: order[0][1] },
+      sortName: !order.length ? false : order[0][0] === 'name' ? order[0][1] : false,
+      sortId: !order.length ? false : order[0][0] === 'id' ? order[0][1] : false
     })
   },
   createRestaurant: (req, res) => {

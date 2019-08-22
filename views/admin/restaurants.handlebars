@@ -38,8 +38,10 @@
   <table class="table table-light table-hover">
     <thead>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">Name</th>
+        <th scope="col"><a href="/admin/restaurants?sortBy=id:{{changeOrder sortId}}">#<i
+              class="fas fa-sort ml-2"></i></a></th>
+        <th scope="col"><a href="/admin/restaurants?sortBy=name:{{changeOrder sortName}}">Name<i
+              class="fas fa-sort ml-2"></i></a></th>
         <th scope="col">Manage</th>
       </tr>
     </thead>
@@ -72,16 +74,17 @@
   <nav aria-label="Restaurants results pages">
     <ul class="pagination justify-content-center">
       {{#if hasLastPage}}
-      <li class="page-item"><a href="/admin/restaurants?page={{lastPage}}" class="page-link" aria-label="Previous"><span
-            aria-hidden="true">&laquo;</span></a></li>
+      <li class="page-item"><a href="/admin/restaurants?page={{lastPage}}{{getSort sortBy}}" class="page-link"
+          aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
       {{/if}}
       {{#each pagination}}
       <li class="page-item {{isCurrentPage ../currentPage this}}"><a class="page-link"
-          href="/admin/restaurants?page={{this}}">{{this}}</a></li>
+          href="/admin/restaurants?page={{this}}{{getSort ../sortBy}}">{{this}}</a>
+      </li>
       {{/each}}
       {{#if hasNextPage}}
-      <li class="page-item"><a href="/admin/restaurants?page={{nextPage}}" class="page-link" aria-label="Next"><span
-            aria-hidden="true">&raquo;</span></a></li>
+      <li class="page-item"><a href="/admin/restaurants?page={{nextPage}}{{getSort sortBy}}" class="page-link"
+          aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
       {{/if}}
     </ul>
   </nav>
