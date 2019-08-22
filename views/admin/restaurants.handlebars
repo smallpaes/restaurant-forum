@@ -54,3 +54,21 @@
     {{/each}}
   </tbody>
 </table>
+
+<!--Pagination-->
+<nav aria-label="Restaurants results pages">
+  <ul class="pagination justify-content-center">
+    {{#if hasLastPage}}
+    <li class="page-item"><a href="/admin/restaurants?page={{lastPage}}" class="page-link" aria-label="Previous"><span
+          aria-hidden="true">&laquo;</span></a></li>
+    {{/if}}
+    {{#each pagination}}
+    <li class="page-item {{isCurrentPage ../currentPage this}}"><a class="page-link"
+        href="/admin/restaurants?page={{this}}">{{this}}</a></li>
+    {{/each}}
+    {{#if hasNextPage}}
+    <li class="page-item"><a href="/admin/restaurants?page={{nextPage}}" class="page-link" aria-label="Next"><span
+          aria-hidden="true">&raquo;</span></a></li>
+    {{/if}}
+  </ul>
+</nav>

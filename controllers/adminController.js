@@ -6,9 +6,24 @@ const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 module.exports = {
-  getRestaurants: (req, res) => {
-    return Restaurant.findAll()
-      .then(restaurants => res.render('admin/restaurants', { restaurants }))
+  getRestaurants: async (req, res) => {
+    const ITEMS_PER_PAGE = 10
+    const page = parseInt(req.query.page) || 1
+    const limiting = page === 1 ? { limit: ITEMS_PER_PAGE } : { offset: ITEMS_PER_PAGE * (page - 1), limit: ITEMS_PER_PAGE }
+    // find certain restaurants and count all restaurants
+    const restaurants = await Restaurant.findAndCountAll(limiting)
+    // generate an array based on the number of total pages
+    const pagination = Array.from({ length: Math.ceil(restaurants.count / ITEMS_PER_PAGE) }, (v, i) => i + 1)
+
+    res.render('admin/restaurants', {
+      restaurants: restaurants.rows,
+      pagination,
+      currentPage: page,
+      nextPage: page + 1,
+      lastpage: page - 1,
+      hasLastPage: page !== 1,
+      hasNextPage: Math.ceil(restaurants.count / ITEMS_PER_PAGE) !== page
+    })
   },
   createRestaurant: (req, res) => {
     return res.render('admin/create')
