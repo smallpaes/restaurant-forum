@@ -4,23 +4,20 @@ const Op = Sequelize.Op
 const db = require('../models')
 const Restaurant = db.Restaurant
 const User = db.User
+const { getOrder, getPagination, getPage } = require('../tools')
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 module.exports = {
   getRestaurants: async (req, res) => {
-    // save sort criteria
-    const order = []
-    const sortBy = req.query.sortBy || null
-    if (sortBy) { order.push([sortBy.split(':')[0], sortBy.split(':')[1]]) }
+    // get order criteria
+    const order = getOrder(req.query.sortBy)
 
     // save user search input
     const searchInput = req.query.name || ''
 
     // handle pagination
-    const ITEMS_PER_PAGE = 10
-    const page = parseInt(req.query.page) || 1
-    const limiting = page === 1 ? { limit: ITEMS_PER_PAGE } : { offset: ITEMS_PER_PAGE * (page - 1), limit: ITEMS_PER_PAGE }
+    const { ITEMS_PER_PAGE, page, limiting } = getPage(req.query.page)
 
     // find certain restaurants and count all restaurants
     const restaurants = await Restaurant.findAndCountAll({
@@ -30,7 +27,7 @@ module.exports = {
     })
 
     // generate an array based on the number of total pages
-    const pagination = Array.from({ length: Math.ceil(restaurants.count / ITEMS_PER_PAGE) }, (v, i) => i + 1)
+    const pagination = getPagination(restaurants.count, ITEMS_PER_PAGE)
 
     res.render('admin/restaurants', {
       restaurants: restaurants.rows,
@@ -156,15 +153,11 @@ module.exports = {
   },
   editUsers: async (req, res) => {
     try {
-      // save sort criteria
-      const order = []
-      const sortBy = req.query.sortBy || null
-      if (sortBy) { order.push([sortBy.split(':')[0], sortBy.split(':')[1]]) }
+      // get order criteria
+      const order = getOrder(req.query.sortBy)
 
       // handle pagination
-      const ITEMS_PER_PAGE = 10
-      const page = parseInt(req.query.page) || 1
-      const limiting = page === 1 ? { limit: ITEMS_PER_PAGE } : { offset: ITEMS_PER_PAGE * (page - 1), limit: ITEMS_PER_PAGE }
+      const { ITEMS_PER_PAGE, page, limiting } = getPage(req.query.page)
 
       // save user search input
       const searchInput = req.query.email || ''
@@ -176,7 +169,7 @@ module.exports = {
       })
 
       // generate an array based on the number of total pages
-      const pagination = Array.from({ length: Math.ceil(users.count / ITEMS_PER_PAGE) }, (v, i) => i + 1)
+      const pagination = getPagination(users.count, ITEMS_PER_PAGE)
 
       return res.render('admin/users', {
         users: users.rows,
