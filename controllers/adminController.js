@@ -21,7 +21,8 @@ module.exports = {
 
     // find certain restaurants and count all restaurants
     const restaurants = await Restaurant.findAndCountAll({
-      where: { name: { [Op.like]: Sequelize.fn('lower', `%${searchInput}%`) } },
+      // where: { name: { [Op.iLike]: `%${searchInput}%` } },
+      where: Sequelize.where(Sequelize.fn('lower', Sequelize.col('name')), 'LIKE', `%${searchInput}%`),
       order,
       ...limiting
     })
