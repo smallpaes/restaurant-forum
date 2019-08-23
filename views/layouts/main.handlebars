@@ -22,17 +22,28 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse justify-content-end" id="navbar-list">
-      <div>
+    <div class="collapse navbar-collapse" id="navbar-list">
+      <ul class="navbar-nav ml-auto">
         {{#if user.isAdmin}}
-        <a href="/admin" style="color: white;margin-right: 10px;">Admin 後台</a>
+        <li class="nav-item">
+          <a href="/admin" style="color: white;margin-right: 10px;" class="nav-link">Admin 後台</a>
+        </li>
         {{/if}}
         {{#if user}}
-        <span style="color: white;margin-right: 10px;">Hi, {{user.email}}</span>
-        <a href="/users/{{user.id}}" style="color: white;margin-right: 10px;">Profile</a>
-        <a href="/logout"><button class="btn btn-outline-success my-2 my-sm-0">LogOut</button></a>
+        <li class="nav-item d-none d-lg-inline">
+          <span style="color: white;margin-right: 10px;" class="nav-link">Hi, {{user.email}}</span>
+        </li>
+        <li class="nav-item">
+          <a href="/users/{{user.id}}" style="color: white;margin-right: 10px;" class="nav-link">Profile</a>
+        </li>
+        <li class="nav-item d-none d-lg-inline">
+          <a href="/logout"><button class="btn btn-outline-success my-2 my-sm-0" class="nav-link">LogOut</button></a>
+        </li>
+        <li class="nav-item d-lg-none">
+          <a href="/logout" style="color: white;margin-right: 10px;" class="nav-link">LogOut</a>
+        </li>
         {{/if}}
-      </div>
+      </ul>
     </div>
   </nav>
   <br />
