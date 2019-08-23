@@ -57,11 +57,12 @@
             </a>
           </button>
           <button type="button" class="btn btn-link p-0 px-1">
-            <a href="/admin/restaurants/{{this.id}}/edit">
+            <a href="/admin/restaurants/{{this.id}}/edit?page={{../currentPage}}">
               Edit
             </a>
           </button>
-          <form action="/admin/restaurants/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
+          <form action="/admin/restaurants/{{this.id}}?_method=DELETE&page={{../currentPage}}" method="POST"
+            style="display: inline;">
             <button type="submit" class="btn btn-link p-0 px-1">Delete</button>
           </form>
         </td>

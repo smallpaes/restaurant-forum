@@ -44,7 +44,7 @@ module.exports = {
     })
   },
   createRestaurant: (req, res) => {
-    return res.render('admin/create')
+    return res.render('admin/create', { page: 1 })
   },
   postRestaurant: async (req, res) => {
     // check if name is provided
@@ -96,13 +96,17 @@ module.exports = {
   },
   editRestaurant: async (req, res) => {
     try {
+      const page = req.query.page
       const restaurant = await Restaurant.findByPk(req.params.id)
-      return res.render('admin/create', { restaurant })
+      return res.render('admin/create', { restaurant, page })
     } catch (err) {
       console.log(err)
     }
   },
   putRestaurant: async (req, res) => {
+    // get page number
+    const page = req.query.page
+    console.log(page)
     // check if name is provided
     if (!req.body.name) {
       req.flash('error_messages', 'name is required')
@@ -139,17 +143,18 @@ module.exports = {
         })
         // send flash message
         req.flash('success_messages', 'restaurant is updated successfully')
-        return res.redirect('/admin/restaurants')
+        return res.redirect(`/admin/restaurants?page=${page}`)
       }
     } catch (err) {
       console.log(err)
     }
   },
   deleteRestaurant: async (req, res) => {
+    const page = req.query.page
     const restaurant = await Restaurant.findByPk(req.params.id)
     // delete restaurant
     await restaurant.destroy()
-    return res.redirect('/admin/restaurants')
+    return res.redirect(`/admin/restaurants?page=${page}`)
   },
   editUsers: async (req, res) => {
     try {

@@ -1,7 +1,8 @@
 {{#if restaurant}}
-<form action="/admin/restaurants/{{restaurant.id}}?_method=PUT" method="POST" enctype="multipart/form-data">
+<form action="/admin/restaurants/{{restaurant.id}}?_method=PUT&page={{page}}" method="POST"
+  enctype="multipart/form-data">
   {{else}}
-  <form action="/admin/restaurants" method="POST" enctype="multipart/form-data">
+  <form action="/admin/restaurants?page={{page}}" method="POST" enctype="multipart/form-data">
     {{/if}}
     <div class="form-group">
       <label for="name">Name</label>
