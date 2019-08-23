@@ -21,7 +21,6 @@ module.exports = {
 
     // find certain restaurants and count all restaurants
     const restaurants = await Restaurant.findAndCountAll({
-      // where: { name: { [Op.iLike]: `%${searchInput}%` } },
       where: Sequelize.where(Sequelize.fn('lower', Sequelize.col('name')), 'LIKE', `%${searchInput.toLowerCase()}%`),
       order,
       ...limiting
@@ -164,7 +163,7 @@ module.exports = {
       const searchInput = req.query.email || ''
       // get all users
       const users = await User.findAndCountAll({
-        where: { email: { [Op.like]: `%${searchInput}%` } },
+        where: Sequelize.where(Sequelize.fn('lower', Sequelize.col('email')), 'LIKE', `%${searchInput.toLowerCase()}%`),
         order,
         ...limiting
       })
