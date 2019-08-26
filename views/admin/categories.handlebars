@@ -73,13 +73,13 @@
         <th scope="row">{{this.id}}</th>
         <td>{{this.name}}</td>
         <td>
-          <button type="button" class="btn btn-link">
+          <button type="button" class="btn btn-link p-0 px-1">
             <a href="/admin/categories/{{this.id}}">
               Edit
             </a>
           </button>
           <form action="/admin/categories/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
-            <button type="submit" class="btn btn-link">Delete</button>
+            <button type="submit" class="btn btn-link p-0 px-1">Delete</button>
           </form>
         </td>
       </tr>
