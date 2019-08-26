@@ -3,6 +3,7 @@ const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const db = require('../models')
 const Restaurant = db.Restaurant
+const Category = db.Category
 const User = db.User
 const { getOrder, getPagination, getPage } = require('../tools')
 const imgur = require('imgur-node-api')
@@ -21,9 +22,10 @@ module.exports = {
 
     // find certain restaurants and count all restaurants
     const restaurants = await Restaurant.findAndCountAll({
-      where: Sequelize.where(Sequelize.fn('lower', Sequelize.col('name')), 'LIKE', `%${searchInput.toLowerCase()}%`),
+      where: Sequelize.where(Sequelize.fn('lower', Sequelize.col('Restaurant.name')), 'LIKE', `%${searchInput.toLowerCase()}%`),
       order,
-      ...limiting
+      ...limiting,
+      include: [Category]
     })
 
     // generate an array based on the number of total pages
@@ -88,7 +90,7 @@ module.exports = {
   },
   getRestaurant: async (req, res) => {
     try {
-      const restaurant = await Restaurant.findByPk(req.params.id)
+      const restaurant = await Restaurant.findByPk(req.params.id, { include: [Category] })
       return res.render('admin/restaurant', { restaurant })
     } catch (err) {
       console.log(err)

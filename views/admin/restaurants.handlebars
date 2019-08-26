@@ -42,6 +42,7 @@
               class="fas fa-sort ml-2"></i></a></th>
         <th scope="col"><a href="/admin/restaurants?sortBy=name:{{changeOrder sortName}}">Name<i
               class="fas fa-sort ml-2"></i></a></th>
+        <th scope="col">Category</th>
         <th scope="col">Manage</th>
       </tr>
     </thead>
@@ -50,6 +51,7 @@
       <tr>
         <th scope="row">{{this.id}}</th>
         <td>{{this.name}}</td>
+        <td>{{this.Category.name}}</td>
         <td>
           <button type="button" class="btn btn-link p-0 px-1">
             <a href="/admin/restaurants/{{this.id}}">
