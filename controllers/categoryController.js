@@ -17,10 +17,15 @@ module.exports = {
       req.flash('error_messages', 'category name is required')
       return res.redirect('back')
     }
-    // save category input
-    const category = await Category.create({ name: req.body.name })
-    req.flash('success_messages', `${category.name} has been added`)
-    return res.redirect('/admin/categories')
+    // save category
+    try {
+      // save category input
+      const category = await Category.create({ name: req.body.name })
+      req.flash('success_messages', `${category.name} has been added`)
+      return res.redirect('/admin/categories')
+    } catch {
+      console.log(err)
+    }
   },
   putCategory: async (req, res) => {
     // check if the input is empty
