@@ -1,12 +1,33 @@
 const db = require('../models')
 const Category = db.Category
+const { getPagination, getPage } = require('../tools')
 
 module.exports = {
   getCategories: async (req, res) => {
     try {
-      const categories = await Category.findAll()
+      // handle pagination
+      const { ITEMS_PER_PAGE, page, limiting } = getPage(req.query.page)
+
+      // find categories and total amount
+      const categories = await Category.findAndCountAll({ ...limiting })
+
+      // generate an array based on the number of total pages
+      const pagination = getPagination(categories.count, ITEMS_PER_PAGE)
+
+      // find the category when user is trying to update
       const category = req.params.id ? categories.find(category => category.id.toString() === req.params.id) : false
-      return res.render('admin/categories', { categories, category })
+
+      return res.render('admin/categories', {
+        categories: categories.rows,
+        category,
+        pagination,
+        currentPage: page,
+        nextPage: page + 1,
+        lastPage: page - 1,
+        hasLastPage: page !== 1,
+        hasNextPage: Math.ceil(categories.count / ITEMS_PER_PAGE) !== page,
+      })
+
     } catch (err) {
       console.log(err)
     }

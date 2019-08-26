@@ -88,3 +88,22 @@
   </table>
 
 </section>
+
+<!--Pagination-->
+<nav aria-label="Category results pages">
+  <ul class="pagination justify-content-center">
+    {{#if hasLastPage}}
+    <li class="page-item"><a href="/admin/categories?page={{lastPage}}{{getSort sortBy}}" class="page-link"
+        aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+    {{/if}}
+    {{#each pagination}}
+    <li class="page-item {{isCurrentPage ../currentPage this}}"><a class="page-link"
+        href="/admin/categories?page={{this}}{{getSort ../sortBy}}">{{this}}</a>
+    </li>
+    {{/each}}
+    {{#if hasNextPage}}
+    <li class="page-item"><a href="/admin/categories?page={{nextPage}}{{getSort sortBy}}" class="page-link"
+        aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+    {{/if}}
+  </ul>
+</nav>
