@@ -1,50 +1,90 @@
 <h1>餐廳後台</h1>
-<a href='/admin/restaurants'>Restaurants</a> |
-<a href='/admin/categories'>Categories</a>
-<br />
-<br />
-<div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
+
+<!--Admin Panel Nav-->
+<div class="row admin-panel-nav mx-0">
+  <div class="col-4 pr-1 pl-0 py-2">
+    <a class="panel-nav-item py-2 d-block" id="panel-nav-item-active" href="/admin/restaurants">
+      <i class="fas fa-store-alt mr-2"></i>
+      <span class="d-none d-md-inline">Manage Restaurants</span>
+    </a>
+  </div>
+  <div class="col-4 pl-1 py-2 pr-0">
+    <a class="panel-nav-item py-2 d-block" href="/admin/categories">
+      <i class="fas fa-clipboard-list mr-2"></i>
+      <span class="d-none d-md-inline">Manage Categories</span>
+    </a>
+  </div>
+  <div class="col-4 px-1 py-2">
+    <a class="panel-nav-item py-2 d-block" href="/admin/users">
+      <i class="fas fa-user mr-2"></i>
+      <span class="d-none d-md-inline">Manage Users</span>
+    </a>
+  </div>
+</div>
+
+<section id="admin-panel" class="my-3">
+  <!--Add/Update Input-->
   {{#if category}}
-  <form action="/admin/categories/{{category.id}}?_method=PUT" method="POST">
-    <input type="text" placeholder="name" name="name" value="{{category.name}}">
-    <button type="submit">Update</button>
-    <a href="/admin/categories">or Create New</a>
+  <form action="/admin/categories/{{category.id}}?_method=PUT" method="POST" class="my-1">
+    <div class="form-row justify-content-between">
+      <div class="col-6 col-md-4">
+        <div class="input-group mb-2">
+          <input type="text" placeholder="New category name" name="name" value="{{category.name}}" class="form-control">
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-secondary">Update</button>
+          </div>
+        </div>
+      </div>
+      <div class="d-inline-block">
+        <a href="/admin/categories" class="btn text-secondary mr-1"><i class="fas fa-plus"></i></a>
+      </div>
+    </div>
   </form>
   {{else}}
-  <form action="/admin/categories" method="POST">
-    <input type="text" placeholder="name" name="name">
-    <button type="submit">Submit</button>
+  <form action="/admin/categories" method="POST" class="my-1">
+    <div class="form-row justify-content-between">
+      <div class="col-6 col-md-4">
+        <div class="input-group mb-2">
+          <input type="text" placeholder="Add new category name" name="name" class="form-control">
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-secondary">Submit</button>
+          </div>
+        </div>
+      </div>
+      <div class="d-inline-block">
+        <a href="/admin/categories" class="btn text-secondary mr-1"><i class="fas fa-plus"></i></a>
+      </div>
+    </div>
   </form>
   {{/if}}
-</div>
-<br />
-<br />
-<table class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Category Name</th>
-      <th scope="col">#</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each categories}}
-    <tr>
-      <th scope="row">{{this.id}}</th>
-      <td>{{this.name}}</td>
-      <td>
-        <button type="button" class="btn btn-link">
-          <a href="/admin/categories/{{this.id}}">
-            Edit
-          </a>
-        </button>
-        <form action="/admin/categories/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
-          <button type="submit" class="btn btn-link">Delete</button>
-        </form>
-      </td>
-    </tr>
-    {{/each}}
-  </tbody>
-</table>
-<br />
-<br />
+
+  <!--Admin Panel Table-->
+  <table class="table table-light table-hover m-0">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Category Name</th>
+        <th scope="col">#</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each categories}}
+      <tr>
+        <th scope="row">{{this.id}}</th>
+        <td>{{this.name}}</td>
+        <td>
+          <button type="button" class="btn btn-link">
+            <a href="/admin/categories/{{this.id}}">
+              Edit
+            </a>
+          </button>
+          <form action="/admin/categories/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
+            <button type="submit" class="btn btn-link">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+</section>
