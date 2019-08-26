@@ -4,8 +4,7 @@ module.exports = {
     if (sortBy) { order.push([sortBy.split(':')[0], sortBy.split(':')[1]]) }
     return order
   },
-  getPage: (pageNumber = 1) => {
-    const ITEMS_PER_PAGE = 10
+  getPage: (ITEMS_PER_PAGE, pageNumber = 1) => {
     const page = parseInt(pageNumber)
     const limiting = page === 1 ? { limit: ITEMS_PER_PAGE } : { offset: ITEMS_PER_PAGE * (page - 1), limit: ITEMS_PER_PAGE }
     return { ITEMS_PER_PAGE, page, limiting }

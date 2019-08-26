@@ -8,6 +8,7 @@ const User = db.User
 const { getOrder, getPagination, getPage } = require('../tools')
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
+const ITEMS_PER_PAGE = 10
 
 module.exports = {
   getRestaurants: async (req, res) => {
@@ -18,7 +19,7 @@ module.exports = {
     const searchInput = req.query.name || ''
 
     // handle pagination
-    const { ITEMS_PER_PAGE, page, limiting } = getPage(req.query.page)
+    const { ITEMS_PER_PAGE, page, limiting } = getPage(ITEMS_PER_PAGE, req.query.page)
 
     // find certain restaurants and count all restaurants
     const restaurants = await Restaurant.findAndCountAll({
@@ -174,7 +175,7 @@ module.exports = {
       const order = getOrder(req.query.sortBy)
 
       // handle pagination
-      const { ITEMS_PER_PAGE, page, limiting } = getPage(req.query.page)
+      const { ITEMS_PER_PAGE, page, limiting } = getPage(ITEMS_PER_PAGE, req.query.page)
 
       // save user search input
       const searchInput = req.query.email || ''
