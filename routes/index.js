@@ -10,6 +10,7 @@ const upload = multer({ dest: 'temp/' })
 module.exports = (app, passport) => {
   app.get('/', isAuthUser, (req, res) => res.redirect('restaurants'))
   app.get('/restaurants', isAuthUser, restController.getRestaurants)
+  app.get('/restaurants/:id', isAuthUser, restController.getRestaurant)
 
   app.get('/admin', isAuthAdmin, (req, res) => res.redirect('/admin/restaurants'))
   app.get('/admin/restaurants', isAuthAdmin, adminController.getRestaurants)

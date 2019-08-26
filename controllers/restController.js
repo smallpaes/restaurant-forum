@@ -14,8 +14,14 @@ module.exports = {
     } catch (err) {
       console.log(err)
     }
-
-
     return res.render('restaurants')
+  },
+  getRestaurant: async (req, res) => {
+    try {
+      const restaurant = await Restaurant.findByPk(req.params.id, { include: Category })
+      return res.render('restaurant', { restaurant })
+    } catch (err) {
+      console.log(err)
+    }
   }
 }
