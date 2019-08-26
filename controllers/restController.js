@@ -1,7 +1,7 @@
 const db = require('../models')
 const Restaurant = db.Restaurant
 const Category = db.Category
-const { getPagination, getPage } = require('../tools')
+const { getPagination, getPaginationInfo } = require('../tools')
 const ITEMS_PER_PAGE = 10
 
 module.exports = {
@@ -15,7 +15,7 @@ module.exports = {
     }
 
     // handle pagination
-    const { page, limiting } = getPage(ITEMS_PER_PAGE, req.query.page)
+    const { page, limiting } = getPaginationInfo(ITEMS_PER_PAGE, req.query.page)
 
     try {
       const restaurants = await Restaurant.findAndCountAll({ include: Category, where: whereQuery, ...limiting })

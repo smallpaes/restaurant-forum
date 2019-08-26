@@ -1,13 +1,13 @@
 const db = require('../models')
 const Category = db.Category
-const { getPagination, getPage } = require('../tools')
+const { getPaginationInfo, getPagination } = require('../tools')
 const ITEMS_PER_PAGE = 10
 
 module.exports = {
   getCategories: async (req, res) => {
     try {
       // handle pagination
-      const { ITEMS_PER_PAGE, page, limiting } = getPage(ITEMS_PER_PAGE, req.query.page)
+      const { page, limiting } = getPaginationInfo(ITEMS_PER_PAGE, req.query.page)
 
       // find categories and total amount
       const categories = await Category.findAndCountAll({ ...limiting })
