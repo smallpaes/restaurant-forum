@@ -42,5 +42,17 @@ module.exports = {
     } catch (err) {
       console.log(err)
     }
+  },
+  deleteCategory: async (req, res) => {
+    try {
+      // find the category
+      const category = await Category.findByPk(req.params.id)
+      // delete the category
+      await category.destroy()
+      req.flash('success_messages', `${category.name} has been deleted!`)
+      return res.redirect('/admin/categories')
+    } catch (err) {
+      console.log(err)
+    }
   }
 }

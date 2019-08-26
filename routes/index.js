@@ -25,6 +25,7 @@ module.exports = (app, passport) => {
   app.post('/admin/categories', isAuthAdmin, categoryController.postCategory)
   app.get('/admin/categories/:id', isAuthAdmin, categoryController.getCategories)
   app.put('/admin/categories/:id', isAuthAdmin, categoryController.putCategory)
+  app.delete('/admin/categories/:id', isAuthAdmin, categoryController.deleteCategory)
 
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
