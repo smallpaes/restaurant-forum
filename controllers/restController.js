@@ -1,6 +1,8 @@
 const db = require('../models')
 const Restaurant = db.Restaurant
 const Category = db.Category
+const { getPagination, getPage } = require('../tools')
+const ITEMS_PER_PAGE = 10
 
 module.exports = {
   getRestaurants: async (req, res) => {
@@ -12,17 +14,30 @@ module.exports = {
       whereQuery['categoryId'] = categoryId
     }
 
+    // handle pagination
+    const { page, limiting } = getPage(ITEMS_PER_PAGE, req.query.page)
+
     try {
-      const restaurants = await Restaurant.findAll({ include: Category, where: whereQuery })
+      const restaurants = await Restaurant.findAndCountAll({ include: Category, where: whereQuery, ...limiting })
       const categories = await Category.findAll()
-      const data = restaurants.map(restaurant => ({
+      const data = restaurants.rows.map(restaurant => ({
         ...restaurant.dataValues,
         description: restaurant.dataValues.description.substring(0, 50)
       }))
+
+      // generate an array based on the number of total pages
+      const pagination = getPagination(restaurants.count, ITEMS_PER_PAGE)
+
       return res.render('restaurants', {
         restaurants: data,
         categories,
-        categoryId
+        categoryId,
+        pagination,
+        currentPage: page,
+        nextPage: page + 1,
+        lastPage: page - 1,
+        hasLastPage: page !== 1,
+        hasNextPage: Math.ceil(restaurants.count / ITEMS_PER_PAGE) !== page,
       })
     } catch (err) {
       console.log(err)

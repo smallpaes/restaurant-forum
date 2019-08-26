@@ -9,7 +9,7 @@ module.exports = {
     const limiting = page === 1 ? { limit: ITEMS_PER_PAGE } : { offset: ITEMS_PER_PAGE * (page - 1), limit: ITEMS_PER_PAGE }
     return { ITEMS_PER_PAGE, page, limiting }
   },
-  getPagination: (totalAmount, ITEMS_PER_PAGE) => {
-    return Array.from({ length: Math.ceil(totalAmount / ITEMS_PER_PAGE) }, (v, i) => i + 1)
+  getPagination: (totalPage, ITEMS_PER_PAGE) => {
+    return Array.from({ length: Math.ceil(totalPage / ITEMS_PER_PAGE) }, (v, i) => i + 1)
   }
 }

@@ -29,5 +29,22 @@
   </div>
   {{/each}}
 </div>
-<br />
-<br />
+
+<!--Pagination-->
+<nav aria-label="Restaurants results pages">
+  <ul class="pagination justify-content-center m-0">
+    {{#if hasLastPage}}
+    <li class="page-item"><a href="/restaurants?page={{lastPage}}&categoryId={{categoryId}}" class="page-link"
+        aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+    {{/if}}
+    {{#each pagination}}
+    <li class="page-item {{isCurrentPage ../currentPage this}}"><a class="page-link"
+        href="/restaurants?page={{this}}&categoryId={{../categoryId}}">{{this}}</a>
+    </li>
+    {{/each}}
+    {{#if hasNextPage}}
+    <li class="page-item"><a href="/restaurants?page={{nextPage}}&categoryId={{categoryId}}" class="page-link"
+        aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+    {{/if}}
+  </ul>
+</nav>
