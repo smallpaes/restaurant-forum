@@ -1,6 +1,7 @@
 const restController = require('../controllers/restController')
 const adminController = require('../controllers/adminController')
 const userController = require('../controllers/userController')
+const categoryController = require('../controllers/categoryController')
 const { isAuthUser, isAuthAdmin } = require('../config/auth')
 // Include multer and config
 const multer = require('multer')
@@ -20,6 +21,7 @@ module.exports = (app, passport) => {
   app.delete('/admin/restaurants/:id', isAuthAdmin, adminController.deleteRestaurant)
   app.get('/admin/users', isAuthAdmin, adminController.editUsers)
   app.put('/admin/users/:id', isAuthAdmin, adminController.putUsers)
+  app.get('/admin/categories', isAuthAdmin, categoryController.getCategories)
 
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
