@@ -13,7 +13,10 @@ const app = express()
 const port = process.env.PORT || 3000
 
 // set up handlebars
-app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
+app.engine('handlebars', exphbs({
+  defaultLayout: 'main',
+  helpers: require('./config/handlebars-helpers')
+}))
 app.set('view engine', 'handlebars')
 // set up bodyParser
 app.use(bodyParser.urlencoded({ extended: true }))

@@ -45,8 +45,13 @@ module.exports = {
       sortId: !order.length ? false : order[0][0] === 'id' ? order[0][1] : false
     })
   },
-  createRestaurant: (req, res) => {
-    return res.render('admin/create', { page: 1 })
+  createRestaurant: async (req, res) => {
+    try {
+      const categories = await Category.findAll()
+      return res.render('admin/create', { page: 1, categories })
+    } catch (err) {
+      console.log(err)
+    }
   },
   postRestaurant: async (req, res) => {
     // check if name is provided
@@ -65,7 +70,8 @@ module.exports = {
             address: req.body.address,
             opening_hours: req.body.opening_hours,
             description: req.body.description,
-            image: req.file ? img.data.link : null
+            image: req.file ? img.data.link : null,
+            CategoryId: req.body.categoryId
           })
           req.flash('success_messages', 'restaurant is created successfully')
           return res.redirect('/admin/restaurants')
@@ -77,7 +83,8 @@ module.exports = {
           address: req.body.address,
           opening_hours: req.body.opening_hours,
           description: req.body.description,
-          image: null
+          image: null,
+          CategoryId: req.body.categoryId
         })
         req.flash('success_messages', 'restaurant is created successfully')
         res.redirect('/admin/restaurants')
@@ -100,7 +107,8 @@ module.exports = {
     try {
       const page = req.query.page
       const restaurant = await Restaurant.findByPk(req.params.id)
-      return res.render('admin/create', { restaurant, page })
+      const categories = await Category.findAll()
+      return res.render('admin/create', { restaurant, page, categories })
     } catch (err) {
       console.log(err)
     }
@@ -126,7 +134,8 @@ module.exports = {
             address: req.body.address,
             opening_hours: req.body.opening_hours,
             description: req.body.description,
-            image: req.file ? img.data.link : restaurant.image
+            image: req.file ? img.data.link : restaurant.image,
+            CategoryId: req.body.categoryId
           })
           // send flash message
           req.flash('success_messages', 'restaurant is updated successfully')
@@ -141,7 +150,8 @@ module.exports = {
           address: req.body.address,
           opening_hours: req.body.opening_hours,
           description: req.body.description,
-          image: restaurant.image
+          image: restaurant.image,
+          CategoryId: req.body.categoryId
         })
         // send flash message
         req.flash('success_messages', 'restaurant is updated successfully')
