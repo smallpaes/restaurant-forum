@@ -33,6 +33,7 @@ table thead {
 }
 
 table thead a,
+table thead th,
 .page-link {
   color: rgb(85, 85, 85);
 }

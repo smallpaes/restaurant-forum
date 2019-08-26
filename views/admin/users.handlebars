@@ -21,20 +21,24 @@
   </div>
 </div>
 
-<section id="admin-panel" class="mt-3">
+<section id="admin-panel" class="my-3">
   <!--Search Input-->
-  <form action="/admin/users" method="get">
-    <div class="input-group my-2">
-      <input type="text" name="email" id="email" class="form-control" placeholder="Find an user email"
-        value="{{searchInput}}">
-      <div class="input-group-append">
-        <button class="btn btn-secondary" type="submit">Search</button>
+  <form action="/admin/users" method="get" class="my-1">
+    <div class="form-row">
+      <div class="col-6 col-md-4">
+        <div class="input-group mb-2">
+          <input type="text" name="email" id="email" class="form-control" placeholder="Find an user email"
+            value="{{searchInput}}">
+          <div class="input-group-append">
+            <button class="btn btn-secondary" type="submit">Search</button>
+          </div>
+        </div>
       </div>
     </div>
   </form>
 
   <!--Admin Panel Table-->
-  <table class="table">
+  <table class="table table-light table-hover m-0">
     <thead>
       <tr>
         <th scope="col"><a href="/admin/users?sortBy=id:{{changeOrder sortId}}">#<i class="fas fa-sort ml-2"></i></a>
@@ -44,7 +48,7 @@
         <th scope="col"><a href="/admin/users?sortBy=isAdmin:{{changeOrder sortRole}}">Role<i
               class="fas fa-sort ml-2"></i></a>
         </th>
-        <th scope="col">#</th>
+        <th scope="col">Manage</th>
       </tr>
     </thead>
     <tbody>
@@ -68,23 +72,23 @@
       {{/each}}
     </tbody>
   </table>
-
-  <!--Pagination-->
-  <nav aria-label="Userss results pages">
-    <ul class="pagination justify-content-center">
-      {{#if hasLastPage}}
-      <li class="page-item"><a href="/admin/users?page={{lastPage}}{{getSort sortBy}}" class="page-link"
-          aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-      {{/if}}
-      {{#each pagination}}
-      <li class="page-item {{isCurrentPage ../currentPage this}}"><a class="page-link"
-          href="/admin/users?page={{this}}{{getSort ../sortBy}}">{{this}}</a>
-      </li>
-      {{/each}}
-      {{#if hasNextPage}}
-      <li class="page-item"><a href="/admin/users?page={{nextPage}}{{getSort sortBy}}" class="page-link"
-          aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-      {{/if}}
-    </ul>
-  </nav>
 </section>
+
+<!--Pagination-->
+<nav aria-label="Userss results pages">
+  <ul class="pagination justify-content-center">
+    {{#if hasLastPage}}
+    <li class="page-item"><a href="/admin/users?page={{lastPage}}{{getSort sortBy}}" class="page-link"
+        aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+    {{/if}}
+    {{#each pagination}}
+    <li class="page-item {{isCurrentPage ../currentPage this}}"><a class="page-link"
+        href="/admin/users?page={{this}}{{getSort ../sortBy}}">{{this}}</a>
+    </li>
+    {{/each}}
+    {{#if hasNextPage}}
+    <li class="page-item"><a href="/admin/users?page={{nextPage}}{{getSort sortBy}}" class="page-link"
+        aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+    {{/if}}
+  </ul>
+</nav>
