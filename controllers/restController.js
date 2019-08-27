@@ -1,6 +1,8 @@
 const db = require('../models')
 const Restaurant = db.Restaurant
 const Category = db.Category
+const Comment = db.Comment
+const User = db.User
 const { getPagination, getPaginationInfo } = require('../tools')
 const ITEMS_PER_PAGE = 10
 
@@ -46,7 +48,12 @@ module.exports = {
   },
   getRestaurant: async (req, res) => {
     try {
-      const restaurant = await Restaurant.findByPk(req.params.id, { include: Category })
+      const restaurant = await Restaurant.findByPk(req.params.id, {
+        include: [
+          Category,
+          { model: Comment, include: [User] }
+        ]
+      })
       return res.render('restaurant', { restaurant })
     } catch (err) {
       console.log(err)
