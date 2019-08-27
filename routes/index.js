@@ -14,6 +14,7 @@ module.exports = (app, passport) => {
   app.get('/restaurants/:id', isAuthUser, restController.getRestaurant)
 
   app.post('/comments', isAuthUser, commentController.postComment)
+  app.delete('/comments/:id', isAuthAdmin, commentController.deleteComment)
 
   app.get('/admin', isAuthAdmin, (req, res) => res.redirect('/admin/restaurants'))
   app.get('/admin/restaurants', isAuthAdmin, adminController.getRestaurants)
