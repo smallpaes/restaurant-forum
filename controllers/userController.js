@@ -28,7 +28,8 @@ module.exports = {
       await User.create({
         name: req.body.name,
         email: req.body.email,
-        password: bcrypt.hashSync(req.body.password, 10)
+        password: bcrypt.hashSync(req.body.password, 10),
+        image: 'https://randomuser.me/api/portraits/lego/1.jpg'
       })
       req.flash('success_messages', '成功註冊帳號!')
       return res.redirect('/signin')
