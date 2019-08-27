@@ -9,6 +9,7 @@ module.exports = {
       password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
       isAdmin: true,
       name: 'root',
+      image: faker.image.imageUrl(200, 200, 'people'),
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
@@ -16,6 +17,7 @@ module.exports = {
       password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
       isAdmin: false,
       name: 'user1',
+      image: faker.image.imageUrl(200, 200, 'people'),
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
@@ -23,6 +25,7 @@ module.exports = {
       password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
       isAdmin: false,
       name: 'user2',
+      image: faker.image.imageUrl(200, 200, 'people'),
       createdAt: new Date(),
       updatedAt: new Date()
     }], {})

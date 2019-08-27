@@ -3,7 +3,7 @@ const adminController = require('../controllers/adminController')
 const userController = require('../controllers/userController')
 const categoryController = require('../controllers/categoryController')
 const commentController = require('../controllers/commentController')
-const { isAuthUser, isAuthAdmin } = require('../config/auth')
+const { isAuthUser, isAuthAdmin, isOwner } = require('../config/auth')
 // Include multer and config
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
@@ -15,6 +15,10 @@ module.exports = (app, passport) => {
 
   app.post('/comments', isAuthUser, commentController.postComment)
   app.delete('/comments/:id', isAuthAdmin, commentController.deleteComment)
+
+  app.get('/users/:id', isAuthUser, userController.getUser)
+  app.get('/users/:id/edit', isAuthUser, isOwner, userController.editUser)
+  app.put('/users/:id', isAuthUser, isOwner, upload.single('image'), userController.putUser)
 
   app.get('/admin', isAuthAdmin, (req, res) => res.redirect('/admin/restaurants'))
   app.get('/admin/restaurants', isAuthAdmin, adminController.getRestaurants)

@@ -1,0 +1,27 @@
+.small-edit-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: rgb(100, 100, 100);
+}
+
+.small-edit-btn:hover {
+  color: rgb(70, 69, 69);
+}
+
+.big-edit-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border: 1px solid rgb(100, 100, 100);
+  border-radius: 1px;
+  text-align: center;
+  color: rgb(100, 100, 100);  
+  font-weight: 600;
+}
+
+.big-edit-btn:hover {
+  background: rgb(100, 100, 100);
+  color: white;
+  transition: all .2s linear;
+}

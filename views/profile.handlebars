@@ -1,0 +1,16 @@
+<div class="row profile-container rounded p-3 bg-white shadow-sm mx-1">
+  <div class="col-3 avatar">
+    <img src="{{owner.image}}" alt="avatar" class="img-thumbnail rounded-circle border-0">
+  </div>
+  <div class="col-9 d-flex justify-content-center flex-column position-relative">
+    {{#ifCond user.id owner.id}}
+    <a href="/users/{{user.id}}/edit" class="align-self-end small-edit-btn d-md-none"><i
+        class="fas fa-user-edit"></i></a>
+    {{/ifCond}}
+    <h4>{{owner.name}}</h4>
+    <p class="text-secondary">{{owner.email}}</p>
+    {{#ifCond user.id owner.id}}
+    <a href="/users/{{user.id}}/edit" class="px-2 py-1 align-self-end big-edit-btn d-none d-md-inline">Edit Profile</a>
+    {{/ifCond}}
+  </div>
+</div>
