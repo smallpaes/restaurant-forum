@@ -48,12 +48,17 @@ module.exports = {
   },
   getRestaurant: async (req, res) => {
     try {
+      // get restaurant
       const restaurant = await Restaurant.findByPk(req.params.id, {
         include: [
           Category,
           { model: Comment, include: [User] }
         ]
       })
+
+      // update view count
+      restaurant.viewCounts += 1
+      await restaurant.save()
       return res.render('restaurant', { restaurant })
     } catch (err) {
       console.log(err)
