@@ -21,6 +21,7 @@
 <div class="card shadow-sm mx-1 border-light">
   <div class="card-body">
     <div class="row">
+      {{#if commentHistory}}
       {{#each commentHistory}}
       <a class="col-12 col-md-6 media my-2" href="/restaurants/{{this.RestaurantId}}">
         <div class="media-image mr-3 position-relative">
@@ -35,6 +36,11 @@
         </div>
       </a>
       {{/each}}
+      {{else}}
+      <h5 class="col-12 text-center p-3 m-0 text-muted">
+        <i class="far fa-paper-plane mr-2"></i>No Comment Yet!
+      </h5>
+      {{/if}}
     </div>
   </div>
 </div>
