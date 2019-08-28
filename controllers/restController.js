@@ -58,5 +58,35 @@ module.exports = {
     } catch (err) {
       console.log(err)
     }
+  },
+  getFeeds: async (req, res) => {
+    try {
+      // find latest restaurants created
+      const restaurants = await Restaurant.findAll({
+        order: [['createdAt', 'DESC']],
+        limit: 10,
+        include: [Category]
+      })
+      // find latest comments created
+      const comments = await Comment.findAll({
+        order: [['createdAt', 'DESC']],
+        limit: 10,
+        include: [User]
+      })
+      return res.render('feeds', { restaurants, comments })
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  getDashboard: async (req, res) => {
+    try {
+      const restaurant = await Restaurant.findByPk(req.params.id, { include: [Comment, Category] })
+      res.render('dashboard', {
+        restaurant,
+        commentCount: restaurant.Comments.length
+      })
+    } catch (err) {
+      console.log(err)
+    }
   }
 }

@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-12 col-md-5 offset-md-1 mb-3">
+    <div class="card">
+      <img class="d-none d-md-block card-img-top" src="{{restaurant.image}}">
+      <div class="card-body text-truncate">
+        <h3 class="card-title text-secondary">{{restaurant.name}}</h3>
+        <p class="card-text text-truncate">{{restaurant.description}}</p>
+      </div>
+      <ul class="list-group list-group-flush d-none d-md-block">
+        <li class="list-group-item py-lg-3">餐廳類型：{{restaurant.Category.name}}</li>
+        <li class="list-group-item py-lg-3">營業時間：{{restaurant.opening_hours}}</li>
+        <li class="list-group-item py-lg-3">聯絡電話：{{restaurant.tel}}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-12 col-md-4 mb-3">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="d-none d-lg-block text-center mb-2 mt-0">Status</h3>
+        <div class="card my-sm-2 my-lg-4 overall-status">
+          <div class="card-body text-secondary">
+            <h4 class="card-title text-center mb-1 mb-xl-3">評論數</h4>
+            <h1 class="text-center m-0">{{commentCount}}</h1>
+          </div>
+        </div>
+        <div class="card my-2 my-lg-4 overall-status">
+          <div class="card-body text-secondary ">
+            <h4 class="card-title text-center mb-1 mb-xl-3">瀏覽次數</h4>
+            <h1 class="text-center m-0">35</h1>
+          </div>
+        </div>
+        <div class="card my-sm-2 my-lg-4 overall-status">
+          <div class="card-body text-secondary ">
+            <h4 class="card-title text-center mb-1 mb-xl-3">收藏數</h4>
+            <h1 class="text-center m-0">103</h1>
+          </div>
+        </div>
+        <div class="text-center mt-1">
+          <a href="javascript:history.back()" class="btn btn-link last-page-btn m-0">回上一頁</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

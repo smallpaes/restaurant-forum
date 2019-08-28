@@ -11,6 +11,8 @@ const upload = multer({ dest: 'temp/' })
 module.exports = (app, passport) => {
   app.get('/', isAuthUser, (req, res) => res.redirect('restaurants'))
   app.get('/restaurants', isAuthUser, restController.getRestaurants)
+  app.get('/restaurants/feeds', isAuthUser, restController.getFeeds)
+  app.get('/restaurants/:id/dashboard', isAuthUser, restController.getDashboard)
   app.get('/restaurants/:id', isAuthUser, restController.getRestaurant)
 
   app.post('/comments', isAuthUser, commentController.postComment)

@@ -1,0 +1,29 @@
+.card-body h3 {
+  color: #4e4f50;
+}
+
+.overall-status h4 {
+  font-size: 1.2rem;
+}
+
+.last-page-btn {
+  color: #62676b;
+}
+
+.last-page-btn:hover {
+  color: #434546;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+@media screen and (min-width: 768px) {
+  .overall-status h4 {
+    font-size: 1.2rem;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .overall-status h4 {
+    font-size: 1.5rem;
+  }
+}
