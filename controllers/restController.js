@@ -22,9 +22,11 @@ module.exports = {
     try {
       const restaurants = await Restaurant.findAndCountAll({ include: Category, where: whereQuery, ...limiting })
       const categories = await Category.findAll()
+
       const data = restaurants.rows.map(restaurant => ({
         ...restaurant.dataValues,
-        description: restaurant.dataValues.description.substring(0, 50)
+        description: restaurant.dataValues.description.substring(0, 50),
+        isFavorited: req.user.FavoritedRestaurants.filter(d => d.id === restaurant.id).length !== 0
       }))
 
       // generate an array based on the number of total pages
@@ -52,14 +54,18 @@ module.exports = {
       const restaurant = await Restaurant.findByPk(req.params.id, {
         include: [
           Category,
-          { model: Comment, include: [User] }
+          { model: Comment, include: [User] },
+          { model: User, as: 'FavoritedUsers' }
         ]
       })
+      console.log(restaurant)
+      // check if favorite list has the user on it
+      const isFavorited = restaurant.FavoritedUsers.filter(user => user.id === req.user.id).length !== 0
 
       // update view count
       restaurant.viewCounts += 1
       await restaurant.save()
-      return res.render('restaurant', { restaurant })
+      return res.render('restaurant', { restaurant, isFavorited })
     } catch (err) {
       console.log(err)
     }

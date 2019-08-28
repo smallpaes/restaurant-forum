@@ -15,6 +15,9 @@ module.exports = (app, passport) => {
   app.get('/restaurants/:id/dashboard', isAuthUser, restController.getDashboard)
   app.get('/restaurants/:id', isAuthUser, restController.getRestaurant)
 
+  app.post('/favorite/:restaurantId', isAuthUser, userController.addFavorite)
+  app.delete('/favorite/:restaurantId', isAuthUser, userController.removeFavorite)
+
   app.post('/comments', isAuthUser, commentController.postComment)
   app.delete('/comments/:id', isAuthAdmin, commentController.deleteComment)
 

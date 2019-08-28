@@ -2,6 +2,7 @@ const passport = require('passport')
 const LocalStorage = require('passport-local').Strategy
 const bcrypt = require('bcryptjs')
 const db = require('../models')
+const Restaurant = db.Restaurant
 const User = db.User
 
 
@@ -30,7 +31,11 @@ passport.serializeUser((user, cb) => {
 
 // deserialize user
 passport.deserializeUser((id, cb) => {
-  User.findByPk(id)
+  User.findByPk(id, {
+    include: [
+      { model: db.Restaurant, as: 'FavoritedRestaurants' }
+    ]
+  })
     .then(user => cb(null, user))
 })
 
