@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
 const User = db.User
+const Comment = db.Comment
+const Restaurant = db.Restaurant
 const imgur = require('imgur-node-api')
 const sharp = require('sharp')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
@@ -52,8 +54,26 @@ module.exports = {
   },
   getUser: async (req, res) => {
     try {
-      const owner = await User.findByPk(req.params.id)
-      return res.render('profile', { owner, profileCSS: true })
+      const owner = await User.findByPk(req.params.id, {
+        include: [
+          { model: Comment, include: [Restaurant] }
+        ]
+      })
+
+      // get all commented restaurants
+      const commentHistory = owner.Comments.map(comment => ({
+        comment: comment.text,
+        name: comment.Restaurant.name,
+        image: comment.Restaurant.image,
+        RestaurantId: comment.RestaurantId
+      }))
+
+      return res.render('profile', {
+        owner,
+        commentHistory,
+        profileCSS: true,
+        commentCount: commentHistory.length
+      })
     } catch (err) {
       console.log(err)
     }

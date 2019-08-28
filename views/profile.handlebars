@@ -1,3 +1,4 @@
+<!--Personal Info-->
 <div class="row profile-container rounded p-3 bg-white shadow-sm mx-1">
   <div class="col-3 avatar">
     <img src="{{owner.image}}" alt="avatar" class="img-thumbnail rounded-circle border-0">
@@ -12,5 +13,28 @@
     {{#ifCond user.id owner.id}}
     <a href="/users/{{user.id}}/edit" class="px-2 py-1 align-self-end big-edit-btn d-none d-md-inline">Edit Profile</a>
     {{/ifCond}}
+  </div>
+</div>
+
+<!--Commented Restaurant-->
+<h5 class="mt-4 mb-2 mx-1 pl-4 comment-header">{{commentCount}} 已評論餐廳</h5>
+<div class="card shadow-sm mx-1 border-light">
+  <div class="card-body">
+    <div class="row">
+      {{#each commentHistory}}
+      <a class="col-12 col-md-6 media my-2" href="/restaurants/{{this.RestaurantId}}">
+        <div class="media-image mr-3 position-relative">
+          <div class="loader-container text-center">
+            <div class="loader"></div>
+          </div>
+          <img src="{{this.image}}" alt="restaurant image" class="rounded">
+        </div>
+        <div class="media-body text-truncate">
+          <h6 class="mt-0 text-truncate m-0">{{this.name}}</h6>
+          <p class="text-truncate text-muted font-italic m-0">{{this.comment}}</p>
+        </div>
+      </a>
+      {{/each}}
+    </div>
   </div>
 </div>
