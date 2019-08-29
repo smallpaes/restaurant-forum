@@ -1,87 +1,93 @@
-<ul class="nav nav-tabs">
+<!--Nav-->
+<ul class="nav nav-tabs nav-fill">
   <li class="nav-item">
-    <a class="nav-link active" href="#">首頁</a>
+    <a class="nav-link active" href="#"><i class="fas fa-home mr-1"></i>首頁</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/restaurants/feeds">最新動態</a>
+    <a class="nav-link" href="/restaurants/feeds"><i class="fas fa-volume-down mr-1"></i>最新動態</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/users/top">美食達人</a>
+    <a class="nav-link" href="/users/top"><i class="fas fa-user-astronaut mr-1"></i>美食達人</a>
   </li>
 </ul>
-<br />
 
-<ul class="nav nav-pills">
-  <li class="nav-item">
-    <a class="nav-link {{#ifCond '' categoryId}}active{{/ifCond}}" href="?categoryId=">全部</a>
-  </li>
-  {{#each categories}}
-  <li class="nav-item">
-    <a class="nav-link {{#ifCond this.id ../categoryId}}active{{/ifCond}}"
-      href="?categoryId={{this.id}}">{{this.name}}</a>
-  </li>
-  {{/each}}
-</ul>
-<br />
-
-<div class="row">
-  {{#each restaurants}}
-  <div class="col-md-6 col-lg-4">
-    <div class="card mb-4 shadow-sm">
-      <img class="card-img-top" src="{{this.image}}" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title m-0">
-          <a href="/restaurants/{{this.id}}">
-            {{this.name}}
-          </a>
-        </h5>
-        <div class="d-flex align-items-center mt-2 mb-3">
-          <span class="badge badge-secondary">{{this.Category.name}}</span>
-          <!--Like buttons-->
-          {{#if this.isLiked}}
-          <form action="/like/{{this.id}}?_method=DELETE" method="POST" class="mx-2">
-            <button class="btn p-0" type="submit"><i class="fas fa-heart text-danger"></i></button>
-          </form>
-          {{else}}
-          <form action="/like/{{this.id}}" method="POST" class="mx-2">
-            <button class="btn p-0 like-btn"><i class="far fa-heart" data-toggle="tooltip" data-placement="bottom"
-                title="Like it"></i></button>
-          </form>
-          {{/if}}
-          <!--Favorite buttons-->
-          {{#if this.isFavorited}}
-          <form action="/favorite/{{this.id}}?_method=DELETE" method="POST" class="favorite-form">
-            <button type="submit" class="btn p-0"><i class="fas fa-bookmark text-warning"></i></button>
-          </form>
-          {{else}}
-          <form action="/favorite/{{this.id}}" method="POST" class="favorite-form">
-            <button type="submit" class="btn p-0 favorite-btn" data-toggle="tooltip" data-placement="bottom"
-              title="Save it"><i class="far fa-bookmark"></i></button>
-          </form>
-          {{/if}}
-        </div>
-        <p class="card-text card-description">{{this.description}}</p>
-      </div>
-    </div>
-  </div>
-  {{/each}}
-</div>
-
-<!--Pagination-->
-<nav aria-label="Restaurants results pages">
-  <ul class="pagination justify-content-center m-0">
-    {{#if hasLastPage}}
-    <li class="page-item"><a href="/restaurants?page={{lastPage}}&categoryId={{categoryId}}" class="page-link"
-        aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-    {{/if}}
-    {{#each pagination}}
-    <li class="page-item {{isCurrentPage ../currentPage this}}"><a class="page-link"
-        href="/restaurants?page={{this}}&categoryId={{../categoryId}}">{{this}}</a>
+<!--Display Section-->
+<section class="p-3 display-panel rounded-bottom">
+  <ul class="nav d-flex justify-content-center">
+    <li class="mx-2">
+      <a class="{{#ifCond '' categoryId}}active{{/ifCond}}" href="?categoryId=">
+        <span class="badge badge-pill badge-grey">#全部</span>
+      </a>
+    </li>
+    {{#each categories}}
+    <li class="mx-2">
+      <a class="{{#ifCond this.id ../categoryId}}active{{/ifCond}}" href="?categoryId={{this.id}}">
+        <span class="badge badge-pill badge-grey">#{{this.name}}</span>
+      </a>
     </li>
     {{/each}}
-    {{#if hasNextPage}}
-    <li class="page-item"><a href="/restaurants?page={{nextPage}}&categoryId={{categoryId}}" class="page-link"
-        aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-    {{/if}}
   </ul>
-</nav>
+  <br />
+
+  <div class="row">
+    {{#each restaurants}}
+    <div class="col-md-6 col-lg-4">
+      <div class="card mb-4 shadow-sm">
+        <img class="card-img-top" src="{{this.image}}" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title m-0">
+            <a href="/restaurants/{{this.id}}">
+              {{this.name}}
+            </a>
+          </h5>
+          <div class="d-flex align-items-center mt-2 mb-3">
+            <span class="badge badge-secondary">{{this.Category.name}}</span>
+            <!--Like buttons-->
+            {{#if this.isLiked}}
+            <form action="/like/{{this.id}}?_method=DELETE" method="POST" class="mx-2">
+              <button class="btn p-0" type="submit"><i class="fas fa-heart text-danger"></i></button>
+            </form>
+            {{else}}
+            <form action="/like/{{this.id}}" method="POST" class="mx-2">
+              <button class="btn p-0 like-btn"><i class="far fa-heart" data-toggle="tooltip" data-placement="bottom"
+                  title="Like it"></i></button>
+            </form>
+            {{/if}}
+            <!--Favorite buttons-->
+            {{#if this.isFavorited}}
+            <form action="/favorite/{{this.id}}?_method=DELETE" method="POST" class="favorite-form">
+              <button type="submit" class="btn p-0"><i class="fas fa-bookmark text-warning"></i></button>
+            </form>
+            {{else}}
+            <form action="/favorite/{{this.id}}" method="POST" class="favorite-form">
+              <button type="submit" class="btn p-0 favorite-btn" data-toggle="tooltip" data-placement="bottom"
+                title="Save it"><i class="far fa-bookmark"></i></button>
+            </form>
+            {{/if}}
+          </div>
+          <p class="card-text card-description">{{this.description}}</p>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+
+  <!--Pagination-->
+  <nav aria-label="Restaurants results pages">
+    <ul class="pagination justify-content-center m-0">
+      {{#if hasLastPage}}
+      <li class="page-item"><a href="/restaurants?page={{lastPage}}&categoryId={{categoryId}}" class="page-link"
+          aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+      {{/if}}
+      {{#each pagination}}
+      <li class="page-item {{isCurrentPage ../currentPage this}}"><a class="page-link"
+          href="/restaurants?page={{this}}&categoryId={{../categoryId}}">{{this}}</a>
+      </li>
+      {{/each}}
+      {{#if hasNextPage}}
+      <li class="page-item"><a href="/restaurants?page={{nextPage}}&categoryId={{categoryId}}" class="page-link"
+          aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+      {{/if}}
+    </ul>
+  </nav>
+</section>
