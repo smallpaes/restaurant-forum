@@ -26,7 +26,8 @@ module.exports = {
       const data = restaurants.rows.map(restaurant => ({
         ...restaurant.dataValues,
         description: restaurant.dataValues.description.substring(0, 50),
-        isFavorited: req.user.FavoritedRestaurants.filter(d => d.id === restaurant.id).length !== 0
+        isFavorited: req.user.FavoritedRestaurants.filter(d => d.id === restaurant.id).length !== 0,
+        isLiked: req.user.LikedRestaurants.filter(d => d.id === restaurant.id).length !== 0
       }))
 
       // generate an array based on the number of total pages
@@ -42,6 +43,7 @@ module.exports = {
         lastPage: page - 1,
         hasLastPage: page !== 1,
         hasNextPage: Math.ceil(restaurants.count / ITEMS_PER_PAGE) !== page,
+        restaurantsCSS: true
       })
     } catch (err) {
       console.log(err)
@@ -55,17 +57,21 @@ module.exports = {
         include: [
           Category,
           { model: Comment, include: [User] },
-          { model: User, as: 'FavoritedUsers' }
+          { model: User, as: 'FavoritedUsers' },
+          { model: User, as: 'LikedUsers' }
         ]
       })
       console.log(restaurant)
       // check if favorite list has the user on it
       const isFavorited = restaurant.FavoritedUsers.filter(user => user.id === req.user.id).length !== 0
 
+      // check if like list has the user on it
+      const isLiked = restaurant.LikedUsers.filter(user => user.id === req.user.id).length !== 0
+
       // update view count
       restaurant.viewCounts += 1
       await restaurant.save()
-      return res.render('restaurant', { restaurant, isFavorited })
+      return res.render('restaurant', { restaurant, isFavorited, isLiked })
     } catch (err) {
       console.log(err)
     }

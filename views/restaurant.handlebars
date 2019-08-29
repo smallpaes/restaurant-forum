@@ -23,6 +23,16 @@
     <form action="/favorite/{{restaurant.id}}" method="POST" style="display: contents;"><button type="submit"
         class="btn btn-primary">加到最愛</button></form>
     {{/if}}
+    <!--Like buttons-->
+    {{#if isLiked}}
+    <form action="/like/{{restaurant.id}}?_method=DELETE" style="display: contents;" method="POST">
+      <button class="btn btn-danger" type="submit">Unlike</button>
+    </form>
+    {{else}}
+    <form action="/like/{{restaurant.id}}" style="display: contents;" method="POST">
+      <button class="btn btn-primary">Like</button>
+    </form>
+    {{/if}}
   </div>
   <hr>
 </div>

@@ -1,0 +1,12 @@
+.like-btn {
+  color: rgb(100, 100, 100);
+}
+
+.like-btn:hover {
+  color: rgb(73, 73, 73);
+}
+
+.btn.focus, 
+.btn:focus {
+  box-shadow: none;
+}
