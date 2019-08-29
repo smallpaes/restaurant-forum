@@ -23,16 +23,16 @@
 
 <div class="row">
   {{#each restaurants}}
-  <div class="col-md-4">
+  <div class="col-md-6 col-lg-4">
     <div class="card mb-4 shadow-sm">
-      <img class="card-img-top" src="{{this.image}}" alt="Card image cap" width="286px" height="180px">
+      <img class="card-img-top" src="{{this.image}}" alt="Card image cap">
       <div class="card-body">
-        <p class="card-text">
+        <h5 class="card-title m-0">
           <a href="/restaurants/{{this.id}}">
             {{this.name}}
           </a>
-        </p>
-        <div class="d-flex align-items-center">
+        </h5>
+        <div class="d-flex align-items-center mt-2 mb-3">
           <span class="badge badge-secondary">{{this.Category.name}}</span>
           <!--Like buttons-->
           {{#if this.isLiked}}
@@ -57,7 +57,7 @@
           </form>
           {{/if}}
         </div>
-        <p class="card-text">{{this.description}}</p>
+        <p class="card-text card-description">{{this.description}}</p>
       </div>
     </div>
   </div>

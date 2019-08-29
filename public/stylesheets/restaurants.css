@@ -1,4 +1,17 @@
-/*Like*/
+.card-title a {
+  color: rgb(100, 100, 100);
+  font-weight: 600;
+}
+
+.card-title a:hover {
+  color: rgb(73, 73, 73);
+}
+
+.card-description {
+  color: rgb(100, 100, 100);
+}
+
+/*Like & Favorite*/
 .like-btn,
 .favorite-btn {
   color: rgb(100, 100, 100);
@@ -12,4 +25,10 @@
 .btn.focus, 
 .btn:focus {
   box-shadow: none;
+}
+
+@media screen and (min-width: 576px) {
+  .card-body .card-text:last-of-type {
+    min-height: 48px;
+  }
 }
