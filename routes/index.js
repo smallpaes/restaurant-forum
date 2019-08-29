@@ -21,9 +21,13 @@ module.exports = (app, passport) => {
   app.post('/like/:restaurantId', isAuthUser, userController.addLike)
   app.delete('/like/:restaurantId', isAuthUser, userController.deleteLike)
 
+  app.post('/following/:userId', isAuthUser, userController.addFollowing)
+  app.delete('/following/:userId', isAuthUser, userController.removeFollowing)
+
   app.post('/comments', isAuthUser, commentController.postComment)
   app.delete('/comments/:id', isAuthAdmin, commentController.deleteComment)
 
+  app.get('/users/top', isAuthUser, userController.getTopUser)
   app.get('/users/:id', isAuthUser, userController.getUser)
   app.get('/users/:id/edit', isAuthUser, isOwner, userController.editUser)
   app.put('/users/:id', isAuthUser, isOwner, upload.single('image'), userController.putUser)

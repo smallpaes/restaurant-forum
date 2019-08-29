@@ -5,6 +5,7 @@ const Comment = db.Comment
 const Restaurant = db.Restaurant
 const Favorite = db.Favorite
 const Like = db.Like
+const Followship = db.Followship
 const imgur = require('imgur-node-api')
 const sharp = require('sharp')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
@@ -175,6 +176,56 @@ module.exports = {
       })
       // delete the like
       await like.destroy()
+      return res.redirect('back')
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  getTopUser: async (req, res) => {
+    try {
+      let users = await User.findAll({
+        include: [
+          { model: User, as: 'Followers' }
+        ]
+      })
+
+      users = users.map(user => ({
+        ...user.dataValues,
+        // 追蹤人數
+        FollowerCount: user.Followers.length,
+        // 辨認是否已追蹤
+        isFollowed: req.user.Followings.filter(d => d.id === user.id).length !== 0
+      }))
+      console.log(users)
+      // 依追蹤者人數排序
+      users = users.sort((a, b) => b.FollowerCount - a.FollowerCount)
+      return res.render('topUser', { users })
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  addFollowing: async (req, res) => {
+    try {
+      await Followship.create({
+        followerId: req.user.id,
+        followingId: req.params.userId
+      })
+      return res.redirect('back')
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  removeFollowing: async (req, res) => {
+    try {
+      // find the followship
+      const followship = await Followship.findOne({
+        where: {
+          followerId: req.user.id,
+          followingId: req.params.userId
+        }
+      })
+      // destroy followship
+      await followship.destroy()
       return res.redirect('back')
     } catch (err) {
       console.log(err)
