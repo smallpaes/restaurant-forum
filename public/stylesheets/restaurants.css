@@ -1,9 +1,12 @@
-.like-btn {
+/*Like*/
+.like-btn,
+.favorite-btn {
   color: rgb(100, 100, 100);
 }
 
-.like-btn:hover {
-  color: rgb(73, 73, 73);
+.like-btn:hover,
+.favorite-btn:hover {
+  color: rgb(73, 65, 65);
 }
 
 .btn.focus, 

@@ -33,28 +33,31 @@
           </a>
         </p>
         <div class="d-flex align-items-center">
-          <span class="badge badge-secondary mr-2">{{this.Category.name}}</span>
+          <span class="badge badge-secondary">{{this.Category.name}}</span>
           <!--Like buttons-->
           {{#if this.isLiked}}
-          <form action="/like/{{this.id}}?_method=DELETE" method="POST">
+          <form action="/like/{{this.id}}?_method=DELETE" method="POST" class="mx-2">
             <button class="btn p-0" type="submit"><i class="fas fa-heart text-danger"></i></button>
           </form>
           {{else}}
-          <form action="/like/{{this.id}}" method="POST">
-            <button class="btn p-0 like-btn"><i class="far fa-heart"></i></button>
+          <form action="/like/{{this.id}}" method="POST" class="mx-2">
+            <button class="btn p-0 like-btn"><i class="far fa-heart" data-toggle="tooltip" data-placement="bottom"
+                title="Like it"></i></button>
+          </form>
+          {{/if}}
+          <!--Favorite buttons-->
+          {{#if this.isFavorited}}
+          <form action="/favorite/{{this.id}}?_method=DELETE" method="POST" class="favorite-form">
+            <button type="submit" class="btn p-0"><i class="fas fa-bookmark text-warning"></i></button>
+          </form>
+          {{else}}
+          <form action="/favorite/{{this.id}}" method="POST" class="favorite-form">
+            <button type="submit" class="btn p-0 favorite-btn" data-toggle="tooltip" data-placement="bottom"
+              title="Save it"><i class="far fa-bookmark"></i></button>
           </form>
           {{/if}}
         </div>
         <p class="card-text">{{this.description}}</p>
-        <!--Favorite buttons-->
-        {{#if this.isFavorited}}
-        <form action="/favorite/{{this.id}}?_method=DELETE" method="POST"><button type="submit"
-            class="btn btn-danger">移除最愛</button>
-        </form>
-        {{else}}
-        <form action="/favorite/{{this.id}}" method="POST"><button type="submit" class="btn btn-primary">加到最愛</button>
-        </form>
-        {{/if}}
       </div>
     </div>
   </div>

@@ -1,0 +1,38 @@
+.save-like-buttons {
+  position: absolute;
+  bottom: .5rem;
+  right: .6rem;
+}
+
+.save-like-buttons button {
+  margin: 0 .1rem;
+  background: transparent;
+  border-radius: 50%;
+  background: rgba(197, 196, 196, 0.7);
+  -webkit-box-shadow: 0.5px 0.5px 0.5px 0px rgba(107,107,107,1);
+  -moz-box-shadow: 0.5px 0.5px 0.5px 0px rgba(107,107,107,1);
+  box-shadow: 0.5px 0.5px 0.5px 0px rgba(107,107,107,1);
+}
+
+.favorite-form button {
+  padding: 0rem .4rem;
+}
+
+.like-form button {
+  padding: 0rem .25rem;
+}
+
+.like-btn,
+.favorite-btn {
+  color: rgb(100, 100, 100);
+}
+
+.like-btn:hover,
+.favorite-btn:hover {
+  color: rgb(73, 65, 65);
+}
+
+.btn.focus, 
+.btn:focus {
+  box-shadow: none;
+}

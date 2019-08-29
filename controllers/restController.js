@@ -71,7 +71,7 @@ module.exports = {
       // update view count
       restaurant.viewCounts += 1
       await restaurant.save()
-      return res.render('restaurant', { restaurant, isFavorited, isLiked })
+      return res.render('restaurant', { restaurant, isFavorited, isLiked, restaurantCSS: true })
     } catch (err) {
       console.log(err)
     }

@@ -3,8 +3,34 @@
     <h1>{{restaurant.name}}</h1>
     <p>[{{restaurant.Category.name}}]</p>
   </div>
-  <div class="col-md-4">
-    <img class="img-responsive center-block" src="{{restaurant.image}}" style="width: 250px;margin-bottom: 25px;">
+  <div class="col-md-4 ">
+    <div class="restaurant-image position-relative">
+      <img class="img-fluid rounded" src="{{restaurant.image}}">
+      <div class="save-like-buttons d-flex">
+        <!--Favorite buttons-->
+        {{#if isFavorited}}
+        <form action="/favorite/{{restaurant.id}}?_method=DELETE" method="POST" class="favorite-form">
+          <button type="submit" class="btn"><i class="fas fa-bookmark text-warning"></i></button>
+        </form>
+        {{else}}
+        <form action="/favorite/{{restaurant.id}}" method="POST" class="favorite-form">
+          <button type="submit" class="btn favorite-btn" data-toggle="tooltip" data-placement="bottom"
+            title="Save it"><i class="far fa-bookmark"></i></button>
+        </form>
+        {{/if}}
+        <!--Like buttons-->
+        {{#if isLiked}}
+        <form action="/like/{{restaurant.id}}?_method=DELETE" method="POST" class="like-form">
+          <button class="btn" type="submit"><i class="fas fa-heart text-danger"></i></button>
+        </form>
+        {{else}}
+        <form action="/like/{{restaurant.id}}" method="POST" class="like-form">
+          <button class="btn like-btn"><i class="far fa-heart" data-toggle="tooltip" data-placement="bottom"
+              title="Like it"></i></button>
+        </form>
+        {{/if}}
+      </div>
+    </div>
     <div class="well">
       <ul class="list-unstyled">
         <li><strong>Opening Hour:</strong> {{restaurant.opening_hours}}</li>
@@ -16,23 +42,6 @@
   <div class="col-md-8">
     <p>{{restaurant.description}}</p>
     <a href="/restaurants/{{restaurant.id}}/dashboard" class="btn btn-info">Dashboard</a>
-    {{#if isFavorited }}
-    <form action="/favorite/{{restaurant.id}}?_method=DELETE" method="POST" style="display: contents;"><button
-        type="submit" class="btn btn-danger">移除最愛</button></form>
-    {{else}}
-    <form action="/favorite/{{restaurant.id}}" method="POST" style="display: contents;"><button type="submit"
-        class="btn btn-primary">加到最愛</button></form>
-    {{/if}}
-    <!--Like buttons-->
-    {{#if isLiked}}
-    <form action="/like/{{restaurant.id}}?_method=DELETE" style="display: contents;" method="POST">
-      <button class="btn btn-danger" type="submit">Unlike</button>
-    </form>
-    {{else}}
-    <form action="/like/{{restaurant.id}}" style="display: contents;" method="POST">
-      <button class="btn btn-primary">Like</button>
-    </form>
-    {{/if}}
   </div>
   <hr>
 </div>
