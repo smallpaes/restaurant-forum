@@ -34,7 +34,8 @@
                 class="fas fa-binoculars"></i> Show</a>
             {{#if isFavorite}}
             <form action="/favorite/{{this.id}}?_method=DELETE" method="POST" class="d-flex">
-              <button class="btn btn-outline-secondary btn-sm shadow-sm"><i class="fas fa-times"></i> Favorite</button>
+              <button class="btn btn-outline-secondary btn-sm shadow-sm"><i class="fas fa-times"></i> Not
+                Favorite</button>
             </form>
             {{else}}
             <form action="/favorite/{{this.id}}" method="POST" class="d-flex">
