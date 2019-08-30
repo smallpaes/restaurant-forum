@@ -1,5 +1,5 @@
 <!--Nav-->
-<ul class="nav nav-tabs nav-fill shadow">
+<ul class="nav nav-tabs nav-fill shadow mt-3">
   <li class="nav-item">
     <a class="nav-link active" href="#"><i class="fas fa-home mr-1"></i>首頁</a>
   </li>
@@ -14,13 +14,13 @@
 <!--Display Section-->
 <section class="p-3 display-panel rounded-bottom shadow">
   <ul class="nav d-flex justify-content-center mb-2">
-    <li class="mx-2 mb-2">
+    <li class="mx-2 mb-3 mt-2">
       <a class="{{#ifCond '' categoryId}}active{{/ifCond}}" href="?categoryId=">
         <span class="badge badge-pill badge-green">#全部</span>
       </a>
     </li>
     {{#each categories}}
-    <li class="mx-2 mb-2">
+    <li class="mx-2 mb-3 mt-2">
       <a class="{{#ifCond this.id ../categoryId}}active{{/ifCond}}" href="?categoryId={{this.id}}">
         <span class="badge badge-pill badge-green">#{{this.name}}</span>
       </a>

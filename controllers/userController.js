@@ -199,7 +199,7 @@ module.exports = {
       console.log(users)
       // 依追蹤者人數排序
       users = users.sort((a, b) => b.FollowerCount - a.FollowerCount)
-      return res.render('topUser', { users })
+      return res.render('topUser', { users, displayPanelCSS: true })
     } catch (err) {
       console.log(err)
     }

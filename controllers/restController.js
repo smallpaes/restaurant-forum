@@ -43,7 +43,7 @@ module.exports = {
         lastPage: page - 1,
         hasLastPage: page !== 1,
         hasNextPage: Math.ceil(restaurants.count / ITEMS_PER_PAGE) !== page,
-        restaurantsCSS: true
+        displayPanelCSS: true
       })
     } catch (err) {
       console.log(err)
@@ -88,9 +88,9 @@ module.exports = {
       const comments = await Comment.findAll({
         order: [['createdAt', 'DESC']],
         limit: 10,
-        include: [User]
+        include: [User, Restaurant]
       })
-      return res.render('feeds', { restaurants, comments })
+      return res.render('feeds', { restaurants, comments, displayPanelCSS: true })
     } catch (err) {
       console.log(err)
     }
