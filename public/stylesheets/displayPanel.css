@@ -85,10 +85,19 @@
   width: 30%;
 }
 
-/*Follow*/
-#top-user-section .btn-group-sm>.btn, .btn-sm {
+/*Follow & Favorite*/
+.btn-group-sm>.btn, .btn-sm {
   border-radius: 1rem;
   padding: 0 .5rem
+}
+
+/*Top Restaurant Section*/
+#top-restaurant-section .image {
+  width: 100%;
+}
+
+#top-restaurant-section .card-title {
+  color: #379683;
 }
 
 /*sm size*/
@@ -104,6 +113,11 @@
   #top-user-section .avatar {
     width: 40%;
   }
+
+  /*Top Restaurant Section*/
+  #top-restaurant-section .image {
+    width: 270px;
+  }
 }
 
 /*lg size*/
@@ -111,5 +125,40 @@
   /*Top User Section*/
   #top-user-section .avatar {
     width: 55%;
+  }
+
+  /*Top Restaurant Section*/
+  #top-restaurant-section .image {
+    width: 300px;
+  }
+
+  /*Follow & Favorite*/
+  #top-restaurant-section .btn-group-sm>.btn, 
+  #top-restaurant-section .btn-sm {
+    border-radius: 1rem;
+    padding: .2rem .7rem
+  }
+
+  #top-restaurant-section .card-title {
+    font-size: 1.6rem;
+  }
+
+  #top-restaurant-section .card-text {
+    font-size: 1.1rem;
+  }
+}
+
+/*xl size*/
+@media screen and (min-width: 1200px) {
+  /*Top Restaurant Section*/
+  #top-restaurant-section .image {
+    width: 350px;
+  }
+
+  /*Follow & Favorite*/
+  #top-restaurant-section .btn-group-sm>.btn, 
+  #top-restaurant-section .btn-sm {
+    border-radius: 1rem;
+    padding: .3rem .8rem
   }
 }

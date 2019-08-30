@@ -2,6 +2,7 @@ const db = require('../models')
 const Restaurant = db.Restaurant
 const Category = db.Category
 const Comment = db.Comment
+const Favorite = db.Favorite
 const User = db.User
 const { getPagination, getPaginationInfo } = require('../tools')
 const ITEMS_PER_PAGE = 10
@@ -97,11 +98,39 @@ module.exports = {
   },
   getDashboard: async (req, res) => {
     try {
-      const restaurant = await Restaurant.findByPk(req.params.id, { include: [Comment, Category] })
+      const restaurant = await Restaurant.findByPk(req.params.id, {
+        include: [Comment, Category, { model: User, as: 'FavoritedUsers' }]
+      })
       res.render('dashboard', {
         restaurant,
-        commentCount: restaurant.Comments.length
+        commentCount: restaurant.Comments.length,
+        favoriteUser: restaurant.FavoritedUsers.length
       })
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  getTopRestaurants: async (req, res) => {
+    try {
+      let restaurants = await Restaurant.findAll({
+        include: [{ model: User, as: 'FavoritedUsers' }]
+      })
+
+      // retrieve needed restaurant info
+      restaurants = restaurants.map(restaurant => ({
+        id: restaurant.id,
+        name: restaurant.name,
+        image: restaurant.image,
+        description: restaurant.description.substring(0, 110) + '...',
+        favoriteUser: restaurant.FavoritedUsers.length,
+        isFavorite: req.user.FavoritedRestaurants.filter(r => r.id === restaurant.id).length !== 0
+      }))
+
+      // order by number of collector
+      restaurants = restaurants.sort((a, b) => b.favoriteUser - a.favoriteUser).slice(0, 10)
+
+      return res.render('topRestaurant', { restaurants, displayPanelCSS: true })
+
     } catch (err) {
       console.log(err)
     }

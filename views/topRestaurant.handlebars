@@ -1,0 +1,50 @@
+<!--Nav-->
+<ul class="nav nav-tabs nav-fill shadow mt-3">
+  <li class="nav-item">
+    <a class="nav-link" href="/restaurants"><i class="fas fa-home mr-1"></i>首頁</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/restaurants/feeds"><i class="fas fa-volume-down mr-1"></i>最新動態</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="/restaurants/top"><i class="fas fa-crown mr-1"></i>TOP10 人氣餐廳</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/users/top"><i class="fas fa-user-astronaut mr-1"></i>美食達人</a>
+  </li>
+</ul>
+
+<!--Display Section-->
+<section class="p-3 display-panel rounded-bottom shadow mb-5" id="top-restaurant-section">
+  <div class="row px-3">
+    {{#each restaurants}}
+    <div class="card col-12 mb-3 px-0 shadow-sm">
+      <div class="row no-gutters">
+        <div class="image p-2">
+          <img src="{{this.image}}" alt="Restaurant photo" class="w-100">
+        </div>
+        <div class="col flex-column d-flex justify-content-between">
+          <div class="card-body">
+            <h5 class="card-title m-0">{{this.name}}</h5>
+            <span class="text-muted">{{this.favoriteUser}} 位收藏者</span>
+            <p class="text-secondary card-text mb-0 mt-2 mt-lg-3">{{this.description}}</p>
+          </div>
+          <div class="card-footer d-flex bg-white py-2 align-items-center justify-content-end">
+            <a href="/restaurants/{{this.id}}" class="btn btn-outline-secondary btn-sm mr-2 shadow-sm"><i
+                class="fas fa-binoculars"></i> Show</a>
+            {{#if isFavorite}}
+            <form action="/favorite/{{this.id}}?_method=DELETE" method="POST" class="d-flex">
+              <button class="btn btn-outline-secondary btn-sm shadow-sm"><i class="fas fa-times"></i> Favorite</button>
+            </form>
+            {{else}}
+            <form action="/favorite/{{this.id}}" method="POST" class="d-flex">
+              <button class="btn btn-outline-secondary btn-sm shadow-sm"><i class="fas fa-plus"></i> Favorite</button>
+            </form>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</section>
