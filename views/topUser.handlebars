@@ -1,37 +1,48 @@
-<ul class="nav nav-tabs">
+<!--Nav-->
+<ul class="nav nav-tabs nav-fill shadow mt-3">
   <li class="nav-item">
-    <a class="nav-link" href="/restaurants">首頁</a>
+    <a class="nav-link" href="/restaurants"><i class="fas fa-home mr-1"></i>首頁</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/restaurants/feeds">最新動態</a>
+    <a class="nav-link" href="/restaurants/feeds"><i class="fas fa-volume-down mr-1"></i>最新動態</a>
   </li>
-  <li class="nav-item">
+  {{!-- <li class="nav-item">
     <a class="nav-link" href="/restaurants/top">TOP10 人氣餐廳</a>
-  </li>
+  </li> --}}
   <li class="nav-item">
-    <a class="nav-link active" href="/users/top">美食達人</a>
+    <a class="nav-link active" href="/users/top"><i class="fas fa-user-astronaut mr-1"></i>美食達人</a>
   </li>
 </ul>
-<br /><br />
-<h1>美食達人</h1>
-<hr />
-<div class="row" style="text-align: center;">
-  {{#each users}}
-  <div class="col-3">
-    <a href="/users/{{this.id}}">
-      <img class="" src="{{this.image}}" width="140px" height="140px">
-    </a>
-    <h2>{{this.name}}</h2>
-    <span class="badge badge-secondary">追蹤人數：{{this.FollowerCount}}</span>
-    <p>
+
+
+{{!-- <h1>美食達人</h1>
+<hr /> --}}
+
+
+<!--Display Section-->
+<section class="p-3 display-panel rounded-bottom shadow" id="top-user-section">
+  <div class="row" style="text-align: center;">
+    {{#each users}}
+    <div class="col-12 col-md-6 col-lg-3 my-3">
+      <a href="/users/{{this.id}}">
+        <img class="rounded-circle img-thumbnail avatar" src="{{this.image}}">
+      </a>
+      <h4 class="topic mb-0 mt-1">{{this.name}}</h4>
+      <small class="text-secondary">{{this.FollowerCount}} Followers</small>
       {{#if this.isFollowed }}
-      <form action="/following/{{this.id}}?_method=DELETE" method="POST" style="display: contents;"><button
-          type="submit" class="btn btn-danger">取消追蹤</button></form>
+      <form action="/following/{{this.id}}?_method=DELETE" method="POST" class="mt-1">
+        <button type="submit" class="btn btn-outline-secondary btn-sm rounded-pill">
+          <i class="fas fa-star mr-1"></i>取消追蹤
+        </button>
+      </form>
       {{else}}
-      <form action="/following/{{this.id}}" method="POST" style="display: contents;"><button type="submit"
-          class="btn btn-primary">追蹤</button></form>
+      <form action="/following/{{this.id}}" method="POST" class="mt-1">
+        <button type="submit" class="btn btn-outline-secondary btn-sm rounded-pill">
+          <i class="far fa-star mr-1"></i>追蹤
+        </button>
+      </form>
       {{/if}}
-    </p>
+    </div>
+    {{/each}}
   </div>
-  {{/each}}
-</div>
+</section>

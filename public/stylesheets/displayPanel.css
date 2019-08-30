@@ -33,11 +33,11 @@
   padding: .5rem .6rem;
 }
 
-/*Feed Section*/
-#feed-section .topic {
+.display-panel .topic {
   color: rgb(104,104,104);
 }
 
+/*Feed Section*/
 #feed-section .title a {
   color: #379683;
 }
@@ -80,8 +80,36 @@
   box-shadow: none;
 }
 
+/*Top User Section*/
+#top-user-section .avatar {
+  width: 30%;
+}
+
+/*Follow*/
+#top-user-section .btn-group-sm>.btn, .btn-sm {
+  border-radius: 1rem;
+  padding: 0 .5rem
+}
+
+/*sm size*/
 @media screen and (min-width: 576px) {
   .card-body .card-text:last-of-type {
     min-height: 48px;
+  }
+}
+
+/*md size*/
+@media screen and (min-width: 768px) {
+  /*Top User Section*/
+  #top-user-section .avatar {
+    width: 40%;
+  }
+}
+
+/*lg size*/
+@media screen and (min-width: 992px) {
+  /*Top User Section*/
+  #top-user-section .avatar {
+    width: 55%;
   }
 }
