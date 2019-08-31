@@ -1,33 +1,33 @@
-.small-edit-btn {
-  position: absolute;
-  top: 0;
-  right: 0;
+/*display area  size*/
+#following .card-body,
+#follower .card-body,
+#comment .card-body,
+#favorite .card-body {
+  max-height: 280px;
+  overflow-y: scroll;
+}
+
+.header {
   color: rgb(100, 100, 100);
+  font-size: 1.2rem;
 }
 
-.small-edit-btn:hover {
-  color: rgb(70, 69, 69);
+/*User Profile*/
+.user-name {
+  color: #379683;
 }
 
-.big-edit-btn {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  border: 1px solid rgb(100, 100, 100);
-  border-radius: 1px;
-  text-align: center;
-  color: rgb(100, 100, 100);  
-  font-weight: 600;
+.btn-group-sm>.btn, .btn-sm {
+  border-radius: 1rem;
 }
 
-.big-edit-btn:hover {
-  background: rgb(100, 100, 100);
-  color: white;
-  transition: all .2s linear;
+.btn-outline-secondary.focus, 
+.btn-outline-secondary:focus,
+.btn.focus, .btn:focus {
+  box-shadow: none;
 }
 
 /*Commented Restaurants*/
-.comment-header,
 a.media {
   color: rgb(100, 100, 100);
 }
@@ -85,4 +85,15 @@ a.media:hover {
   left: 0;
   max-width: 64px;
   height: auto;
+}
+
+/*md size*/
+@media screen and (min-width: 768px) {
+  /*display area  size*/
+  #following .card-body,
+  #follower .card-body,
+  #comment .card-body,
+  #favorite .card-body {
+    height: 280px;
+  }
 }

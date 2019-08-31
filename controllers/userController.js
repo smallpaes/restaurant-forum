@@ -3,6 +3,7 @@ const db = require('../models')
 const User = db.User
 const Comment = db.Comment
 const Restaurant = db.Restaurant
+const Category = db.Category
 const Favorite = db.Favorite
 const Like = db.Like
 const Followship = db.Followship
@@ -59,23 +60,66 @@ module.exports = {
     try {
       const owner = await User.findByPk(req.params.id, {
         include: [
-          { model: Comment, include: [Restaurant] }
+          { model: Comment, include: [Restaurant] },
+          { model: Restaurant, as: 'FavoritedRestaurants', include: [Category] },
+          { model: User, as: 'Followings' },
+          { model: User, as: 'Followers' }
         ]
       })
 
       // get all commented restaurants
-      const commentHistory = owner.Comments.map(comment => ({
-        comment: comment.text,
-        name: comment.Restaurant.name,
-        image: comment.Restaurant.image,
-        RestaurantId: comment.RestaurantId
+      const uniqueComment = []
+      const commentHistory = owner.Comments.map(comment => {
+        // duplicate comment
+        if (uniqueComment.indexOf(comment.Restaurant.id) >= 0) { return { isNotDuplicate: false } }
+        // unique comment
+        uniqueComment.push(comment.Restaurant.id)
+        return {
+          comment: comment.text,
+          name: comment.Restaurant.name,
+          image: comment.Restaurant.image,
+          RestaurantId: comment.RestaurantId,
+          isNotDuplicate: true
+        }
+      })
+
+      // get all restaurants saved to favorite
+      const favoriteList = owner.FavoritedRestaurants.map(restaurant => ({
+        name: restaurant.name,
+        image: restaurant.image,
+        RestaurantId: restaurant.RestaurantId,
+        category: restaurant.Category.name
       }))
 
+      // get all following users
+      const followingList = owner.Followings.map(user => ({
+        name: user.name,
+        image: user.image,
+        UserId: user.id
+      }))
+
+      // get all followers
+      const followerList = owner.Followers.map(user => ({
+        name: user.name,
+        image: user.image,
+        UserId: user.id
+      }))
+
+      // check if has already followed this user or it is the user himself/herself
+      const isFollowed = req.user.Followings.filter(user => user.id === Number(req.params.id)).length !== 0 || Number(req.params.id) === req.user.id
+      console.log(isFollowed)
       return res.render('profile', {
         owner,
         commentHistory,
         profileCSS: true,
-        commentCount: commentHistory.length
+        commentCount: uniqueComment.length,
+        favoriteList,
+        favoriteCount: favoriteList.length,
+        followingList,
+        followingCount: followingList.length,
+        followerList,
+        followerCount: followerList.length,
+        isFollowed
       })
     } catch (err) {
       console.log(err)

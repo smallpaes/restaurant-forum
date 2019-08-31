@@ -1,46 +1,183 @@
-<!--Personal Info-->
-<div class="row profile-container rounded p-3 bg-white shadow-sm mx-1">
-  <div class="col-3 avatar">
-    <img src="{{owner.image}}" alt="avatar" class="img-thumbnail rounded-circle border-0">
-  </div>
-  <div class="col-9 d-flex justify-content-center flex-column position-relative">
-    {{#ifCond user.id owner.id}}
-    <a href="/users/{{user.id}}/edit" class="align-self-end small-edit-btn d-md-none"><i
-        class="fas fa-user-edit"></i></a>
-    {{/ifCond}}
-    <h4>{{owner.name}}</h4>
-    <p class="text-secondary">{{owner.email}}</p>
-    {{#ifCond user.id owner.id}}
-    <a href="/users/{{user.id}}/edit" class="px-2 py-1 align-self-end big-edit-btn d-none d-md-inline">Edit Profile</a>
-    {{/ifCond}}
-  </div>
-</div>
-
-<!--Commented Restaurant-->
-<h5 class="mt-4 mb-2 mx-1 pl-4 comment-header">{{commentCount}} 已評論餐廳</h5>
-<div class="card shadow-sm mx-1 border-light">
-  <div class="card-body">
-    <div class="row">
-      {{#if commentHistory}}
-      {{#each commentHistory}}
-      <a class="col-12 col-md-6 media my-2" href="/restaurants/{{this.RestaurantId}}">
-        <div class="media-image mr-3 position-relative">
-          <div class="loader-container text-center">
-            <div class="loader"></div>
-          </div>
-          <img src="{{this.image}}" alt="restaurant image" class="rounded">
-        </div>
-        <div class="media-body text-truncate">
-          <h6 class="mt-0 text-truncate m-0">{{this.name}}</h6>
-          <p class="text-truncate text-muted font-italic m-0">{{this.comment}}</p>
-        </div>
-      </a>
-      {{/each}}
+<section class="row mb-5">
+  <section class="col-12 col-md-5" id="profile-section">
+    <!--Personal Info-->
+    <ul class="list-group text-center shadow-sm">
+      <li class="list-group-item p-0 pt-4 px-2 border-0">
+        <img src="{{owner.image}}" alt="avatar" class="img-thumbnail rounded-circle border-0 w-50">
+      </li>
+      <li class="list-group-item p-0 pt-2 px-2 border-0">
+        <h4 class="m-0 user-name">{{owner.name}}</h4>
+      </li>
+      <li class="list-group-item p-0 border-0 px-2 text-secondary">
+        {{owner.email}}
+      </li>
+      {{#ifCond user.id owner.id}}
+      <li class="list-group-item py-4 px-2 border-0">
+        <a href="/users/{{user.id}}/edit" class="btn btn-outline-secondary btn-sm px-2 py-0 align-self-end">Edit
+          Profile</a>
+      </li>
       {{else}}
-      <h5 class="col-12 text-center p-3 m-0 text-muted">
-        <i class="far fa-paper-plane mr-2"></i>No Comment Yet!
-      </h5>
+      {{#if isFollowed}}
+      <li class="list-group-item py-4 px-2 border-0">
+        <form action="/following/{{owner.id}}?_method=DELETE" method="POST" class="mt-1">
+          <button type="submit" class="btn btn-outline-secondary btn-sm px-2 py-0 align-self-end">
+            <i class="fas fa-star mr-1"></i>取消追蹤
+          </button>
+        </form>
+      </li>
+      {{else}}
+      <li class="list-group-item py-4 px-2 border-0">
+        <form action="/following/{{owner.id}}" method="POST" class="mt-1">
+          <button type="submit" class="btn btn-outline-secondary btn-sm px-2 py-0 align-self-end">
+            <i class="far fa-star mr-1"></i>追蹤
+          </button>
+        </form>
+      </li>
       {{/if}}
+      {{/ifCond}}
+    </ul>
+  </section>
+
+  <section class="col-12 col-md-7" id="status-section">
+    <!--Summary-->
+    <div class="row bg-white shadow-sm rounded text-center text-secondary w-100 mx-0 h-100">
+      <div class="col-6 px-3 py-4 d-flex flex-column justify-content-center">
+        <h2 class="mb-2">{{followingCount}}</h2>
+        <p class="m-0">已追蹤用戶</p>
+      </div>
+      <div class="col-6 px-3 py-4 d-flex flex-column justify-content-center">
+        <h2 class="mb-2">{{followerCount}}</h2>
+        <p class="m-0">用戶追蹤你</p>
+      </div>
+      <div class="col-6 px-3 py-4 d-flex flex-column justify-content-center">
+        <h2 class="mb-2">{{commentCount}}</h2>
+        <p class="m-0">已評論餐廳</p>
+      </div>
+      <div class="col-6 px-3 py-4 d-flex flex-column justify-content-center">
+        <h2 class="mb-2">{{favoriteCount}}</h2>
+        <p class="m-0">收藏的餐廳</p>
+      </div>
     </div>
-  </div>
-</div>
+  </section>
+
+  <section class="col-12 col-md-5" id="follow-section">
+    <!--Following User-->
+    <div class="card shadow-sm border-light mt-4" id="following">
+      <h6 class="mt-4 mb-1 pl-4 header">{{followingCount}} 已追蹤用戶</h6>
+      <div class="card-body">
+        <div class="row">
+          {{#if followingList}}
+          {{#each followingList}}
+          <a class="col-12 media my-2" href="/users/{{this.UserId}}">
+            <div class="media-image mr-3 position-relative">
+              <div class="loader-container text-center">
+                <div class="loader"></div>
+              </div>
+              <img src="{{this.image}}" alt="restaurant image" class="rounded">
+            </div>
+            <div class="media-body text-truncate">
+              <h6 class="mt-0 text-truncate m-0">{{this.name}}</h6>
+            </div>
+          </a>
+          {{/each}}
+          {{else}}
+          <h5 class="col-12 text-center p-3 m-0 text-muted">
+            <i class="far fa-paper-plane mr-2"></i>No Following Users Yet!
+          </h5>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+
+    <!--Followers-->
+    <div class="card shadow-sm border-light mt-4" id="follower">
+      <h6 class="mt-4 mb-1 pl-4 header">{{followerCount}} 用戶追蹤你</h6>
+      <div class="card-body">
+        <div class="row">
+          {{#if followerList}}
+          {{#each followerList}}
+          <a class="col-12 media my-2" href="/users/{{this.UserId}}">
+            <div class="media-image mr-3 position-relative">
+              <div class="loader-container text-center">
+                <div class="loader"></div>
+              </div>
+              <img src="{{this.image}}" alt="restaurant image" class="rounded">
+            </div>
+            <div class="media-body text-truncate">
+              <h6 class="mt-0 text-truncate m-0">{{this.name}}</h6>
+              {{!-- <p class="text-truncate text-muted font-italic m-0">{{this.category}}</p> --}}
+            </div>
+          </a>
+          {{/each}}
+          {{else}}
+          <h5 class="col-12 text-center p-3 m-0 text-muted">
+            <i class="far fa-paper-plane mr-2"></i>No Followers Yet!
+          </h5>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="col-12 col-md-7" id="restaurant-section">
+    <!--Commented Restaurant-->
+    <div class="card shadow-sm border-light mt-4" id="comment">
+      <h6 class="mt-4 mb-1 pl-4 header">{{commentCount}} 已評論餐廳</h6>
+      <div class="card-body">
+        <div class="row">
+          {{#if commentHistory}}
+          {{#each commentHistory}}
+          {{#if isNotDuplicate}}
+          <a class="col-12 media my-2" href="/restaurants/{{this.RestaurantId}}">
+            <div class="media-image mr-3 position-relative">
+              <div class="loader-container text-center">
+                <div class="loader"></div>
+              </div>
+              <img src="{{this.image}}" alt="restaurant image" class="rounded">
+            </div>
+            <div class="media-body text-truncate">
+              <h6 class="mt-0 text-truncate m-0">{{this.name}}</h6>
+              <p class="text-truncate text-muted font-italic m-0">{{this.comment}}</p>
+            </div>
+          </a>
+          {{/if}}
+          {{/each}}
+          {{else}}
+          <h5 class="col-12 text-center p-3 m-0 text-muted">
+            <i class="far fa-paper-plane mr-2"></i>No Comment Yet!
+          </h5>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+
+    <!--Favorite Restaurant-->
+    <div class="card shadow-sm border-light mt-4" id="favorite">
+      <h6 class="mt-4 mb-1 pl-4 header">{{favoriteCount}} 收藏的餐廳</h6>
+      <div class="card-body">
+        <div class="row">
+          {{#if favoriteList}}
+          {{#each favoriteList}}
+          <a class="col-12 media my-2" href="/restaurants/{{this.RestaurantId}}">
+            <div class="media-image mr-3 position-relative">
+              <div class="loader-container text-center">
+                <div class="loader"></div>
+              </div>
+              <img src="{{this.image}}" alt="restaurant image" class="rounded">
+            </div>
+            <div class="media-body text-truncate">
+              <h6 class="mt-0 text-truncate m-0">{{this.name}}</h6>
+              <p class="text-truncate text-muted font-italic m-0">{{this.category}}</p>
+            </div>
+          </a>
+          {{/each}}
+          {{else}}
+          <h5 class="col-12 text-center p-3 m-0 text-muted">
+            <i class="far fa-paper-plane mr-2"></i>No Favorite Restaurant Yet!
+          </h5>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
