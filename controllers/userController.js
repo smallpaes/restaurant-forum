@@ -87,7 +87,7 @@ module.exports = {
       const favoriteList = owner.FavoritedRestaurants.map(restaurant => ({
         name: restaurant.name,
         image: restaurant.image,
-        RestaurantId: restaurant.RestaurantId,
+        RestaurantId: restaurant.id,
         category: restaurant.Category.name
       }))
 
