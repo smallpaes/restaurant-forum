@@ -49,7 +49,8 @@ module.exports = {
           description: faker.lorem.text(),
           createdAt: new Date(),
           updatedAt: new Date(),
-          CategoryId: faker.random.number({ min: 1, max: 5 })
+          CategoryId: faker.random.number({ min: 1, max: 5 }),
+          viewCounts: 0
         })
       ), {});
   },
