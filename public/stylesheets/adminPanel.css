@@ -38,6 +38,9 @@ table thead th,
   color: rgb(85, 85, 85);
 }
 
+.form-control {
+  padding: .375rem 0;
+}
 
 table thead a:hover,
 .page-link:hover {
