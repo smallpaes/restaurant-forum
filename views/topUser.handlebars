@@ -28,7 +28,12 @@
         <img class="rounded-circle img-thumbnail avatar" src="{{this.image}}">
       </a>
       <h4 class="topic mb-0 mt-1">{{this.name}}</h4>
-      <small class="text-secondary">{{this.FollowerCount}} Followers</small>
+      <small class="text-secondary d-block">{{this.FollowerCount}} Followers</small>
+      {{#if this.isOwner}}
+      <a href="/users/{{this.id}}/edit" class="btn btn-outline-secondary btn-sm rounded-pill mt-2">
+        Edit Profile
+      </a>
+      {{else}}
       {{#if this.isFollowed }}
       <form action="/following/{{this.id}}?_method=DELETE" method="POST" class="mt-1">
         <button type="submit" class="btn btn-outline-secondary btn-sm rounded-pill">
@@ -41,6 +46,7 @@
           <i class="far fa-star mr-1"></i>追蹤
         </button>
       </form>
+      {{/if}}
       {{/if}}
     </div>
     {{/each}}

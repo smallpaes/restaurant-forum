@@ -238,7 +238,9 @@ module.exports = {
         // 追蹤人數
         FollowerCount: user.Followers.length,
         // 辨認是否已追蹤
-        isFollowed: req.user.Followings.filter(d => d.id === user.id).length !== 0
+        isFollowed: req.user.Followings.filter(d => d.id === user.id).length !== 0,
+        // 辨認是否為自己
+        isOwner: user.id === req.user.id
       }))
       console.log(users)
       // 依追蹤者人數排序
