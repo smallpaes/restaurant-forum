@@ -111,16 +111,31 @@ module.exports = {
   },
   getTopRestaurants: async (req, res) => {
     try {
+
+      // set query based on current mode
+      let attributeQuery = ''
+      let orderQuery = ''
+
+      // deployed to heroku
+      if (process.env.isOnHeroku) {
+        attributeQuery = '(SELECT COUNT(*) FROM "Favorites" WHERE "Favorites"."RestaurantId" = "Restaurant"."id")'
+        orderQuery = '"FavoritedCount" DESC'
+      }
+
+      // local used
+      attributeQuery = '(SELECT COUNT(*) FROM Favorites WHERE Favorites.RestaurantId = Restaurant.id)'
+      orderQuery = 'FavoritedCount DESC'
+
       let restaurants = await Restaurant.findAll({
         include: [{ model: User, as: 'FavoritedUsers' }],
         attributes: [
-          [db.sequelize.literal('(SELECT COUNT(*) FROM "Favorites" WHERE "Favorites"."RestaurantId" = "Restaurant"."id")'), 'FavoritedCount'],
+          [db.sequelize.literal(attributeQuery), 'FavoritedCount'],
           'name',
           'description',
           'image',
           'id'
         ],
-        order: db.sequelize.literal('"FavoritedCount" DESC'),
+        order: db.sequelize.literal(orderQuery),
         limit: 10
       })
 
