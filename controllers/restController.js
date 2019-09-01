@@ -114,13 +114,13 @@ module.exports = {
       let restaurants = await Restaurant.findAll({
         include: [{ model: User, as: 'FavoritedUsers' }],
         attributes: [
-          [db.sequelize.literal('(SELECT COUNT(*) FROM Favorites WHERE Favorites.RestaurantId = Restaurant.id)'), 'FavoritedCount'],
+          [db.sequelize.literal('(SELECT COUNT(*) FROM "Favorites" WHERE "Favorites"."RestaurantId" = "Restaurant"."id")'), 'FavoritedCount'],
           'name',
           'description',
           'image',
           'id'
         ],
-        order: [[db.sequelize.literal('FavoritedCount'), 'DESC']],
+        order: db.sequelize.literal('"FavoritedCount" DESC'),
         limit: 10
       })
 
