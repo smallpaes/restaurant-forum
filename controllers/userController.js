@@ -58,9 +58,6 @@ module.exports = {
   },
   getUser: async (req, res) => {
     const uniqueComment = []
-    const comment = {}
-    const favorite = {}
-    const follow = {}
 
     try {
       const owner = await User.findByPk(req.params.id, {
@@ -73,7 +70,7 @@ module.exports = {
       })
 
       // get all commented restaurants
-      comment.commentHistory = owner.Comments.map(comment => {
+      owner.commentHistory = owner.Comments.map(comment => {
         // duplicate comment
         if (uniqueComment.indexOf(comment.Restaurant.id) >= 0) { return { isNotDuplicate: false } }
         // unique comment
@@ -87,46 +84,10 @@ module.exports = {
         }
       })
 
-      // get the amount of all unique comment
-      comment.commentCount = uniqueComment.length
-
-      // get all restaurants saved to favorite
-      favorite.favoriteList = owner.FavoritedRestaurants.map(restaurant => ({
-        name: restaurant.name,
-        image: restaurant.image,
-        RestaurantId: restaurant.id,
-        category: restaurant.Category.name
-      }))
-
-      // find the total amount of favorite restaurants
-      favorite.favoriteCount = favorite.favoriteList.length
-
-      // get all following users
-      follow.followingList = owner.Followings.map(user => ({
-        name: user.name,
-        image: user.image,
-        UserId: user.id
-      }))
-
-      // calculate the amount of following users
-      follow.followingCount = follow.followingList.length
-
-      // get all followers
-      follow.followerList = owner.Followers.map(user => ({
-        name: user.name,
-        image: user.image,
-        UserId: user.id
-      }))
-
-      // calculate the amount of followers
-      follow.followerCount = follow.followerList.length
-
       // check if has already followed this user or it is the user himself/herself
-      follow.isFollowed = req.user.Followings.filter(user => user.id === Number(req.params.id)).length !== 0 || Number(req.params.id) === req.user.id
+      owner.isFollowed = req.user.Followings.filter(user => user.id === Number(req.params.id)).length !== 0 || Number(req.params.id) === req.user.id
 
-      return res.render('profile', {
-        owner, ...comment, ...favorite, ...follow, profileCSS: true
-      })
+      return res.render('profile', { owner, uniqueComment, profileCSS: true })
     } catch (err) {
       console.log(err)
     }

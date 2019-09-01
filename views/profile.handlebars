@@ -42,19 +42,19 @@
     <!--Summary-->
     <div class="row bg-white shadow-sm rounded text-center text-secondary w-100 mx-0 h-100">
       <div class="col-6 px-3 py-4 d-flex flex-column justify-content-center">
-        <h2 class="mb-2">{{followingCount}}</h2>
+        <h2 class="mb-2">{{owner.Followings.length}}</h2>
         <p class="m-0">已追蹤用戶</p>
       </div>
       <div class="col-6 px-3 py-4 d-flex flex-column justify-content-center">
-        <h2 class="mb-2">{{followerCount}}</h2>
+        <h2 class="mb-2">{{owner.Followers.length}}</h2>
         <p class="m-0">用戶追蹤</p>
       </div>
       <div class="col-6 px-3 py-4 d-flex flex-column justify-content-center">
-        <h2 class="mb-2">{{commentCount}}</h2>
+        <h2 class="mb-2">{{uniqueComment.length}}</h2>
         <p class="m-0">已評論餐廳</p>
       </div>
       <div class="col-6 px-3 py-4 d-flex flex-column justify-content-center">
-        <h2 class="mb-2">{{favoriteCount}}</h2>
+        <h2 class="mb-2">{{owner.FavoritedRestaurants.length}}</h2>
         <p class="m-0">收藏的餐廳</p>
       </div>
     </div>
@@ -63,12 +63,12 @@
   <section class="col-12 col-md-5" id="follow-section">
     <!--Following User-->
     <div class="card shadow-sm border-light mt-4" id="following">
-      <h6 class="mt-4 mb-1 pl-4 header">{{followingCount}} 已追蹤用戶</h6>
+      <h6 class="mt-4 mb-1 pl-4 header">{{owner.Followings.length}} 已追蹤用戶</h6>
       <div class="card-body">
         <div class="row">
-          {{#if followingList}}
-          {{#each followingList}}
-          <a class="col-12 media my-2" href="/users/{{this.UserId}}">
+          {{#if owner.Followings}}
+          {{#each owner.Followings}}
+          <a class="col-12 media my-2" href="/users/{{this.id}}">
             <div class="media-image mr-3 position-relative">
               <div class="loader-container text-center">
                 <div class="loader"></div>
@@ -91,12 +91,12 @@
 
     <!--Followers-->
     <div class="card shadow-sm border-light mt-4" id="follower">
-      <h6 class="mt-4 mb-1 pl-4 header">{{followerCount}} 用戶追蹤你</h6>
+      <h6 class="mt-4 mb-1 pl-4 header">{{owner.Followers.length}} 用戶追蹤你</h6>
       <div class="card-body">
         <div class="row">
-          {{#if followerList}}
-          {{#each followerList}}
-          <a class="col-12 media my-2" href="/users/{{this.UserId}}">
+          {{#if owner.Followers}}
+          {{#each owner.Followers}}
+          <a class="col-12 media my-2" href="/users/{{this.id}}">
             <div class="media-image mr-3 position-relative">
               <div class="loader-container text-center">
                 <div class="loader"></div>
@@ -122,11 +122,11 @@
   <section class="col-12 col-md-7" id="restaurant-section">
     <!--Commented Restaurant-->
     <div class="card shadow-sm border-light mt-4" id="comment">
-      <h6 class="mt-4 mb-1 pl-4 header">{{commentCount}} 已評論餐廳</h6>
+      <h6 class="mt-4 mb-1 pl-4 header">{{uniqueComment.length}} 已評論餐廳</h6>
       <div class="card-body">
         <div class="row">
-          {{#if commentHistory}}
-          {{#each commentHistory}}
+          {{#if owner.commentHistory}}
+          {{#each owner.commentHistory}}
           {{#if isNotDuplicate}}
           <a class="col-12 media my-2" href="/restaurants/{{this.RestaurantId}}">
             <div class="media-image mr-3 position-relative">
@@ -153,11 +153,11 @@
 
     <!--Favorite Restaurant-->
     <div class="card shadow-sm border-light mt-4" id="favorite">
-      <h6 class="mt-4 mb-1 pl-4 header">{{favoriteCount}} 收藏的餐廳</h6>
+      <h6 class="mt-4 mb-1 pl-4 header">{{owner.FavoritedRestaurants.length}} 收藏的餐廳</h6>
       <div class="card-body">
         <div class="row">
-          {{#if favoriteList}}
-          {{#each favoriteList}}
+          {{#if owner.FavoritedRestaurants}}
+          {{#each owner.FavoritedRestaurants}}
           <a class="col-12 media my-2" href="/restaurants/{{this.RestaurantId}}">
             <div class="media-image mr-3 position-relative">
               <div class="loader-container text-center">
@@ -167,7 +167,7 @@
             </div>
             <div class="media-body text-truncate">
               <h6 class="mt-0 text-truncate m-0">{{this.name}}</h6>
-              <p class="text-truncate text-muted font-italic m-0">{{this.category}}</p>
+              <p class="text-truncate text-muted font-italic m-0">{{this.Category.name}}</p>
             </div>
           </a>
           {{/each}}
