@@ -1,27 +1,31 @@
-<form class="form-signin" action="/signup" method="POST" style="width: 100%;">
-  <div class="text-center mb-4">
-    <h1 class="h3 mb-3 font-weight-normal">Sign Up</h1>
+<section class="row mt-5">
+  <div class="auth-form-container shadow-sm">
+    <div class="cover-photo">
+      <div class="overlay"></div>
+      <h2>Sign Up</h2>
+    </div>
+    <form class="form-signup bg-white" action="/signup" method="POST">
+      <div class="form-group">
+        <label for="inputName" class="m-0 text-secondary"><small>Name</small></label>
+        <input type="text" name="name" class="form-control" required autofocus>
+      </div>
+      <div class="form-group">
+        <label for="inputEmail" class="m-0 text-secondary"><small>Email</small></label>
+        <input type="text" name="email" class="form-control" required autofocus>
+      </div>
+      <div class="form-group">
+        <label for="inputPassword" class="m-0 text-secondary"><small>Password</small></label>
+        <input type="password" name="password" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="inputPasswordCheck" class="m-0 text-secondary"><small>Password Check</small></label>
+        <input type="password" name="passwordCheck" class="form-control" required>
+      </div>
+
+      <div class="buttons sign-up-buttons text-center">
+        <button class="btn mx-2 signup w-50" type="submit">Submit</button>
+        <a href="/signin" class="btn login w-50 mt-1">Sign In</a>
+      </div>
+    </form>
   </div>
-  <div class="form-label-group">
-    <label for="inputName">Name</label>
-    <input type="text" name="name" class="form-control" placeholder="Name" required autofocus>
-  </div>
-  <div class="form-label-group">
-    <label for="inputEmail">Email</label>
-    <input type="text" name="email" class="form-control" placeholder="Email" required autofocus>
-  </div>
-  <div class="form-label-group">
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" class="form-control" placeholder="Password" required>
-  </div>
-  <div class="form-label-group">
-    <label for="inputPasswordCheck">Password Check</label>
-    <input type="password" name="passwordCheck" class="form-control" placeholder="Password Check" required>
-  </div>
-  <br />
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-  <div class="text-center mb-4">
-    <p><a href="/signin">Sign In</a></p>
-  </div>
-  <p class="mt-5 mb-3 text-muted text-center">© 2017-2018</p>
-</form>
+</section>

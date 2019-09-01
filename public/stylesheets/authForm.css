@@ -1,0 +1,91 @@
+.auth-form-container {
+  overflow: hidden;
+  border-radius: .8rem;
+  width: 450px;
+  margin: 0 auto;
+}
+
+.cover-photo {
+  position: relative;
+  background-image: url('https://cdn.pixabay.com/photo/2015/03/26/10/28/restaurant-691397_960_720.jpg');
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  height: 130px;
+}
+
+.overlay {
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(185, 183, 183, 0.5);
+}
+
+.cover-photo h2 {
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-shadow: 1px 1px 2px rgb(110, 110, 110);
+}
+
+/*Form*/
+.form-signin,
+.form-signup {
+  padding: 2rem 2rem;
+}
+
+.form-control {
+  border-radius: 0;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-color: #c5c5c5;
+}
+
+.form-control:focus {
+  border-bottom-color: #379683c4;
+  box-shadow: none;
+}
+
+.buttons {
+  margin-top: 2.2rem;
+}
+
+.btn.focus, 
+.btn:focus {
+  box-shadow: none;
+}
+
+.buttons .btn {
+  border-radius: 1rem;
+  padding: .3rem 1.5rem;
+}
+
+.log-in-buttons .login,
+.sign-up-buttons .signup {
+  background: #379683c4;
+  color: white;
+}
+
+.log-in-buttons .login:hover,
+.sign-up-buttons .signup:hover {
+  background: #379683;
+  -webkit-box-shadow: 1px 1px 3px 0px rgba(189,189,189,1);
+  -moz-box-shadow: 1px 1px 3px 0px rgba(189,189,189,1);
+  box-shadow: 1px 1px 3px 0px rgba(189,189,189,1);
+  transition: all .2s linear;
+}
+
+.log-in-buttons .signup,
+.sign-up-buttons .login {
+  color: rgba(247, 157, 2, 0.815);
+}
+
+.log-in-buttons .signup:hover,
+.sign-up-buttons .login:hover {
+  text-decoration: underline;
+}

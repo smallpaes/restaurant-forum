@@ -1,19 +1,22 @@
-<form class="form-signin" action="/signin" method="POST" style="width: 100%;">
-  <div class="text-center mb-4">
-    <h1 class="h3 mb-3 font-weight-normal">Sign In</h1>
+<section class="row mt-5">
+  <div class="auth-form-container shadow-sm">
+    <div class="cover-photo">
+      <div class="overlay"></div>
+      <h2>Sign In</h2>
+    </div>
+    <form class="form-signin bg-white" action="/signin" method="POST">
+      <div class="form-group">
+        <label for="inputEmail" class="m-0 text-secondary"><small>User Email</small></label>
+        <input type="text" name="email" class="form-control" required autofocus>
+      </div>
+      <div class="form-group">
+        <label for="inputPassword" class="m-0 text-secondary"><small>Password</small></label>
+        <input type="password" name="password" class="form-control" required>
+      </div>
+      <div class="buttons log-in-buttons text-center">
+        <button class="btn mx-2 login w-50" type="submit">Log In</button>
+        <a href="/signup" class="btn signup w-50 mt-1">Sign Up</a>
+      </div>
+    </form>
   </div>
-  <div class="form-label-group">
-    <label for="inputEmail">Email</label>
-    <input type="text" name="email" class="form-control" placeholder="Email" required autofocus>
-  </div>
-  <div class="form-label-group">
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" class="form-control" placeholder="Password" required>
-  </div>
-  <br />
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-  <div class="text-center mb-4">
-    <p><a href="/signup">Sign Up</a></p>
-  </div>
-  <p class="mt-5 mb-3 text-muted text-center">© 2017-2018</p>
-</form>
+</section>

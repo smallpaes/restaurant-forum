@@ -13,7 +13,7 @@ const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 module.exports = {
   signUpPage: (req, res) => {
-    return res.render('signup')
+    return res.render('signup', { authFormCSS: true })
   },
   signUp: async (req, res) => {
     // confirm password
@@ -44,7 +44,7 @@ module.exports = {
     }
   },
   signInPage: (req, res) => {
-    return res.render('signin')
+    return res.render('signin', { authFormCSS: true })
   },
   signIn: (req, res) => {
     console.log('req')
