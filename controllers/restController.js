@@ -115,16 +115,13 @@ module.exports = {
       // set query based on current mode
       let attributeQuery = ''
       let orderQuery = ''
-
-      // deployed to heroku
       if (process.env.isOnHeroku) {
         attributeQuery = '(SELECT COUNT(*) FROM "Favorites" WHERE "Favorites"."RestaurantId" = "Restaurant"."id")'
         orderQuery = '"FavoritedCount" DESC'
+      } else {
+        attributeQuery = '(SELECT COUNT(*) FROM Favorites WHERE Favorites.RestaurantId = Restaurant.id)'
+        orderQuery = 'FavoritedCount DESC'
       }
-
-      // local used
-      attributeQuery = '(SELECT COUNT(*) FROM Favorites WHERE Favorites.RestaurantId = Restaurant.id)'
-      orderQuery = 'FavoritedCount DESC'
 
       let restaurants = await Restaurant.findAll({
         include: [{ model: User, as: 'FavoritedUsers' }],
