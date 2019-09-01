@@ -54,7 +54,7 @@ module.exports = {
   getRestaurant: async (req, res) => {
     try {
       // get restaurant
-      const restaurant = await Restaurant.findByPk(req.params.id, {
+      let restaurant = await Restaurant.findByPk(req.params.id, {
         include: [
           Category,
           { model: Comment, include: [User] },
@@ -62,7 +62,7 @@ module.exports = {
           { model: User, as: 'LikedUsers' }
         ]
       })
-      console.log(restaurant)
+
       // check if favorite list has the user on it
       const isFavorited = restaurant.FavoritedUsers.filter(user => user.id === req.user.id).length !== 0
 
@@ -70,8 +70,7 @@ module.exports = {
       const isLiked = restaurant.LikedUsers.filter(user => user.id === req.user.id).length !== 0
 
       // update view count
-      restaurant.viewCounts += 1
-      await restaurant.save()
+      restaurant = await restaurant.increment('viewCounts', { by: 1 })
       return res.render('restaurant', { restaurant, isFavorited, isLiked, restaurantCSS: true })
     } catch (err) {
       console.log(err)
