@@ -112,7 +112,16 @@ module.exports = {
   getTopRestaurants: async (req, res) => {
     try {
       let restaurants = await Restaurant.findAll({
-        include: [{ model: User, as: 'FavoritedUsers' }]
+        include: [{ model: User, as: 'FavoritedUsers' }],
+        attributes: [
+          [db.sequelize.literal('(SELECT COUNT(*) FROM Favorites WHERE Favorites.RestaurantId = Restaurant.id)'), 'FavoritedCount'],
+          'name',
+          'description',
+          'image',
+          'id'
+        ],
+        order: [[db.sequelize.literal('FavoritedCount'), 'DESC']],
+        limit: 10
       })
 
       // retrieve needed restaurant info
@@ -125,11 +134,7 @@ module.exports = {
         isFavorite: req.user.FavoritedRestaurants.filter(r => r.id === restaurant.id).length !== 0
       }))
 
-      // order by number of collector
-      restaurants = restaurants.sort((a, b) => b.favoriteUser - a.favoriteUser).slice(0, 10)
-
       return res.render('topRestaurant', { restaurants, displayPanelCSS: true })
-
     } catch (err) {
       console.log(err)
     }
