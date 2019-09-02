@@ -60,4 +60,15 @@ module.exports = {
       callback({ status: 'error', message: err })
     }
   },
+  deleteCategory: async (req, res, callback) => {
+    try {
+      // find the category
+      const category = await Category.findByPk(req.params.id)
+      // delete the category
+      await category.destroy()
+      callback({ status: 'success', message: `${category.name} has been deleted!` })
+    } catch (err) {
+      callback({ status: 'error', message: err })
+    }
+  }
 }
