@@ -50,53 +50,16 @@ module.exports = {
       console.log(err)
     }
   },
-  putRestaurant: async (req, res) => {
-    // get page number
-    const page = req.query.page
-    console.log(page)
-    // check if name is provided
-    if (!req.body.name) {
-      req.flash('error_messages', 'name is required')
-      res.redirect('back')
-    }
-    try {
-      if (req.file) {
-        imgur.setClientID(IMGUR_CLIENT_ID)
-        imgur.upload(req.file.path, async (err, img) => {
-          // update restaurant info
-          const restaurant = await Restaurant.findByPk(req.params.id)
-          await restaurant.update({
-            name: req.body.name,
-            tel: req.body.tel,
-            address: req.body.address,
-            opening_hours: req.body.opening_hours,
-            description: req.body.description,
-            image: req.file ? img.data.link : restaurant.image,
-            CategoryId: req.body.categoryId
-          })
-          // send flash message
-          req.flash('success_messages', 'restaurant is updated successfully')
-          res.redirect('/admin/restaurants')
-        })
-      } else {
-        // update restaurant info
-        const restaurant = await Restaurant.findByPk(req.params.id)
-        await restaurant.update({
-          name: req.body.name,
-          tel: req.body.tel,
-          address: req.body.address,
-          opening_hours: req.body.opening_hours,
-          description: req.body.description,
-          image: restaurant.image,
-          CategoryId: req.body.categoryId
-        })
-        // send flash message
-        req.flash('success_messages', 'restaurant is updated successfully')
-        return res.redirect(`/admin/restaurants?page=${page}`)
+  putRestaurant: (req, res) => {
+    adminService.putRestaurant(req, res, ({ status, message }) => {
+      if (status === 'error') {
+        req.flash('error_messages', message)
+        return res.redirect('back')
       }
-    } catch (err) {
-      console.log(err)
-    }
+
+      req.flash('success_messages', message)
+      res.redirect('/admin/restaurants')
+    })
   },
   deleteRestaurant: (req, res) => {
     adminService.deleteRestaurant(req, res, ({ status }) => {

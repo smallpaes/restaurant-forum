@@ -84,6 +84,52 @@ module.exports = {
     }
 
   },
+  putRestaurant: async (req, res, callback) => {
+    // get page number
+    const page = req.query.page
+
+    // check if name is provided
+    if (!req.body.name) {
+      return callback({ status: 'error', message: 'name is required' })
+    }
+
+    try {
+      if (req.file) {
+        imgur.setClientID(IMGUR_CLIENT_ID)
+        imgur.upload(req.file.path, async (err, img) => {
+          // update restaurant info
+          const restaurant = await Restaurant.findByPk(req.params.id)
+          await restaurant.update({
+            name: req.body.name,
+            tel: req.body.tel,
+            address: req.body.address,
+            opening_hours: req.body.opening_hours,
+            description: req.body.description,
+            image: req.file ? img.data.link : restaurant.image,
+            CategoryId: req.body.categoryId
+          })
+          // send success message
+          return callback({ status: 'success', message: 'restaurant is updated successfully' })
+        })
+      } else {
+        // update restaurant info
+        const restaurant = await Restaurant.findByPk(req.params.id)
+        await restaurant.update({
+          name: req.body.name,
+          tel: req.body.tel,
+          address: req.body.address,
+          opening_hours: req.body.opening_hours,
+          description: req.body.description,
+          image: restaurant.image,
+          CategoryId: req.body.categoryId
+        })
+        // send success message
+        return callback({ status: 'success', message: 'restaurant is updated successfully' })
+      }
+    } catch (err) {
+      callback({ status: 'error', message: err })
+    }
+  },
   getRestaurant: async (req, res, callback) => {
     try {
       const restaurant = await Restaurant.findByPk(req.params.id, { include: [Category] })
