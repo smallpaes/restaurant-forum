@@ -5,45 +5,16 @@ const db = require('../models')
 const Restaurant = db.Restaurant
 const Category = db.Category
 const User = db.User
+const adminService = require('../services/adminService')
 const { getOrder, getPagination, getPaginationInfo } = require('../tools')
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const ITEMS_PER_PAGE = 10
 
 module.exports = {
-  getRestaurants: async (req, res) => {
-    // get order criteria
-    const order = getOrder(req.query.sortBy)
-
-    // save user search input
-    const searchInput = req.query.name || ''
-
-    // handle pagination
-    const { page, limiting } = getPaginationInfo(ITEMS_PER_PAGE, req.query.page)
-
-    // find certain restaurants and count all restaurants
-    const restaurants = await Restaurant.findAndCountAll({
-      where: Sequelize.where(Sequelize.fn('lower', Sequelize.col('Restaurant.name')), 'LIKE', `%${searchInput.toLowerCase()}%`),
-      order,
-      ...limiting,
-      include: [Category]
-    })
-
-    // generate an array based on the number of total pages
-    const pagination = getPagination(restaurants.count, ITEMS_PER_PAGE)
-
-    res.render('admin/restaurants', {
-      restaurants: restaurants.rows,
-      pagination,
-      currentPage: page,
-      nextPage: page + 1,
-      lastPage: page - 1,
-      hasLastPage: page !== 1,
-      hasNextPage: Math.ceil(restaurants.count / ITEMS_PER_PAGE) !== page,
-      searchInput,
-      sortBy: !order.length ? false : { [order[0][0]]: order[0][1] },
-      sortName: !order.length ? false : order[0][0] === 'name' ? order[0][1] : false,
-      sortId: !order.length ? false : order[0][0] === 'id' ? order[0][1] : false
+  getRestaurants: (req, res) => {
+    adminService.getRestaurant(req, res, (data) => {
+      return res.render('admin/restaurants', data)
     })
   },
   createRestaurant: async (req, res) => {
