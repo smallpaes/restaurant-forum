@@ -18,21 +18,15 @@ module.exports = {
       return res.redirect('/admin/categories')
     })
   },
-  putCategory: async (req, res) => {
-    // check if the input is empty
-    if (!req.body.name) {
-      req.flash('error_messages', 'category name is requires')
-      return res.redirect('back')
-    }
-    // update category name
-    try {
-      const category = await Category.findByPk(req.params.id)
-      const updatedCategory = await category.update(req.body)
-      req.flash('success_messages', `${category.name} has been changed into ${updatedCategory.name}`)
+  putCategory: (req, res) => {
+    categoryService.putCategory(req, res, ({ status, message }) => {
+      if (status === 'error') {
+        req.flash('error_messages', message)
+        return res.redirect('back')
+      }
+      req.flash('success_messages', message)
       return res.redirect('/admin/categories')
-    } catch (err) {
-      console.log(err)
-    }
+    })
   },
   deleteCategory: async (req, res) => {
     try {

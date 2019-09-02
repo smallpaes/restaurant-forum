@@ -16,7 +16,7 @@ module.exports = {
       const pagination = getPagination(categories.count, ITEMS_PER_PAGE)
 
       // find the category when user is trying to update
-      const category = req.params.id ? categories.find(category => category.id.toString() === req.params.id) : false
+      const category = req.params.id ? categories.rows.filter(category => category.id.toString() === req.params.id)[0] : false
 
       callback({
         categories: categories.rows,
@@ -43,6 +43,20 @@ module.exports = {
       const category = await Category.create({ name: req.body.name })
       callback({ status: 'success', message: `${category.name} has been added` })
     } catch {
+      callback({ status: 'error', message: err })
+    }
+  },
+  putCategory: async (req, res, callback) => {
+    // check if the input is empty
+    if (!req.body.name) {
+      callback({ status: 'error', message: 'category name is requires' })
+    }
+    // update category name
+    try {
+      const category = await Category.findByPk(req.params.id)
+      const updatedCategory = await category.update(req.body)
+      callback({ status: 'success', message: `${category.name} has been changed into ${updatedCategory.name}` })
+    } catch (err) {
       callback({ status: 'error', message: err })
     }
   },
