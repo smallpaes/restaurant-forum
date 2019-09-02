@@ -130,12 +130,12 @@ module.exports = {
       console.log(err)
     }
   },
-  deleteRestaurant: async (req, res) => {
-    const page = req.query.page
-    const restaurant = await Restaurant.findByPk(req.params.id)
-    // delete restaurant
-    await restaurant.destroy()
-    return res.redirect(`/admin/restaurants?page=${page}`)
+  deleteRestaurant: (req, res) => {
+    adminService.deleteRestaurant(req, res, ({ status }) => {
+      if (status === 'success') {
+        return res.redirect('/admin/restaurants')
+      }
+    })
   },
   editUsers: async (req, res) => {
     try {
