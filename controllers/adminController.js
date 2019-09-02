@@ -25,47 +25,15 @@ module.exports = {
       console.log(err)
     }
   },
-  postRestaurant: async (req, res) => {
-    // check if name is provided
-    if (!req.body.name) {
-      req.flash('error_messages', 'Name is required')
-      res.redirect('back')
-    }
-    // create restaurant
-    try {
-      if (req.file) {
-        imgur.setClientID(IMGUR_CLIENT_ID)
-        imgur.upload(req.file.path, async (err, img) => {
-          await Restaurant.create({
-            name: req.body.name,
-            tel: req.body.tel,
-            address: req.body.address,
-            opening_hours: req.body.opening_hours,
-            description: req.body.description,
-            image: req.file ? img.data.link : null,
-            CategoryId: req.body.categoryId
-          })
-          req.flash('success_messages', 'restaurant is created successfully')
-          return res.redirect('/admin/restaurants')
-        })
-      } else {
-        await Restaurant.create({
-          name: req.body.name,
-          tel: req.body.tel,
-          address: req.body.address,
-          opening_hours: req.body.opening_hours,
-          description: req.body.description,
-          image: null,
-          CategoryId: req.body.categoryId
-        })
-        req.flash('success_messages', 'restaurant is created successfully')
-        res.redirect('/admin/restaurants')
+  postRestaurant: (req, res) => {
+    adminService.postRestaurant(req, res, ({ status, message }) => {
+      if (status === 'error') {
+        req.flash('error_messages', message)
+        return res.redirect('back')
       }
-
-    } catch (err) {
-      console.log(err)
-    }
-
+      req.flash('success_messages', message)
+      return res.redirect('/admin/restaurants')
+    })
   },
   getRestaurant: (req, res) => {
     adminService.getRestaurant(req, res, data => {

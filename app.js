@@ -19,6 +19,7 @@ app.engine('handlebars', exphbs({
 app.set('view engine', 'handlebars')
 // set up bodyParser
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 // set up session
 app.use(session({ secret: 'randomSecret', resave: false, saveUninitialized: false }))
 // set up flash

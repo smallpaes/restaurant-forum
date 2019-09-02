@@ -4,6 +4,8 @@ const Op = Sequelize.Op
 const Restaurant = db.Restaurant
 const Category = db.Category
 const { getOrder, getPagination, getPaginationInfo } = require('../tools')
+const imgur = require('imgur-node-api')
+const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const ITEMS_PER_PAGE = 10
 
 module.exports = {
@@ -41,6 +43,46 @@ module.exports = {
       sortName: !order.length ? false : order[0][0] === 'name' ? order[0][1] : false,
       sortId: !order.length ? false : order[0][0] === 'id' ? order[0][1] : false
     })
+  },
+  postRestaurant: async (req, res, callback) => {
+    // check if name is provided
+    if (!req.body.name) {
+      return callback({ status: 'error', message: 'Name is required' })
+    }
+    // create restaurant
+    try {
+      if (req.file) {
+        imgur.setClientID(IMGUR_CLIENT_ID)
+        imgur.upload(req.file.path, async (err, img) => {
+          await Restaurant.create({
+            name: req.body.name,
+            tel: req.body.tel,
+            address: req.body.address,
+            opening_hours: req.body.opening_hours,
+            description: req.body.description,
+            image: req.file ? img.data.link : null,
+            CategoryId: req.body.categoryId,
+            viewCounts: 0
+          })
+          return callback({ status: 'success', message: 'restaurant is created successfully' })
+        })
+      } else {
+        await Restaurant.create({
+          name: req.body.name,
+          tel: req.body.tel,
+          address: req.body.address,
+          opening_hours: req.body.opening_hours,
+          description: req.body.description,
+          image: null,
+          CategoryId: req.body.categoryId,
+          viewCounts: 0
+        })
+        return callback({ status: 'success', message: 'restaurant is created successfully' })
+      }
+    } catch (err) {
+      callback({ status: 'error', message: err })
+    }
+
   },
   getRestaurant: async (req, res, callback) => {
     try {
