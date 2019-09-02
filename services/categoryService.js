@@ -31,5 +31,19 @@ module.exports = {
     } catch (err) {
       console.log(err)
     }
-  }
+  },
+  postCategory: async (req, res, callback) => {
+    // show error message for empty input
+    if (!req.body.name) {
+      callback({ status: 'error', message: 'category name is required' })
+    }
+    // save category
+    try {
+      // save category input
+      const category = await Category.create({ name: req.body.name })
+      callback({ status: 'success', message: `${category.name} has been added` })
+    } catch {
+      callback({ status: 'error', message: err })
+    }
+  },
 }

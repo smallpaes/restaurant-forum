@@ -8,21 +8,15 @@ module.exports = {
       return res.render('admin/categories', data)
     })
   },
-  postCategory: async (req, res) => {
-    // show error message for empty input
-    if (!req.body.name) {
-      req.flash('error_messages', 'category name is required')
-      return res.redirect('back')
-    }
-    // save category
-    try {
-      // save category input
-      const category = await Category.create({ name: req.body.name })
-      req.flash('success_messages', `${category.name} has been added`)
+  postCategory: (req, res) => {
+    categoryService.postCategory(req, res, ({ status, message }) => {
+      if (status === 'error') {
+        req.flash('error_messages', message)
+        return res.redirect('back')
+      }
+      req.flash('success_messages', message)
       return res.redirect('/admin/categories')
-    } catch {
-      console.log(err)
-    }
+    })
   },
   putCategory: async (req, res) => {
     // check if the input is empty
