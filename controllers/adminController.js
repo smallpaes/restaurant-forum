@@ -13,7 +13,7 @@ const ITEMS_PER_PAGE = 10
 
 module.exports = {
   getRestaurants: (req, res) => {
-    adminService.getRestaurant(req, res, (data) => {
+    adminService.getRestaurants(req, res, (data) => {
       return res.render('admin/restaurants', data)
     })
   },
@@ -67,13 +67,10 @@ module.exports = {
     }
 
   },
-  getRestaurant: async (req, res) => {
-    try {
-      const restaurant = await Restaurant.findByPk(req.params.id, { include: [Category] })
-      return res.render('admin/restaurant', { restaurant })
-    } catch (err) {
-      console.log(err)
-    }
+  getRestaurant: (req, res) => {
+    adminService.getRestaurant(req, res, data => {
+      return res.render('admin/restaurant', data)
+    })
   },
   editRestaurant: async (req, res) => {
     try {

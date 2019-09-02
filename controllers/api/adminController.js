@@ -5,7 +5,12 @@ const adminService = require('../../services/adminService')
 
 module.exports = {
   getRestaurants: (req, res) => {
-    adminService.getRestaurant(req, res, (data) => {
+    adminService.getRestaurants(req, res, (data) => {
+      return res.json(data)
+    })
+  },
+  getRestaurant: (req, res) => {
+    adminService.getRestaurant(req, res, data => {
       return res.json(data)
     })
   }

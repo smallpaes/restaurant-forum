@@ -7,7 +7,7 @@ const { getOrder, getPagination, getPaginationInfo } = require('../tools')
 const ITEMS_PER_PAGE = 10
 
 module.exports = {
-  getRestaurant: async (req, res, callback) => {
+  getRestaurants: async (req, res, callback) => {
     // get order criteria
     const order = getOrder(req.query.sortBy)
 
@@ -41,6 +41,13 @@ module.exports = {
       sortName: !order.length ? false : order[0][0] === 'name' ? order[0][1] : false,
       sortId: !order.length ? false : order[0][0] === 'id' ? order[0][1] : false
     })
-
+  },
+  getRestaurant: async (req, res, callback) => {
+    try {
+      const restaurant = await Restaurant.findByPk(req.params.id, { include: [Category] })
+      callback({ restaurant })
+    } catch (err) {
+      console.log(err)
+    }
   }
 }
