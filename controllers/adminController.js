@@ -68,43 +68,12 @@ module.exports = {
       }
     })
   },
-  editUsers: async (req, res) => {
-    try {
-      // get order criteria
-      const order = getOrder(req.query.sortBy)
-
-      // handle pagination
-      const { page, limiting } = getPaginationInfo(ITEMS_PER_PAGE, req.query.page)
-
-      // save user search input
-      const searchInput = req.query.email || ''
-      // get all users
-      const users = await User.findAndCountAll({
-        where: Sequelize.where(Sequelize.fn('lower', Sequelize.col('email')), 'LIKE', `%${searchInput.toLowerCase()}%`),
-        order,
-        ...limiting
-      })
-
-      // generate an array based on the number of total pages
-      const pagination = getPagination(users.count, ITEMS_PER_PAGE)
-
-      return res.render('admin/users', {
-        users: users.rows,
-        searchInput,
-        pagination,
-        currentPage: page,
-        nextPage: page + 1,
-        lastPage: page - 1,
-        hasLastPage: page !== 1,
-        hasNextPage: Math.ceil(users.count / ITEMS_PER_PAGE) !== page,
-        sortBy: !order.length ? false : { [order[0][0]]: order[0][1] },
-        sortEmail: !order.length ? false : order[0][0] === 'email' ? order[0][1] : false,
-        sortId: !order.length ? false : order[0][0] === 'id' ? order[0][1] : false,
-        sortRole: !order.length ? false : order[0][0] === 'isAdmin' ? order[0][1] : false
-      })
-    } catch (err) {
-      console.log(err)
-    }
+  editUsers: (req, res) => {
+    adminService.editUsers(req, res, data => {
+      // handle error
+      if (data.status === 'error') return console.log(data.message)
+      return res.render('admin/users', data)
+    })
   },
   putUsers: async (req, res) => {
     try {

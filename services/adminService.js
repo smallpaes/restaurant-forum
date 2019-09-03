@@ -3,6 +3,7 @@ const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const Restaurant = db.Restaurant
 const Category = db.Category
+const User = db.User
 const { getOrder, getPagination, getPaginationInfo } = require('../tools')
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
@@ -147,5 +148,44 @@ module.exports = {
     } catch (err) {
       console.log(err)
     }
-  }
+  },
+  editUsers: async (req, res, callback) => {
+    try {
+      // get order criteria
+      const order = getOrder(req.query.sortBy)
+
+      // handle pagination
+      const { page, limiting } = getPaginationInfo(ITEMS_PER_PAGE, req.query.page)
+
+      // save user search input
+      const searchInput = req.query.email || ''
+      // get all users
+      const users = await User.findAndCountAll({
+        where: Sequelize.where(Sequelize.fn('lower', Sequelize.col('email')), 'LIKE', `%${searchInput.toLowerCase()}%`),
+        order,
+        ...limiting
+      })
+
+      // generate an array based on the number of total pages
+      const pagination = getPagination(users.count, ITEMS_PER_PAGE)
+
+      return callback({
+        status: 'success',
+        users: users.rows,
+        searchInput,
+        pagination,
+        currentPage: page,
+        nextPage: page + 1,
+        lastPage: page - 1,
+        hasLastPage: page !== 1,
+        hasNextPage: Math.ceil(users.count / ITEMS_PER_PAGE) !== page,
+        sortBy: !order.length ? false : { [order[0][0]]: order[0][1] },
+        sortEmail: !order.length ? false : order[0][0] === 'email' ? order[0][1] : false,
+        sortId: !order.length ? false : order[0][0] === 'id' ? order[0][1] : false,
+        sortRole: !order.length ? false : order[0][0] === 'isAdmin' ? order[0][1] : false
+      })
+    } catch (err) {
+      callback({ status: 'error', message: err })
+    }
+  },
 }
