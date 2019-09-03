@@ -1,17 +1,11 @@
-const db = require('../models')
-const Comment = db.Comment
+const commentService = require('../services/commentService')
 module.exports = {
-  postComment: async (req, res) => {
-    try {
-      await Comment.create({
-        text: req.body.text,
-        RestaurantId: req.body.restaurantId,
-        UserId: req.user.id
-      })
+  postComment: (req, res) => {
+    commentService.postComment(req, res, data => {
+      // handle error
+      if (data.status === 'error') return console.log(data.message)
       return res.redirect(`/restaurants/${req.body.restaurantId}`)
-    } catch (err) {
-      console.log(err)
-    }
+    })
   },
   deleteComment: async (req, res) => {
     try {

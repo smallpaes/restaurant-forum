@@ -10,6 +10,7 @@ const adminController = require('../controllers/api/adminController')
 const categoryController = require('../controllers/api/categoryController')
 const userController = require('../controllers/api/userController')
 const restController = require('../controllers/api/restController')
+const commentController = require('../controllers/api/commentController')
 
 router.get('/restaurants', isAuthUser, restController.getRestaurants)
 router.get('/restaurants/feeds', isAuthUser, restController.getFeeds)
@@ -25,6 +26,8 @@ router.delete('/following/:userId', isAuthUser, userController.removeFollowing)
 
 router.post('/like/:restaurantId', isAuthUser, userController.addLike)
 router.delete('/like/:restaurantId', isAuthUser, userController.deleteLike)
+
+router.post('/comments', isAuthUser, commentController.postComment)
 
 router.get('/admin/restaurants', isAuthUser, isAuthAdmin, adminController.getRestaurants)
 router.get('/admin/restaurants/:id', isAuthUser, isAuthAdmin, adminController.getRestaurant)
