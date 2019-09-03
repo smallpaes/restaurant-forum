@@ -29,7 +29,7 @@ module.exports = {
       return res.json(data)
     })
   },
-  editUsers: async (req, res) => {
+  editUsers: (req, res) => {
     adminService.editUsers(req, res, data => {
       return res.json(data)
     })
