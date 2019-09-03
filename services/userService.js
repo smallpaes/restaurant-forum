@@ -76,4 +76,20 @@ module.exports = {
       callback({ status: 'error' })
     }
   },
+  removeFollowing: async (req, res, callback) => {
+    try {
+      // find the followship
+      const followship = await Followship.findOne({
+        where: {
+          followerId: req.user.id,
+          followingId: req.params.userId
+        }
+      })
+      // destroy followship
+      await followship.destroy()
+      return callback({ status: 'success' })
+    } catch (err) {
+      callback({ status: 'error' })
+    }
+  }
 }

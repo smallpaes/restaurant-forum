@@ -86,4 +86,9 @@ module.exports = {
       return res.json(data)
     })
   },
+  removeFollowing: (req, res) => {
+    userService.removeFollowing(req, res, data => {
+      return res.json(data)
+    })
+  }
 }

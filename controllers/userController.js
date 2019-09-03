@@ -201,20 +201,11 @@ module.exports = {
       return res.redirect('back')
     })
   },
-  removeFollowing: async (req, res) => {
-    try {
-      // find the followship
-      const followship = await Followship.findOne({
-        where: {
-          followerId: req.user.id,
-          followingId: req.params.userId
-        }
-      })
-      // destroy followship
-      await followship.destroy()
+  removeFollowing: (req, res) => {
+    userService.removeFollowing(req, res, data => {
+      // handle error
+      if (data.status === 'error') return console.log(data.message)
       return res.redirect('back')
-    } catch (err) {
-      console.log(err)
-    }
+    })
   }
 }
