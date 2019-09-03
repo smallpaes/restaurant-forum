@@ -110,4 +110,45 @@ module.exports = {
       callback({ status: 'error', message: err })
     }
   },
+  getTopRestaurants: async (req, res, callback) => {
+    try {
+      // set query based on current mode
+      let attributeQuery = ''
+      let orderQuery = ''
+      if (process.env.isOnHeroku) {
+        attributeQuery = '(SELECT COUNT(*) FROM "Favorites" WHERE "Favorites"."RestaurantId" = "Restaurant"."id")'
+        orderQuery = '"FavoritedCount" DESC'
+      } else {
+        attributeQuery = '(SELECT COUNT(*) FROM Favorites WHERE Favorites.RestaurantId = Restaurant.id)'
+        orderQuery = 'FavoritedCount DESC'
+      }
+
+      let restaurants = await Restaurant.findAll({
+        include: [{ model: User, as: 'FavoritedUsers' }],
+        attributes: [
+          [db.sequelize.literal(attributeQuery), 'FavoritedCount'],
+          'name',
+          'description',
+          'image',
+          'id'
+        ],
+        order: db.sequelize.literal(orderQuery),
+        limit: 10
+      })
+
+      // retrieve needed restaurant info
+      restaurants = restaurants.map(restaurant => ({
+        id: restaurant.id,
+        name: restaurant.name,
+        image: restaurant.image,
+        description: restaurant.description.substring(0, 110) + '...',
+        favoriteUser: restaurant.FavoritedUsers.length,
+        isFavorite: req.user.FavoritedRestaurants.filter(r => r.id === restaurant.id).length !== 0
+      }))
+
+      callback({ status: 'success', restaurants, displayPanelCSS: true })
+    } catch (err) {
+      callback({ status: 'error', message: err })
+    }
+  }
 }

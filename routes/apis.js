@@ -13,6 +13,7 @@ const restController = require('../controllers/api/restController')
 
 router.get('/restaurants', isAuthUser, restController.getRestaurants)
 router.get('/restaurants/feeds', isAuthUser, restController.getFeeds)
+router.get('/restaurants/top', isAuthUser, restController.getTopRestaurants)
 router.get('/restaurants/:id', isAuthUser, restController.getRestaurant)
 router.get('/restaurants/:id/dashboard', isAuthUser, restController.getDashboard)
 

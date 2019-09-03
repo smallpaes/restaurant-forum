@@ -27,4 +27,9 @@ module.exports = {
       return res.json(data)
     })
   },
+  getTopRestaurants: (req, res) => {
+    restService.getTopRestaurants(req, res, data => {
+      return res.json(data)
+    })
+  }
 }

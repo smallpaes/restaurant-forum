@@ -36,46 +36,11 @@ module.exports = {
       res.render('dashboard', data)
     })
   },
-  getTopRestaurants: async (req, res) => {
-    try {
-
-      // set query based on current mode
-      let attributeQuery = ''
-      let orderQuery = ''
-      if (process.env.isOnHeroku) {
-        attributeQuery = '(SELECT COUNT(*) FROM "Favorites" WHERE "Favorites"."RestaurantId" = "Restaurant"."id")'
-        orderQuery = '"FavoritedCount" DESC'
-      } else {
-        attributeQuery = '(SELECT COUNT(*) FROM Favorites WHERE Favorites.RestaurantId = Restaurant.id)'
-        orderQuery = 'FavoritedCount DESC'
-      }
-
-      let restaurants = await Restaurant.findAll({
-        include: [{ model: User, as: 'FavoritedUsers' }],
-        attributes: [
-          [db.sequelize.literal(attributeQuery), 'FavoritedCount'],
-          'name',
-          'description',
-          'image',
-          'id'
-        ],
-        order: db.sequelize.literal(orderQuery),
-        limit: 10
-      })
-
-      // retrieve needed restaurant info
-      restaurants = restaurants.map(restaurant => ({
-        id: restaurant.id,
-        name: restaurant.name,
-        image: restaurant.image,
-        description: restaurant.description.substring(0, 110) + '...',
-        favoriteUser: restaurant.FavoritedUsers.length,
-        isFavorite: req.user.FavoritedRestaurants.filter(r => r.id === restaurant.id).length !== 0
-      }))
-
-      return res.render('topRestaurant', { restaurants, displayPanelCSS: true })
-    } catch (err) {
-      console.log(err)
-    }
+  getTopRestaurants: (req, res) => {
+    restService.getTopRestaurants(req, res, data => {
+      // handle error
+      if (data.status === 'error') return console.log(data.message)
+      return res.render('topRestaurant', data)
+    })
   }
 }
