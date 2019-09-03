@@ -88,7 +88,7 @@ module.exports = {
         }
       })
     } catch (err) {
-      console.log(err)
+      return callback({ status: 'error', message: err })
     }
   },
   addFavorite: async (req, res, callback) => {
