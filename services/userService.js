@@ -49,6 +49,48 @@ module.exports = {
       callback({ status: 'error' })
     }
   },
+  putUser: async (req, res, callback) => {
+    // check if name or email is empty
+    if (!req.body.name || !req.body.email) {
+      return callback({ status: 'error', message: 'Name and email are required' })
+    }
+
+    // save without a new image
+    if (!req.file) {
+      try {
+        const user = await User.findByPk(req.params.id)
+        await user.update({
+          name: req.body.name,
+          email: req.body.email
+        })
+        return callback({ status: 'success', message: 'Profile has been updated', userId: user.id })
+      } catch (err) {
+        return callback({ status: 'error', message: err })
+      }
+    }
+
+    try {
+      // resize the file
+      await sharp(req.file.path).resize({ width: 200, height: 200 }).png().toFile(`${req.file.path}-edited.png`)
+      // save with a new image
+      imgur.setClientID(IMGUR_CLIENT_ID)
+      imgur.upload(`${req.file.path}-edited.png`, async (err, img) => {
+        try {
+          const user = await User.findByPk(req.params.id)
+          await user.update({
+            name: req.body.name,
+            email: req.body.email,
+            image: req.file ? img.data.link : user.image
+          })
+          return callback({ status: 'success', message: 'Profile has been updated', userId: user.id })
+        } catch (err) {
+          return callback({ status: 'error', message: err })
+        }
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  },
   addFavorite: async (req, res, callback) => {
     try {
       await Favorite.create({

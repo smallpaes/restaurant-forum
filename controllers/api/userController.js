@@ -66,6 +66,11 @@ module.exports = {
       return res.json(data)
     })
   },
+  putUser: (req, res) => {
+    userService.putUser(req, res, data => {
+      return res.json(data)
+    })
+  },
   addFavorite: (req, res) => {
     userService.addFavorite(req, res, data => {
       return res.json(data)

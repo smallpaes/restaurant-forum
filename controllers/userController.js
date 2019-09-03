@@ -67,50 +67,17 @@ module.exports = {
   editUser: (req, res) => {
     return res.render('editProfile', { profileCSS: true })
   },
-  putUser: async (req, res) => {
-    // check if name or email is empty
-    if (!req.body.name || !req.body.email) {
-      req.flash('error_messages', 'Name and email are required')
-      return res.redirect('back')
-    }
-
-    // save without a new image
-    if (!req.file) {
-      try {
-        const user = await User.findByPk(req.params.id)
-        await user.update({
-          name: req.body.name,
-          email: req.body.email
-        })
-        req.flash('success_messages', 'Profile has been updated')
-        return res.redirect(`/users/${user.id}`)
-      } catch (err) {
-        return console.log(err)
+  putUser: (req, res) => {
+    userService.putUser(req, res, data => {
+      // handle error
+      if (data.status === 'error') {
+        req.flash('error_messages', data.message)
+        return console.log(data.message)
       }
-    }
 
-    try {
-      // resize the file
-      await sharp(req.file.path).resize({ width: 200, height: 200 }).png().toFile(`${req.file.path}-edited.png`)
-      // save with a new image
-      imgur.setClientID(IMGUR_CLIENT_ID)
-      imgur.upload(`${req.file.path}-edited.png`, async (err, img) => {
-        try {
-          const user = await User.findByPk(req.params.id)
-          await user.update({
-            name: req.body.name,
-            email: req.body.email,
-            image: req.file ? img.data.link : user.image
-          })
-          req.flash('success_messages', 'Profile has been updated')
-          return res.redirect(`/users/${user.id}`)
-        } catch (err) {
-          console.log(err)
-        }
-      })
-    } catch (err) {
-      console.log(err)
-    }
+      req.flash('success_messages', data.message)
+      return res.redirect(`/users/${data.userId}`)
+    })
   },
   addFavorite: (req, res) => {
     userService.addFavorite(req, res, data => {

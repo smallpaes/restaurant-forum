@@ -32,6 +32,7 @@ router.delete('/comments/:id', isAuthUser, isAuthAdmin, commentController.delete
 
 router.get('/users/top', isAuthUser, userController.getTopUser)
 router.get('/users/:id', isAuthUser, userController.getUser)
+router.put('/users/:id', isAuthUser, upload.single('image'), userController.putUser)
 
 router.get('/admin/restaurants', isAuthUser, isAuthAdmin, adminController.getRestaurants)
 router.get('/admin/restaurants/:id', isAuthUser, isAuthAdmin, adminController.getRestaurant)
