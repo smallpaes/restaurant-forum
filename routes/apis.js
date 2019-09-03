@@ -18,6 +18,7 @@ router.get('/restaurants/:id', isAuthUser, restController.getRestaurant)
 router.get('/restaurants/:id/dashboard', isAuthUser, restController.getDashboard)
 
 router.post('/favorite/:restaurantId', isAuthUser, userController.addFavorite)
+router.delete('/favorite/:restaurantId', isAuthUser, userController.removeFavorite)
 
 router.get('/admin/restaurants', isAuthUser, isAuthAdmin, adminController.getRestaurants)
 router.get('/admin/restaurants/:id', isAuthUser, isAuthAdmin, adminController.getRestaurant)

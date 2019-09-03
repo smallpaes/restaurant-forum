@@ -24,4 +24,19 @@ module.exports = {
       callback({ status: 'error' })
     }
   },
+  removeFavorite: async (req, res, callback) => {
+    try {
+      const favorite = await Favorite.findOne({
+        where: {
+          RestaurantId: req.params.restaurantId,
+          UserId: req.user.id
+        }
+      })
+      // remove favorite
+      await favorite.destroy()
+      return callback({ status: 'success' })
+    } catch (err) {
+      callback({ status: 'error' })
+    }
+  },
 }

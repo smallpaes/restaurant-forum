@@ -148,20 +148,12 @@ module.exports = {
       return res.redirect('back')
     })
   },
-  removeFavorite: async (req, res) => {
-    try {
-      const favorite = await Favorite.findOne({
-        where: {
-          RestaurantId: req.params.restaurantId,
-          UserId: req.user.id
-        }
-      })
-      // remove favorite
-      await favorite.destroy()
+  removeFavorite: (req, res) => {
+    userService.removeFavorite(req, res, data => {
+      // handle error
+      if (data.status === 'error') return console.log(data.message)
       return res.redirect('back')
-    } catch (err) {
-      console.log(err)
-    }
+    })
   },
   addLike: async (req, res) => {
     try {
