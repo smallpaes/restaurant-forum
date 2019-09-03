@@ -95,4 +95,19 @@ module.exports = {
       return callback({ status: 'error', message: err })
     }
   },
+  getDashboard: async (req, res, callback) => {
+    try {
+      const restaurant = await Restaurant.findByPk(req.params.id, {
+        include: [Comment, Category, { model: User, as: 'FavoritedUsers' }]
+      })
+      callback({
+        status: 'success',
+        restaurant,
+        commentCount: restaurant.Comments.length,
+        favoriteUser: restaurant.FavoritedUsers.length
+      })
+    } catch (err) {
+      callback({ status: 'error', message: err })
+    }
+  },
 }

@@ -29,19 +29,12 @@ module.exports = {
       return res.render('feeds', data)
     })
   },
-  getDashboard: async (req, res) => {
-    try {
-      const restaurant = await Restaurant.findByPk(req.params.id, {
-        include: [Comment, Category, { model: User, as: 'FavoritedUsers' }]
-      })
-      res.render('dashboard', {
-        restaurant,
-        commentCount: restaurant.Comments.length,
-        favoriteUser: restaurant.FavoritedUsers.length
-      })
-    } catch (err) {
-      console.log(err)
-    }
+  getDashboard: (req, res) => {
+    restService.getDashboard(req, res, data => {
+      // handle error
+      if (data.status === 'error') return console.log(data.message)
+      res.render('dashboard', data)
+    })
   },
   getTopRestaurants: async (req, res) => {
     try {

@@ -22,4 +22,9 @@ module.exports = {
       return res.json(data)
     })
   },
+  getDashboard: (req, res) => {
+    restService.getDashboard(req, res, data => {
+      return res.json(data)
+    })
+  },
 }
