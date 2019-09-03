@@ -22,24 +22,12 @@ module.exports = {
       return res.render('restaurant', data)
     })
   },
-  getFeeds: async (req, res) => {
-    try {
-      // find latest restaurants created
-      const restaurants = await Restaurant.findAll({
-        order: [['createdAt', 'DESC']],
-        limit: 10,
-        include: [Category]
-      })
-      // find latest comments created
-      const comments = await Comment.findAll({
-        order: [['createdAt', 'DESC']],
-        limit: 10,
-        include: [User, Restaurant]
-      })
-      return res.render('feeds', { restaurants, comments, displayPanelCSS: true })
-    } catch (err) {
-      console.log(err)
-    }
+  getFeeds: (req, res) => {
+    restService.getFeeds(req, res, data => {
+      // handle error
+      if (data.status === 'error') return console.log(data.message)
+      return res.render('feeds', data)
+    })
   },
   getDashboard: async (req, res) => {
     try {

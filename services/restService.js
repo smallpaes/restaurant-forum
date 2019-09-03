@@ -73,7 +73,26 @@ module.exports = {
 
       return callback({ status: 'success', restaurant, isFavorited, isLiked, restaurantCSS: true })
     } catch (err) {
-      callback({status: 'error', message: err})
+      callback({ status: 'error', message: err })
+    }
+  },
+  getFeeds: async (req, res, callback) => {
+    try {
+      // find latest restaurants created
+      const restaurants = await Restaurant.findAll({
+        order: [['createdAt', 'DESC']],
+        limit: 10,
+        include: [Category]
+      })
+      // find latest comments created
+      const comments = await Comment.findAll({
+        order: [['createdAt', 'DESC']],
+        limit: 10,
+        include: [User, Restaurant]
+      })
+      return callback({ status: 'success', restaurants, comments, displayPanelCSS: true })
+    } catch (err) {
+      return callback({ status: 'error', message: err })
     }
   },
 }
