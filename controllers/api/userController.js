@@ -76,4 +76,9 @@ module.exports = {
       return res.json(data)
     })
   },
+  deleteLike: async (req, res) => {
+    userService.deleteLike(req, res, data => {
+      return res.json(data)
+    })
+  },
 }

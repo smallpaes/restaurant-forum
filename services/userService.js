@@ -50,4 +50,19 @@ module.exports = {
       callback({ status: 'error' })
     }
   },
+  deleteLike: async (req, res, callback) => {
+    try {
+      const like = await Like.findOne({
+        where: {
+          UserId: req.user.id,
+          RestaurantId: req.params.restaurantId
+        }
+      })
+      // delete the like
+      await like.destroy()
+      return callback({ status: 'success' })
+    } catch (err) {
+      callback({ status: 'error' })
+    }
+  },
 }

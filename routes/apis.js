@@ -21,6 +21,7 @@ router.post('/favorite/:restaurantId', isAuthUser, userController.addFavorite)
 router.delete('/favorite/:restaurantId', isAuthUser, userController.removeFavorite)
 
 router.post('/like/:restaurantId', isAuthUser, userController.addLike)
+router.delete('/like/:restaurantId', isAuthUser, userController.deleteLike)
 
 router.get('/admin/restaurants', isAuthUser, isAuthAdmin, adminController.getRestaurants)
 router.get('/admin/restaurants/:id', isAuthUser, isAuthAdmin, adminController.getRestaurant)

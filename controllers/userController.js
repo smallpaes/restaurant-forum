@@ -163,19 +163,11 @@ module.exports = {
     })
   },
   deleteLike: async (req, res) => {
-    try {
-      const like = await Like.findOne({
-        where: {
-          UserId: req.user.id,
-          RestaurantId: req.params.restaurantId
-        }
-      })
-      // delete the like
-      await like.destroy()
+    userService.deleteLike(req, res, data => {
+      // handle error
+      if (data.status === 'error') return console.log(data.message)
       return res.redirect('back')
-    } catch (err) {
-      console.log(err)
-    }
+    })
   },
   getTopUser: async (req, res) => {
     try {
