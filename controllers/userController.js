@@ -10,6 +10,7 @@ const Followship = db.Followship
 const imgur = require('imgur-node-api')
 const sharp = require('sharp')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
+const userService = require('../services/userService')
 
 module.exports = {
   signUpPage: (req, res) => {
@@ -140,16 +141,12 @@ module.exports = {
       console.log(err)
     }
   },
-  addFavorite: async (req, res) => {
-    try {
-      await Favorite.create({
-        UserId: req.user.id,
-        RestaurantId: req.params.restaurantId
-      })
+  addFavorite: (req, res) => {
+    userService.addFavorite(req, res, data => {
+      // handle error
+      if (data.status === 'error') return console.log(data.message)
       return res.redirect('back')
-    } catch (err) {
-      console.log(err)
-    }
+    })
   },
   removeFavorite: async (req, res) => {
     try {

@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs')
 const db = require('../../models')
 const User = db.User
+const userService = require('../../services/userService')
 
 // JWT
 const jwt = require('jsonwebtoken')
@@ -59,5 +60,10 @@ module.exports = {
     } catch (err) {
       res.json({ status: 'error', message: err })
     }
+  },
+  addFavorite: (req, res) => {
+    userService.addFavorite(req, res, data => {
+      return res.json(data)
+    })
   },
 }
