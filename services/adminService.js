@@ -188,4 +188,14 @@ module.exports = {
       callback({ status: 'error', message: err })
     }
   },
+  putUsers: async (req, res, callback) => {
+    try {
+      const user = await User.findByPk(req.params.id)
+      user.isAdmin = !user.isAdmin
+      await user.save()
+      return callback({ status: 'success', message: 'user role has been updated successfully' })
+    } catch (err) {
+      callback({ status: 'error', message: err })
+    }
+  }
 }

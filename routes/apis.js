@@ -40,6 +40,7 @@ router.delete('/admin/restaurants/:id', isAuthUser, isAuthAdmin, adminController
 router.post('/admin/restaurants', isAuthUser, isAuthAdmin, upload.single('image'), adminController.postRestaurant)
 router.put('/admin/restaurants/:id', isAuthUser, isAuthAdmin, upload.single('image'), adminController.putRestaurant)
 router.get('/admin/users', isAuthUser, isAuthAdmin, adminController.editUsers)
+router.put('/admin/users/:id', isAuthUser, isAuthAdmin, adminController.putUsers)
 router.get('/admin/categories', isAuthUser, isAuthAdmin, categoryController.getCategories)
 router.post('/admin/categories', isAuthUser, isAuthAdmin, categoryController.postCategory)
 router.get('/admin/categories/:id', isAuthUser, isAuthAdmin, categoryController.getCategories)

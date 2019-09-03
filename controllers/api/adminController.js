@@ -34,4 +34,9 @@ module.exports = {
       return res.json(data)
     })
   },
+  putUsers: (req, res) => {
+    adminService.putUsers(req, res, data => {
+      return res.json(data)
+    })
+  }
 }

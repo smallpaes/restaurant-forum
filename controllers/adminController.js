@@ -75,15 +75,11 @@ module.exports = {
       return res.render('admin/users', data)
     })
   },
-  putUsers: async (req, res) => {
-    try {
-      const user = await User.findByPk(req.params.id)
-      user.isAdmin = !user.isAdmin
-      await user.save()
-      req.flash('success_messages', 'user role has been updated successfully')
+  putUsers: (req, res) => {
+    adminService.putUsers(req, res, data => {
+      // handle error
+      if (data.status === 'error') return console.log(data.message)
       return res.redirect('/admin/users')
-    } catch (err) {
-      console.log(err)
-    }
+    })
   }
 }
