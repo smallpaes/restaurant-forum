@@ -194,16 +194,12 @@ module.exports = {
       console.log(err)
     }
   },
-  addFollowing: async (req, res) => {
-    try {
-      await Followship.create({
-        followerId: req.user.id,
-        followingId: req.params.userId
-      })
+  addFollowing: (req, res) => {
+    userService.addFollowing(req, res, data => {
+      // handle error
+      if (data.status === 'error') return console.log(data.message)
       return res.redirect('back')
-    } catch (err) {
-      console.log(err)
-    }
+    })
   },
   removeFollowing: async (req, res) => {
     try {

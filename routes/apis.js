@@ -20,6 +20,8 @@ router.get('/restaurants/:id/dashboard', isAuthUser, restController.getDashboard
 router.post('/favorite/:restaurantId', isAuthUser, userController.addFavorite)
 router.delete('/favorite/:restaurantId', isAuthUser, userController.removeFavorite)
 
+router.post('/following/:userId', isAuthUser, userController.addFollowing)
+
 router.post('/like/:restaurantId', isAuthUser, userController.addLike)
 router.delete('/like/:restaurantId', isAuthUser, userController.deleteLike)
 

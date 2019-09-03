@@ -65,4 +65,15 @@ module.exports = {
       callback({ status: 'error' })
     }
   },
+  addFollowing: async (req, res, callback) => {
+    try {
+      await Followship.create({
+        followerId: req.user.id,
+        followingId: req.params.userId
+      })
+      return callback({ status: 'success' })
+    } catch (err) {
+      callback({ status: 'error' })
+    }
+  },
 }
