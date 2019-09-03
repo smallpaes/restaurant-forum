@@ -50,4 +50,30 @@ module.exports = {
       callback({ status: 'error', message: err })
     }
   },
+  getRestaurant: async (req, res, callback) => {
+    try {
+      // get restaurant
+      let restaurant = await Restaurant.findByPk(req.params.id, {
+        include: [
+          Category,
+          { model: Comment, include: [User] },
+          { model: User, as: 'FavoritedUsers' },
+          { model: User, as: 'LikedUsers' }
+        ]
+      })
+
+      // check if favorite list has the user on it
+      const isFavorited = restaurant.FavoritedUsers.filter(user => user.id === req.user.id).length !== 0
+
+      // check if like list has the user on it
+      const isLiked = restaurant.LikedUsers.filter(user => user.id === req.user.id).length !== 0
+
+      // update view count
+      restaurant = await restaurant.increment('viewCounts', { by: 1 })
+
+      return callback({ status: 'success', restaurant, isFavorited, isLiked, restaurantCSS: true })
+    } catch (err) {
+      callback({status: 'error', message: err})
+    }
+  },
 }

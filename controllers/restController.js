@@ -14,30 +14,13 @@ module.exports = {
       return res.render('restaurants', data)
     })
   },
-  getRestaurant: async (req, res) => {
-    try {
-      // get restaurant
-      let restaurant = await Restaurant.findByPk(req.params.id, {
-        include: [
-          Category,
-          { model: Comment, include: [User] },
-          { model: User, as: 'FavoritedUsers' },
-          { model: User, as: 'LikedUsers' }
-        ]
-      })
+  getRestaurant: (req, res) => {
+    restService.getRestaurant(req, res, data => {
+      // handle error
+      if (data.status === 'error') return console.log(data.message)
 
-      // check if favorite list has the user on it
-      const isFavorited = restaurant.FavoritedUsers.filter(user => user.id === req.user.id).length !== 0
-
-      // check if like list has the user on it
-      const isLiked = restaurant.LikedUsers.filter(user => user.id === req.user.id).length !== 0
-
-      // update view count
-      restaurant = await restaurant.increment('viewCounts', { by: 1 })
-      return res.render('restaurant', { restaurant, isFavorited, isLiked, restaurantCSS: true })
-    } catch (err) {
-      console.log(err)
-    }
+      return res.render('restaurant', data)
+    })
   },
   getFeeds: async (req, res) => {
     try {
