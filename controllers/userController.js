@@ -169,30 +169,12 @@ module.exports = {
       return res.redirect('back')
     })
   },
-  getTopUser: async (req, res) => {
-    try {
-      let users = await User.findAll({
-        include: [
-          { model: User, as: 'Followers' }
-        ]
-      })
-
-      users = users.map(user => ({
-        ...user.dataValues,
-        // 追蹤人數
-        FollowerCount: user.Followers.length,
-        // 辨認是否已追蹤
-        isFollowed: req.user.Followings.filter(d => d.id === user.id).length !== 0,
-        // 辨認是否為自己
-        isOwner: user.id === req.user.id
-      }))
-      console.log(users)
-      // 依追蹤者人數排序
-      users = users.sort((a, b) => b.FollowerCount - a.FollowerCount)
-      return res.render('topUser', { users, displayPanelCSS: true })
-    } catch (err) {
-      console.log(err)
-    }
+  getTopUser: (req, res) => {
+    userService.getTopUser(req, res, data => {
+      // handle error
+      if (data.status === 'error') return console.log(data.message)
+      return res.render('topUser', data)
+    })
   },
   addFollowing: (req, res) => {
     userService.addFollowing(req, res, data => {

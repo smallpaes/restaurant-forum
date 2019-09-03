@@ -30,6 +30,8 @@ router.delete('/like/:restaurantId', isAuthUser, userController.deleteLike)
 router.post('/comments', isAuthUser, commentController.postComment)
 router.delete('/comments/:id', isAuthUser, isAuthAdmin, commentController.deleteComment)
 
+router.get('/users/top', isAuthUser, userController.getTopUser)
+
 router.get('/admin/restaurants', isAuthUser, isAuthAdmin, adminController.getRestaurants)
 router.get('/admin/restaurants/:id', isAuthUser, isAuthAdmin, adminController.getRestaurant)
 router.delete('/admin/restaurants/:id', isAuthUser, isAuthAdmin, adminController.deleteRestaurant)
