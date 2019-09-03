@@ -155,16 +155,12 @@ module.exports = {
       return res.redirect('back')
     })
   },
-  addLike: async (req, res) => {
-    try {
-      await Like.create({
-        UserId: req.user.id,
-        RestaurantId: req.params.restaurantId
-      })
+  addLike: (req, res) => {
+    userService.addLike(req, res, data => {
+      // handle error
+      if (data.status === 'error') return console.log(data.message)
       return res.redirect('back')
-    } catch (err) {
-      console.log(ERR)
-    }
+    })
   },
   deleteLike: async (req, res) => {
     try {

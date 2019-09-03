@@ -39,4 +39,15 @@ module.exports = {
       callback({ status: 'error' })
     }
   },
+  addLike: async (req, res, callback) => {
+    try {
+      await Like.create({
+        UserId: req.user.id,
+        RestaurantId: req.params.restaurantId
+      })
+      return callback({ status: 'success' })
+    } catch (err) {
+      callback({ status: 'error' })
+    }
+  },
 }
