@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { isAuthUser, isAuthAdmin } = require('../config/apiAuth')
+const { isAuthUser, isAuthAdmin, isOwner } = require('../config/apiAuth')
 
 // Include multer and config
 const multer = require('multer')
@@ -32,7 +32,7 @@ router.delete('/comments/:id', isAuthUser, isAuthAdmin, commentController.delete
 
 router.get('/users/top', isAuthUser, userController.getTopUser)
 router.get('/users/:id', isAuthUser, userController.getUser)
-router.put('/users/:id', isAuthUser, upload.single('image'), userController.putUser)
+router.put('/users/:id', isAuthUser, isOwner, upload.single('image'), userController.putUser)
 
 router.get('/admin/restaurants', isAuthUser, isAuthAdmin, adminController.getRestaurants)
 router.get('/admin/restaurants/:id', isAuthUser, isAuthAdmin, adminController.getRestaurant)
