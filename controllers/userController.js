@@ -57,41 +57,12 @@ module.exports = {
     req.logout()
     res.redirect('/signin')
   },
-  getUser: async (req, res) => {
-    const uniqueComment = []
-
-    try {
-      const owner = await User.findByPk(req.params.id, {
-        include: [
-          { model: Comment, include: [Restaurant] },
-          { model: Restaurant, as: 'FavoritedRestaurants', include: [Category] },
-          { model: User, as: 'Followings' },
-          { model: User, as: 'Followers' }
-        ]
-      })
-
-      // get all commented restaurants
-      owner.commentHistory = owner.Comments.map(comment => {
-        // duplicate comment
-        if (uniqueComment.indexOf(comment.Restaurant.id) >= 0) { return { isNotDuplicate: false } }
-        // unique comment
-        uniqueComment.push(comment.Restaurant.id)
-        return {
-          comment: comment.text,
-          name: comment.Restaurant.name,
-          image: comment.Restaurant.image,
-          RestaurantId: comment.RestaurantId,
-          isNotDuplicate: true
-        }
-      })
-
-      // check if has already followed this user or it is the user himself/herself
-      owner.isFollowed = req.user.Followings.filter(user => user.id === Number(req.params.id)).length !== 0 || Number(req.params.id) === req.user.id
-
-      return res.render('profile', { owner, uniqueComment, profileCSS: true })
-    } catch (err) {
-      console.log(err)
-    }
+  getUser: (req, res) => {
+    userService.getUser(req, res, data => {
+      // handle error
+      if (data.status === 'error') return console.log(data.message)
+      return res.render('profile', data)
+    })
   },
   editUser: (req, res) => {
     return res.render('editProfile', { profileCSS: true })

@@ -31,6 +31,7 @@ router.post('/comments', isAuthUser, commentController.postComment)
 router.delete('/comments/:id', isAuthUser, isAuthAdmin, commentController.deleteComment)
 
 router.get('/users/top', isAuthUser, userController.getTopUser)
+router.get('/users/:id', isAuthUser, userController.getUser)
 
 router.get('/admin/restaurants', isAuthUser, isAuthAdmin, adminController.getRestaurants)
 router.get('/admin/restaurants/:id', isAuthUser, isAuthAdmin, adminController.getRestaurant)
