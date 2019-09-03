@@ -43,4 +43,35 @@ passport.deserializeUser((id, cb) => {
     .then(user => cb(null, user))
 })
 
+// JWT
+const jwt = require('jsonwebtoken')
+const passportJWT = require('passport-jwt')
+const ExtractJwt = passportJWT.ExtractJwt
+const JwtStrategy = passportJWT.Strategy
+// config options
+const jwtOptions = {}
+jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
+jwtOptions.secretOrKey = process.env.JWT_SECRET
+// config strategy
+const strategy = new JwtStrategy(jwtOptions, async (jwt_payload, next) => {
+  try {
+    const user = await User.findByPk(jwt_payload.id, {
+      include: [
+        { model: db.Restaurant, as: 'FavoritedRestaurants' },
+        { model: db.Restaurant, as: 'LikedRestaurants' },
+        { model: User, as: 'Followers' },
+        { model: User, as: 'Followings' }
+      ]
+    })
+    // no such user
+    if (!user) return next(null, false)
+    // pass user found
+    return next(null, user)
+  } catch (err) {
+    return next(err, false)
+  }
+})
+
+passport.use(strategy)
+
 module.exports = passport

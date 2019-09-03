@@ -34,5 +34,30 @@ module.exports = {
         id: user.id, name: user.name, email: user.email, isAdmin: user.isAdmin
       }
     })
-  }
+  },
+  signUp: async (req, res) => {
+    // confirm password
+    if (req.body.passwordCheck !== req.body.password) {
+      return res.json({ status: 'error', message: '兩次密碼輸入不同' })
+    }
+
+    try {
+      // check unique user
+      const user = await User.findOne({ where: { email: req.body.email } })
+      // existing user
+      if (user) {
+        return res.json({ status: 'error', message: 'Email 已經註冊過' })
+      }
+      // create new user
+      await User.create({
+        name: req.body.name,
+        email: req.body.email,
+        password: bcrypt.hashSync(req.body.password, 10),
+        image: 'https://randomuser.me/api/portraits/lego/1.jpg'
+      })
+      return res.json({ status: 'success', message: '成功註冊帳號!' })
+    } catch (err) {
+      res.json({ status: 'error', message: err })
+    }
+  },
 }

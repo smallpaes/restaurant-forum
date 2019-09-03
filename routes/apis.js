@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const { isAuthUser, isAuthAdmin } = require('../config/apiAuth')
 
 // Include multer and config
 const multer = require('multer')
@@ -9,18 +10,19 @@ const adminController = require('../controllers/api/adminController')
 const categoryController = require('../controllers/api/categoryController')
 const userController = require('../controllers/api/userController')
 
-router.get('/admin/restaurants', adminController.getRestaurants)
-router.get('/admin/restaurants/:id', adminController.getRestaurant)
-router.delete('/admin/restaurants/:id', adminController.deleteRestaurant)
-router.post('/admin/restaurants', upload.single('image'), adminController.postRestaurant)
-router.put('/admin/restaurants/:id', upload.single('image'), adminController.putRestaurant)
+router.get('/admin/restaurants', isAuthUser, isAuthAdmin, adminController.getRestaurants)
+router.get('/admin/restaurants/:id', isAuthUser, isAuthAdmin, adminController.getRestaurant)
+router.delete('/admin/restaurants/:id', isAuthUser, isAuthAdmin, adminController.deleteRestaurant)
+router.post('/admin/restaurants', isAuthUser, isAuthAdmin, upload.single('image'), adminController.postRestaurant)
+router.put('/admin/restaurants/:id', isAuthUser, isAuthAdmin, upload.single('image'), adminController.putRestaurant)
 
-router.get('/admin/categories', categoryController.getCategories)
-router.post('/admin/categories', categoryController.postCategory)
-router.get('/admin/categories/:id', categoryController.getCategories)
-router.put('/admin/categories/:id', categoryController.putCategory)
-router.delete('/admin/categories/:id', categoryController.deleteCategory)
+router.get('/admin/categories', isAuthUser, isAuthAdmin, categoryController.getCategories)
+router.post('/admin/categories', isAuthUser, isAuthAdmin, categoryController.postCategory)
+router.get('/admin/categories/:id', isAuthUser, isAuthAdmin, categoryController.getCategories)
+router.put('/admin/categories/:id', isAuthUser, isAuthAdmin, categoryController.putCategory)
+router.delete('/admin/categories/:id', isAuthUser, isAuthAdmin, categoryController.deleteCategory)
 
 router.post('/signin', userController.signIn)
+router.post('/signup', userController.signUp)
 
 module.exports = router
