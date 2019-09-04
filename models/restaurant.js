@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Restaurant.associate = function (models) {
     Restaurant.belongsTo(models.Category)
-    Restaurant.hasMany(models.Comment)
+    Restaurant.hasMany(models.Comment, { onDelete: 'cascade', hooks: true })
     Restaurant.belongsToMany(models.User, {
       through: models.Favorite,
       foreignKey: 'RestaurantId',
