@@ -66,11 +66,11 @@ module.exports = {
       restaurant = await restaurant.increment('viewCounts', { by: 1 })
 
       // check if favorite list has the user on it
-      restaurant.isFavorited = restaurant.FavoritedUsers.filter(user => user.id === req.user.id).length !== 0
+      restaurant.dataValues.isFavorited = restaurant.FavoritedUsers.filter(user => user.id === req.user.id).length !== 0
 
       // check if like list has the user on it
-      restaurant.isLiked = restaurant.LikedUsers.filter(user => user.id === req.user.id).length !== 0
-
+      restaurant.dataValues.isLiked = restaurant.LikedUsers.filter(user => user.id === req.user.id).length !== 0
+      console.log(restaurant)
       return callback({ status: 'success', restaurant, restaurantCSS: true })
     } catch (err) {
       callback({ status: 'error', message: err })
