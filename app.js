@@ -3,6 +3,7 @@ const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const db = require('./models')
 const flash = require('connect-flash')
+const cors = require('cors')
 const session = require('express-session')
 const methodOverride = require('method-override')
 if (process.env.NODE_ENV !== 'production') { require('dotenv').config() }
@@ -10,6 +11,9 @@ const passport = require('./config/passport')
 
 const app = express()
 const port = process.env.PORT || 3000
+
+// cors 的預設為全開放
+app.use(cors())
 
 // set up handlebars
 app.engine('handlebars', exphbs({
