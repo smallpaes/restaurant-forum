@@ -42,7 +42,7 @@ module.exports = {
       // save category input
       const category = await Category.create({ name: req.body.name })
       callback({ status: 'success', message: `${category.name} has been added` })
-    } catch {
+    } catch (err) {
       callback({ status: 'error', message: err })
     }
   },
