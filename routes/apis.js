@@ -12,6 +12,8 @@ const userController = require('../controllers/api/userController')
 const restController = require('../controllers/api/restController')
 const commentController = require('../controllers/api/commentController')
 
+router.get('/get_current_user', isAuthUser, userController.getCurrentUser)
+
 router.get('/restaurants', isAuthUser, restController.getRestaurants)
 router.get('/restaurants/feeds', isAuthUser, restController.getFeeds)
 router.get('/restaurants/top', isAuthUser, restController.getTopRestaurants)
