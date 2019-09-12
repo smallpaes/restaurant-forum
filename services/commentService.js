@@ -4,12 +4,12 @@ const Comment = db.Comment
 module.exports = {
   postComment: async (req, res, callback) => {
     try {
-      await Comment.create({
+      const comment = await Comment.create({
         text: req.body.text,
         RestaurantId: req.body.restaurantId,
         UserId: req.user.id
       })
-      return callback({ status: 'success' })
+      return callback({ status: 'success', commentId: comment.id })
     } catch (err) {
       callback({ status: 'error', message: err })
     }
