@@ -42,7 +42,7 @@ module.exports = {
       })
 
       // check if has already followed this user or it is the user himself/herself
-      owner.isFollowed = req.user.Followings.filter(user => user.id === Number(req.params.id)).length !== 0 || Number(req.params.id) === req.user.id
+      owner.dataValues.isFollowed = req.user.Followings.filter(user => user.id === Number(req.params.id)).length !== 0 || Number(req.params.id) === req.user.id
 
       return callback({ status: 'success', owner, uniqueComment, profileCSS: true })
     } catch (err) {
