@@ -17,7 +17,7 @@
           Profile</a>
       </li>
       {{else}}
-      {{#if isFollowed}}
+      {{#if owner.dataValues.isFollowed}}
       <li class="list-group-item py-4 px-2 border-0">
         <form action="/following/{{owner.id}}?_method=DELETE" method="POST" class="mt-1">
           <button type="submit" class="btn btn-outline-secondary btn-sm px-2 py-0 align-self-end">
