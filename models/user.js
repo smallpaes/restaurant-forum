@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     image: DataTypes.STRING
   }, {});
   User.associate = function (models) {
-    User.hasMany(models.Comment)
+    User.hasMany(models.Comment, { onDelete: 'cascade', hooks: true })
     User.belongsToMany(models.Restaurant, {
       through: models.Favorite,
       foreignKey: 'UserId',

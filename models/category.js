@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING
   }, {});
   Category.associate = function (models) {
-    Category.hasMany(models.Restaurant)
+    Category.hasMany(models.Restaurant, { onDelete: 'cascade', hooks: true })
   };
   return Category;
 };
